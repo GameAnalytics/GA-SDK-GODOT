@@ -1,4 +1,0 @@
-#Tue Jul 14 16:30:55 CEST 2020
-base.0=/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/build/intermediates/dex/release/mergeDexRelease/out/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
