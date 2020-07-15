@@ -1,0 +1,10 @@
+[config]
+
+name="GameAnalytics"
+binary_type="local"
+binary="GameAnalytics.release.aar"
+
+[dependencies]
+
+remote=["com.gameanalytics.sdk:gameanalytics-android:5.2.4"]
+custom_maven_repos=["https://maven.gameanalytics.com/release"]

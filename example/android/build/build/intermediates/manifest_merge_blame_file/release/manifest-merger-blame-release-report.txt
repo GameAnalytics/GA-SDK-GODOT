@@ -1,0 +1,151 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.gameanalytics.godottest"
+4    android:installLocation="auto"
+5    android:versionCode="1"
+6    android:versionName="1.0" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="18"
+9-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml
+10        android:targetSdkVersion="29" />
+10-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml
+11
+12    <!-- Adding custom text to the manifest is fine, but do it outside the custom USER and APPLICATION BEGIN/END comments, -->
+13    <!-- as that gets rewritten. -->
+14
+15    <supports-screens
+15-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:12:5-16:40
+16        android:largeScreens="true"
+16-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:15:9-36
+17        android:normalScreens="true"
+17-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:14:9-37
+18        android:smallScreens="true"
+18-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:13:9-36
+19        android:xlargeScreens="true" />
+19-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:16:9-37
+20
+21    <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
+22    <uses-feature
+22-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:19:5-21:35
+23        android:glEsVersion="0x00020000"
+23-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:20:9-41
+24        android:required="true" />
+24-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:21:9-32
+25
+26    <uses-permission android:name="android.permission.INTERNET" />
+26-->[GameAnalytics.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/d8b82eadd8ad3625bd02afe820346be2/GameAnalytics.release/AndroidManifest.xml:11:5-67
+26-->[GameAnalytics.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/d8b82eadd8ad3625bd02afe820346be2/GameAnalytics.release/AndroidManifest.xml:11:22-64
+27
+28    <instrumentation
+28-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:11:5-15:57
+29        android:name=".GodotInstrumentation"
+29-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:12:9-45
+30        android:icon="@mipmap/icon"
+30-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:13:9-36
+31        android:label="@string/godot_project_name_string"
+31-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:14:9-58
+32        android:targetPackage="org.godotengine.godot" />
+32-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:15:9-54
+33
+34    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Custom user permissions XML added by add-ons. It's recommended to add them from the export preset, though. -->
+34-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:12:5-79
+34-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:12:22-76
+35    <!-- CHUNK_USER_PERMISSIONS_BEGIN -->
+36    <!-- CHUNK_USER_PERMISSIONS_END -->
+37    <!-- Any tag in this line after android:icon will be erased when doing custom builds. -->
+38    <!-- If you want to add tags manually, do before it. -->
+39    <!-- WARNING: This should stay on a single line until the parsing code is improved. See GH-32414. -->
+40    <application
+40-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:30:5-68:19
+41        android:allowBackup="true"
+41-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:14:18-44
+42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+42-->[androidx.core:core:1.0.0] /Users/mts/.gradle/caches/transforms-2/files-2.1/947833f03979c6d84fcd9a8feba7ce42/core-1.0.0/AndroidManifest.xml:22:18-86
+43        android:icon="@mipmap/icon"
+43-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:30:108-135
+44        android:label="@string/godot_project_name_string"
+44-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:30:18-67
+45        android:requestLegacyExternalStorage="true" >
+45-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:18:18-61
+46
+47        <!-- The following metadata values are replaced when Godot exports, modifying them here has no effect. -->
+48        <!-- Do these changes in the export preset. Adding new ones is fine. -->
+49
+50
+51        <!-- XR mode metadata. This is modified by the exporter based on the selected xr mode. DO NOT CHANGE the values here. -->
+52        <meta-data
+52-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:36:9-38:54
+53            android:name="xr_mode_metadata_name"
+53-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:37:13-49
+54            android:value="xr_mode_metadata_value" />
+54-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:38:13-51
+55
+56        <!-- Metadata populated at export time and used by Godot to figure out which plugins must be enabled. -->
+57        <meta-data
+57-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:41:9-43:44
+58            android:name="plugins"
+58-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:42:13-35
+59            android:value="plugins_value" />
+59-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:43:13-42
+60
+61        <activity
+61-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:45:9-62:20
+62            android:name="com.godot.game.GodotApp"
+62-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:46:13-37
+63            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
+63-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:51:13-141
+64            android:label="@string/godot_project_name_string"
+64-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:47:13-62
+65            android:launchMode="singleTask"
+65-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:49:13-44
+66            android:resizeableActivity="false"
+66-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:52:13-47
+67            android:screenOrientation="landscape"
+67-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:50:13-50
+68            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+68-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:48:13-77
+69
+70            <!-- Focus awareness metadata populated at export time if the user enables it in the 'Xr Features' section. -->
+71            <meta-data
+71-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:56:13-107
+72                android:name="com.oculus.vr.focusaware"
+72-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:56:24-63
+73                android:value="oculus_focus_aware_value" />
+73-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:56:64-104
+74
+75            <intent-filter>
+75-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:58:13-61:29
+76                <action android:name="android.intent.action.MAIN" />
+76-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:59:17-69
+76-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:59:25-66
+77
+78                <category android:name="android.intent.category.LAUNCHER" />
+78-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:60:17-77
+78-->/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/AndroidManifest.xml:60:27-74
+79            </intent-filter>
+80        </activity>
+81
+82        <!-- Custom application XML added by add-ons. -->
+83        <!-- CHUNK_APPLICATION_BEGIN -->
+84        <!-- CHUNK_APPLICATION_END -->
+85
+86        <meta-data
+86-->[GameAnalytics.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/d8b82eadd8ad3625bd02afe820346be2/GameAnalytics.release/AndroidManifest.xml:14:9-16:87
+87            android:name="org.godotengine.plugin.v1.GameAnalytics"
+87-->[GameAnalytics.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/d8b82eadd8ad3625bd02afe820346be2/GameAnalytics.release/AndroidManifest.xml:15:13-67
+88            android:value="com.gameanalytics.godotgameanalytics.GodotGameAnalytics" />
+88-->[GameAnalytics.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/d8b82eadd8ad3625bd02afe820346be2/GameAnalytics.release/AndroidManifest.xml:16:13-84
+89
+90        <service android:name="org.godotengine.godot.GodotDownloaderService" />
+90-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:19:9-80
+90-->[godot-lib.release.aar] /Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/AndroidManifest.xml:19:18-77
+91        <service
+91-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:15:9-17:65
+92            android:name="com.gameanalytics.sdk.errorreporter.GameAnalyticsExceptionReportService"
+92-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:16:13-99
+93            android:process=":gameAnalyticsExceptionReporter" />
+93-->[com.gameanalytics.sdk:gameanalytics-android:5.2.4] /Users/mts/.gradle/caches/transforms-2/files-2.1/a1d12be964ee92aec3512fa18d70338d/gameanalytics-android-5.2.4/AndroidManifest.xml:17:13-62
+94    </application>
+95
+96</manifest>

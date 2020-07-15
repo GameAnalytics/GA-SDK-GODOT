@@ -1,0 +1,16 @@
+Import('env')
+
+sources = [
+    "register_types.cpp",
+    "GameAnalytics.cpp"
+]
+
+module_env = env.Clone()
+module_env.Append(CXXFLAGS=['-std=c++11'])
+
+if env['platform'] == 'iphone':
+    sources.append("ios/src/GameAnalyticsCpp.mm")
+    module_env.add_source_files(env.modules_sources, sources)
+
+if env["platform"] == "windows" or env["platform"] == "osx" or env["platform"] == "x11":
+    module_env.add_source_files(env.modules_sources, sources)

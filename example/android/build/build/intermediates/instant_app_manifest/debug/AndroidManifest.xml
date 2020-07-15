@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gameanalytics.godottest"
+    android:installLocation="auto"
+    android:targetSandboxVersion="2"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="29" />
+
+    <!-- Adding custom text to the manifest is fine, but do it outside the custom USER and APPLICATION BEGIN/END comments, -->
+    <!-- as that gets rewritten. -->
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <instrumentation
+        android:name=".GodotInstrumentation"
+        android:icon="@mipmap/icon"
+        android:label="@string/godot_project_name_string"
+        android:targetPackage="org.godotengine.godot" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Custom user permissions XML added by add-ons. It's recommended to add them from the export preset, though. -->
+    <!-- CHUNK_USER_PERMISSIONS_BEGIN -->
+    <!-- CHUNK_USER_PERMISSIONS_END -->
+    <!-- Any tag in this line after android:icon will be erased when doing custom builds. -->
+    <!-- If you want to add tags manually, do before it. -->
+    <!-- WARNING: This should stay on a single line until the parsing code is improved. See GH-32414. -->
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/godot_project_name_string"
+        android:requestLegacyExternalStorage="true" >
+
+        <!-- The following metadata values are replaced when Godot exports, modifying them here has no effect. -->
+        <!-- Do these changes in the export preset. Adding new ones is fine. -->
+
+
+        <!-- XR mode metadata. This is modified by the exporter based on the selected xr mode. DO NOT CHANGE the values here. -->
+        <meta-data
+            android:name="xr_mode_metadata_name"
+            android:value="xr_mode_metadata_value" />
+
+        <!-- Metadata populated at export time and used by Godot to figure out which plugins must be enabled. -->
+        <meta-data
+            android:name="plugins"
+            android:value="plugins_value" />
+
+        <activity
+            android:name="com.godot.game.GodotApp"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
+            android:label="@string/godot_project_name_string"
+            android:launchMode="singleTask"
+            android:resizeableActivity="false"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+
+            <!-- Focus awareness metadata populated at export time if the user enables it in the 'Xr Features' section. -->
+            <meta-data
+                android:name="com.oculus.vr.focusaware"
+                android:value="oculus_focus_aware_value" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Custom application XML added by add-ons. -->
+        <!-- CHUNK_APPLICATION_BEGIN -->
+        <!-- CHUNK_APPLICATION_END -->
+
+        <service android:name="org.godotengine.godot.GodotDownloaderService" />
+
+        <meta-data
+            android:name="org.godotengine.plugin.v1.GameAnalytics"
+            android:value="com.gameanalytics.godotgameanalytics.GodotGameAnalytics" />
+
+        <service
+            android:name="com.gameanalytics.sdk.errorreporter.GameAnalyticsExceptionReportService"
+            android:process=":gameAnalyticsExceptionReporter" />
+    </application>
+
+</manifest>

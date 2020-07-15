@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/mts/dev/github/gameanalytics/GA-SDK-GODOT-DEV/example/android/build/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-fa/values-fa.xml",
+            "map": [
+                {
+                    "source": "/Users/mts/.gradle/caches/transforms-2/files-2.1/947833f03979c6d84fcd9a8feba7ce42/core-1.0.0/res/values-fa/values-fa.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "131",
+                        "endColumns": "100",
+                        "endOffsets": "227"
+                    }
+                },
+                {
+                    "source": "/Users/mts/.gradle/caches/transforms-2/files-2.1/94cba374a529e32e15017b9cb1f583e7/godot-lib.release/res/values-fa/values-fa.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,131,185,259,317,377,446,516,694,867,969,1048",
+                        "endColumns": "75,53,73,57,59,68,69,177,172,101,78,70",
+                        "endOffsets": "126,180,254,312,372,441,511,689,862,964,1043,1114"
+                    },
+                    "to": {
+                        "startLines": "2,4,5,6,7,8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,232,286,360,418,478,547,617,795,968,1070,1149",
+                        "endColumns": "75,53,73,57,59,68,69,177,172,101,78,70",
+                        "endOffsets": "126,281,355,413,473,542,612,790,963,1065,1144,1215"
+                    }
+                }
+            ]
+        }
+    ]
+}

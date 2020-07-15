@@ -1,0 +1,3 @@
+include ':godot-lib.3.2.2.stable.release'
+include ':godotgameanalytics'
+rootProject.name = "GodotGameAnalytics"
