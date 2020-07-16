@@ -1,7 +1,7 @@
 # GA-SDK-GODOT
 GameAnalytics SDK for Godot.
 
-Documentation is located [here](https://gameanalytics.com/docs/godot-sdk).  
+Documentation is located [here](https://gameanalytics.com/docs/item/godot-sdk).  
 
 If you have any issues or feedback regarding the SDK, please contact our friendly support team [here](https://gameanalytics.com/contact).
 
