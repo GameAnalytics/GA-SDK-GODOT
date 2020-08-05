@@ -25,7 +25,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     compileOnly project(':godot-lib.3.2.2.stable.release')
 
-    implementation 'com.gameanalytics.sdk:gameanalytics-android:5.2.4'
+    implementation 'com.gameanalytics.sdk:gameanalytics-android:5.2.5'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.0.1**
+* updated ga android native lib to avoid allowbackup build error
+
 **1.0.0**
 * initial version
 

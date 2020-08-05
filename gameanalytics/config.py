@@ -1,11 +1,11 @@
 def can_build(env, platform):
-    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx" #or platform == "x11"
+    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx"  # or platform == "x11"
 
 
 def configure(env):
     if (env["platform"] == "android"):
         env.android_add_maven_repository("url 'https://maven.gameanalytics.com/release'")
-        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:5.2.4'")
+        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:5.2.5'")
         env.android_add_java_dir("android/src/")
         env.disable_module()
 
