@@ -13,10 +13,6 @@ _global_script_class_icons={
 
 }
 
-[android]
-
-modules="org/godotengine/godot/GodotGameAnalytics"
-
 [application]
 
 config/name="testGameAnalytics"
