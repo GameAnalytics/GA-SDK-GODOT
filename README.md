@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.0.2**
+* improved user identifier flow for ios (ios)
+
 **1.0.1**
 * updated ga android native lib to avoid allowbackup build error
 
