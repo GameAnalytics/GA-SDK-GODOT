@@ -7,3 +7,5 @@
 *.apk
 
 /builds
+.project
+.settings
