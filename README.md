@@ -7,7 +7,7 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 
 > :information_source:
 >
-> The Defold SDK include support for **iOS**, **Android**, **Windows** and **Mac** platforms
+> The Godot SDK include support for **iOS**, **Android**, **Windows** and **Mac** platforms
 >
 > Requirements:
 > * **Godot:** 3.1+  &nbsp;
