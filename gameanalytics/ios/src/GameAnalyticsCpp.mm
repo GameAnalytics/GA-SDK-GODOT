@@ -201,17 +201,17 @@ void GameAnalyticsCpp::setEnabledErrorReporting(bool flag) {
 }
 
 void GameAnalyticsCpp::setCustomDimension01(const char *dimension) {
-    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:gameEngineSdkVersion] : nil;
+    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:dimension] : nil;
     [GameAnalytics setCustomDimension01:dimensionString];
 }
 
 void GameAnalyticsCpp::setCustomDimension02(const char *dimension) {
-    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:gameEngineSdkVersion] : nil;
+    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:dimension] : nil;
     [GameAnalytics setCustomDimension02:dimensionString];
 }
 
 void GameAnalyticsCpp::setCustomDimension03(const char *dimension) {
-    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:gameEngineSdkVersion] : nil;
+    NSString *dimensionString = !isStringNullOrEmpty(dimension) ? [NSString stringWithUTF8String:dimension] : nil;
     [GameAnalytics setCustomDimension03:dimensionString];
 }
 
