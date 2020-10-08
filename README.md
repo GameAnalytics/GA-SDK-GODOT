@@ -15,6 +15,10 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.0.3**
+* small correction for compile error on ios
+* native libs updated
+
 **1.0.2**
 * improved user identifier flow for ios (ios)
 
