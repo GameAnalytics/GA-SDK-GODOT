@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.1.0**
+* added support for Linux
+
 **1.0.4**
 * corrected overwritten fix
 

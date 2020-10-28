@@ -1,5 +1,5 @@
 def can_build(env, platform):
-    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx"  # or platform == "x11"
+    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx" or platform == "x11"
 
 
 def configure(env):
@@ -36,7 +36,9 @@ def configure(env):
     elif env["platform"] == "osx":
         env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/osx"])
         env.Append(LIBS=["libGameAnalytics.dylib"])
+        env.Append(RPATH=["."])
 
     elif env["platform"] == "x11":
         env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/linux"])
-        env.Append(LINKFLAGS=["libGameAnalytics.so"])
+        env.Append(LIBS=["GameAnalytics", "curl"])
+        env.Append(RPATH=["."])

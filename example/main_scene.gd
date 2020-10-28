@@ -5,14 +5,16 @@ const GAME_KEYS = {
 	"Android": "c6cfc80ff69d1e7316bf1e0c8194eda6",
 	"iOS"    : "c6cfc80ff69d1e7316bf1e0c8194eda6",
 	"OSX"    : "c6cfc80ff69d1e7316bf1e0c8194eda6",
-	"Windows": "c6cfc80ff69d1e7316bf1e0c8194eda6"
+	"Windows": "c6cfc80ff69d1e7316bf1e0c8194eda6",
+	"X11"    : "c6cfc80ff69d1e7316bf1e0c8194eda6"
 }
 
 const SECRET_KEYS = {
 	"Android": "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"iOS"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"OSX"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
-	"Windows": "e0ae4809f70e2fa96916c7060f417ae53895f18d"
+	"Windows": "e0ae4809f70e2fa96916c7060f417ae53895f18d",
+	"X11"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d"
 }
 
 var platform_os = OS.get_name()
