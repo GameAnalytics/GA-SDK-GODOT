@@ -5,6 +5,7 @@
 *.o
 *.d
 *.apk
+*.bc
 
 /builds
 .project
