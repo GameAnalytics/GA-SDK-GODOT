@@ -1,7 +1,10 @@
 #include "GameAnalytics.h"
 #include "core/engine.h"
 
-#if defined(__APPLE__)
+#if __EMSCRIPTEN__
+#define WEB_PLATFORM
+#include "api/javascript_eval.h"
+#elif defined(__APPLE__)
 #include <TargetConditionals.h>
 #if TARGET_OS_IPHONE
 #define IOS_PLATFORM
@@ -18,7 +21,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 1.1.0"
+#define VERSION "godot 1.2.0"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -45,6 +48,27 @@ void GameAnalytics::configureAvailableCustomDimensions01(const PoolStringArray &
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions01(customDimensions);
+#elif defined(WEB_PLATFORM)
+    String arrayString = "";
+    if (customDimensions.size() > 0)
+    {
+        arrayString += "[\"";
+        for (int i = 0; i < customDimensions.size(); ++i)
+        {
+            String entry = customDimensions[i];
+            if (i > 0)
+            {
+                arrayString += "\",\"";
+            }
+            arrayString += entry;
+        }
+        arrayString += "\"]";
+    }
+    else
+    {
+        arrayString = "[]";
+    }
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions01(JSON.parse('" + arrayString + "'))");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     String arrayString = "";
 
@@ -74,6 +98,27 @@ void GameAnalytics::configureAvailableCustomDimensions02(const PoolStringArray &
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions02(customDimensions);
+#elif defined(WEB_PLATFORM)
+    String arrayString = "";
+    if (customDimensions.size() > 0)
+    {
+        arrayString += "[\"";
+        for (int i = 0; i < customDimensions.size(); ++i)
+        {
+            String entry = customDimensions[i];
+            if (i > 0)
+            {
+                arrayString += "\",\"";
+            }
+            arrayString += entry;
+        }
+        arrayString += "\"]";
+    }
+    else
+    {
+        arrayString = "[]";
+    }
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions02(JSON.parse('" + arrayString + "'))");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     String arrayString = "";
 
@@ -103,6 +148,27 @@ void GameAnalytics::configureAvailableCustomDimensions03(const PoolStringArray &
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions03(customDimensions);
+#elif defined(WEB_PLATFORM)
+    String arrayString = "";
+    if (customDimensions.size() > 0)
+    {
+        arrayString += "[\"";
+        for (int i = 0; i < customDimensions.size(); ++i)
+        {
+            String entry = customDimensions[i];
+            if (i > 0)
+            {
+                arrayString += "\",\"";
+            }
+            arrayString += entry;
+        }
+        arrayString += "\"]";
+    }
+    else
+    {
+        arrayString = "[]";
+    }
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions03(JSON.parse('" + arrayString + "'))");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     String arrayString = "";
 
@@ -132,6 +198,27 @@ void GameAnalytics::configureAvailableResourceCurrencies(const PoolStringArray &
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableResourceCurrencies(resourceCurrencies);
+#elif defined(WEB_PLATFORM)
+    String arrayString = "";
+    if (resourceCurrencies.size() > 0)
+    {
+        arrayString += "[\"";
+        for (int i = 0; i < resourceCurrencies.size(); ++i)
+        {
+            String entry = resourceCurrencies[i];
+            if (i > 0)
+            {
+                arrayString += "\",\"";
+            }
+            arrayString += entry;
+        }
+        arrayString += "\"]";
+    }
+    else
+    {
+        arrayString = "[]";
+    }
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureAvailableResourceCurrencies(JSON.parse('" + arrayString + "'))");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     String arrayString = "";
 
@@ -161,6 +248,27 @@ void GameAnalytics::configureAvailableResourceItemTypes(const PoolStringArray &r
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableResourceItemTypes(resourceItemTypes);
+#elif defined(WEB_PLATFORM)
+    String arrayString = "";
+    if (resourceItemTypes.size() > 0)
+    {
+        arrayString += "[\"";
+        for (int i = 0; i < resourceItemTypes.size(); ++i)
+        {
+            String entry = resourceItemTypes[i];
+            if (i > 0)
+            {
+                arrayString += "\",\"";
+            }
+            arrayString += entry;
+        }
+        arrayString += "\"]";
+    }
+    else
+    {
+        arrayString = "[]";
+    }
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureAvailableResourceItemTypes(JSON.parse('" + arrayString + "'))");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     String arrayString = "";
 
@@ -190,6 +298,8 @@ void GameAnalytics::configureBuild(const String &build)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureBuild(build.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureBuild('" + build + "')");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::configureBuild(build.utf8().get_data());
 #endif
@@ -199,6 +309,8 @@ void GameAnalytics::configureAutoDetectAppVersion(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAutoDetectAppVersion(flag);
+#elif defined(WEB_PLATFORM)
+    // TODO: add implementation
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     // Do nothing
 #endif
@@ -208,6 +320,8 @@ void GameAnalytics::configureUserId(const String &userId)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureUserId(userId.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureBuild('" + userId + "')");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::configureUserId(userId.utf8().get_data());
 #endif
@@ -217,6 +331,8 @@ void GameAnalytics::configureSdkGameEngineVersion(const String &version)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureSdkGameEngineVersion(version.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureSdkGameEngineVersion('" + version + "')");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::configureSdkGameEngineVersion(version.utf8().get_data());
 #endif
@@ -226,6 +342,8 @@ void GameAnalytics::configureGameEngineVersion(const String &version)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureGameEngineVersion(version.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.configureGameEngineVersion('" + version + "')");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::configureGameEngineVersion(version.utf8().get_data());
 #endif
@@ -242,6 +360,10 @@ void GameAnalytics::init(const String &gameKey, const String &secretKey)
     GameAnalyticsCpp::configureGameEngineVersion(engineVersion.utf8().get_data());
     GameAnalyticsCpp::configureSdkGameEngineVersion(VERSION);
     GameAnalyticsCpp::initialize(gameKey.utf8().get_data(), secretKey.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    configureGameEngineVersion(engineVersion);
+    configureSdkGameEngineVersion(VERSION);
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.initialize('%s', '%s')", gameKey, secretKey));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::configureGameEngineVersion(engineVersion.utf8().get_data());
     ::configureSdkGameEngineVersion(VERSION);
@@ -330,6 +452,8 @@ void GameAnalytics::addBusinessEvent(const Dictionary &options)
     {
         GameAnalyticsCpp::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), receipt.utf8().get_data());
     }
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s')", currency, amount, itemType, itemId, cartType));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data());
 #endif
@@ -399,6 +523,8 @@ void GameAnalytics::addResourceEvent(const Dictionary &options)
     }
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s')", flowType, currency, amount, itemType, itemId));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data());
 #endif
@@ -481,6 +607,15 @@ void GameAnalytics::addProgressionEvent(const Dictionary &options)
     {
         GameAnalyticsCpp::addProgressionEvent(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data());
     }
+#elif defined(WEB_PLATFORM)
+    if (sendScore)
+    {
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %d)", progressionStatus, progression01, progression02, progression03, score));
+    }
+    else
+    {
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s')", progressionStatus, progression01, progression02, progression03));
+    }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(sendScore)
     {
@@ -530,6 +665,15 @@ void GameAnalytics::addDesignEvent(const Dictionary &options)
     else
     {
         GameAnalyticsCpp::addDesignEvent(eventId.utf8().get_data());
+    }
+#elif defined(WEB_PLATFORM)
+    if (sendValue)
+    {
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f)", eventId, value));
+    }
+    else
+    {
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s')", eventId));
     }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(sendValue)
@@ -592,6 +736,8 @@ void GameAnalytics::addErrorEvent(const Dictionary &options)
     }
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::addErrorEvent(severity, message.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s')", severity, message));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::addErrorEvent(severity, message.utf8().get_data());
 #endif
@@ -601,6 +747,8 @@ void GameAnalytics::setEnabledInfoLog(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setEnabledInfoLog(flag);
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setEnabledInfoLog(%s)", flag ? "true" : "false"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setEnabledInfoLog(flag);
 #endif
@@ -610,6 +758,8 @@ void GameAnalytics::setEnabledVerboseLog(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setEnabledVerboseLog(flag);
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setEnabledVerboseLog(%s)", flag ? "true" : "false"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setEnabledVerboseLog(flag);
 #endif
@@ -619,6 +769,8 @@ void GameAnalytics::setEnabledManualSessionHandling(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setEnabledManualSessionHandling(flag);
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setEnabledManualSessionHandling(%s)", flag ? "true" : "false"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setEnabledManualSessionHandling(flag);
 #endif
@@ -628,6 +780,8 @@ void GameAnalytics::setEnabledErrorReporting(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setEnabledErrorReporting(flag);
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setEnabledErrorReporting(%s)", flag ? "true" : "false"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setEnabledErrorReporting(flag);
 #endif
@@ -637,6 +791,8 @@ void GameAnalytics::setEnabledEventSubmission(bool flag)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setEnabledEventSubmission(flag);
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setEnabledEventSubmission(%s)", flag ? "true" : "false"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setEnabledEventSubmission(flag);
 #endif
@@ -646,6 +802,8 @@ void GameAnalytics::setCustomDimension01(const String &dimension)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setCustomDimension01(dimension.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setCustomDimension01('%s')", dimension));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setCustomDimension01(dimension.utf8().get_data());
 #endif
@@ -655,6 +813,8 @@ void GameAnalytics::setCustomDimension02(const String &dimension)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setCustomDimension02(dimension.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setCustomDimension02('%s')", dimension));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setCustomDimension02(dimension.utf8().get_data());
 #endif
@@ -664,6 +824,8 @@ void GameAnalytics::setCustomDimension03(const String &dimension)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::setCustomDimension03(dimension.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setCustomDimension03('%s')", dimension));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::setCustomDimension03(dimension.utf8().get_data());
 #endif
@@ -673,6 +835,8 @@ void GameAnalytics::startSession()
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::startSession();
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.startSession()");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     // Do nothing
 #endif
@@ -682,6 +846,8 @@ void GameAnalytics::endSession()
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::endSession();
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.endSession()");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     // Do nothing
 #endif
@@ -690,6 +856,8 @@ void GameAnalytics::endSession()
 void GameAnalytics::onQuit()
 {
 #if defined(IOS_PLATFORM)
+    // Do nothing
+#elif defined(WEB_PLATFORM)
     // Do nothing
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::onQuit();
@@ -733,6 +901,15 @@ String GameAnalytics::getRemoteConfigsValueAsString(const Dictionary &options)
     {
         return GameAnalyticsCpp::getRemoteConfigsValueAsString(k.utf8().get_data());
     }
+#elif defined(WEB_PLATFORM)
+    if (useDefaultValue)
+    {
+        return String(JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '%s')", k, defaultValue)));
+    }
+    else
+    {
+        return String(JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s')", k)));
+    }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(useDefaultValue)
     {
@@ -749,6 +926,8 @@ bool GameAnalytics::isRemoteConfigsReady()
 {
 #if defined(IOS_PLATFORM)
     return GameAnalyticsCpp::isRemoteConfigsReady();
+#elif defined(WEB_PLATFORM)
+    return JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.isRemoteConfigsReady()");
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     return ::isRemoteConfigsReady();
 #endif
@@ -758,6 +937,8 @@ String GameAnalytics::getRemoteConfigsContentAsString()
 {
 #if defined(IOS_PLATFORM)
     return GameAnalyticsCpp::getRemoteConfigsContentAsString();
+#elif defined(WEB_PLATFORM)
+    return String(JavaScript::get_singleton()->eval("gameanalytics.GameAnalytics.getRemoteConfigsContentAsString()"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     return String(::getRemoteConfigsContentAsString());
 #endif
