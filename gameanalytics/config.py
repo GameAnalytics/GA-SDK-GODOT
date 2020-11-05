@@ -5,7 +5,7 @@ def can_build(env, platform):
 def configure(env):
     if (env["platform"] == "android"):
         env.android_add_maven_repository("url 'https://maven.gameanalytics.com/release'")
-        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:5.2.7'")
+        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:5.3.0'")
         env.android_add_java_dir("android/src/")
         env.disable_module()
     elif (env["platform"] == "iphone"):
@@ -26,10 +26,16 @@ def configure(env):
     elif env["platform"] == "windows":
         if env["bits"] == "32":
             env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/win32"])
-            env.Append(LINKFLAGS=["GameAnalytics.lib"])
+            if env["use_mingw"]:
+                env.Append(LIBS=["GameAnalytics"])
+            else:
+                env.Append(LINKFLAGS=["GameAnalytics.lib"])
         else:
             env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/win64"])
-            env.Append(LINKFLAGS=["GameAnalytics.lib"])
+            if env["use_mingw"]:
+                env.Append(LIBS=["GameAnalytics"])
+            else:
+                env.Append(LINKFLAGS=["GameAnalytics.lib"])
     elif env["platform"] == "osx":
         env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/osx"])
         env.Append(LIBS=["libGameAnalytics.dylib"])
@@ -38,5 +44,3 @@ def configure(env):
         env.Append(LIBPATH=["#modules/gameanalytics/cpp/lib/linux"])
         env.Append(LIBS=["GameAnalytics", "curl"])
         env.Append(RPATH=["."])
-    # elif env["platform"] == "javascript":
-    #     env.Append(RPATH=["."])
