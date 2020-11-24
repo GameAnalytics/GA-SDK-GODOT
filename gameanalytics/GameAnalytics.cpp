@@ -21,7 +21,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 1.2.1"
+#define VERSION "godot 1.2.2"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 

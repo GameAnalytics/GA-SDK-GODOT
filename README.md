@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.2.2**
+* fixed crash when closing editor and GA module was loaded
+
 **1.2.1**
 * fixed compiling using mingw
 

@@ -3,9 +3,9 @@
 #include "core/reference.h"
 #include "core/variant.h"
 
-class GameAnalytics : public Reference
+class GameAnalytics : public Object
 {
-    GDCLASS(GameAnalytics, Reference);
+    GDCLASS(GameAnalytics, Object);
 
 protected:
     static void _bind_methods();
