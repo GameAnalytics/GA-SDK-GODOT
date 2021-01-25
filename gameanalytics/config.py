@@ -19,6 +19,7 @@ def configure(env):
             '-ObjC',
             '-framework', 'AdSupport',
             '-framework', 'SystemConfiguration',
+            '-framework', 'AppTrackingTransparency',
             '-framework', 'GameAnalytics',
             '-l', 'sqlite3',
             '-l', 'z'
