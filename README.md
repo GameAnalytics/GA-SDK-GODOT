@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.2.5**
+* added missing libs for linux
+
 **1.2.4**
 * fixed dependencies iOS (min. XCode 12 required)
 
