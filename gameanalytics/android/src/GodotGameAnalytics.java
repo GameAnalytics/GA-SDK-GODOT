@@ -12,7 +12,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends Godot.SingletonBase
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 1.2.5";
+    private static final String VERSION = "godot 1.2.6";
 
     static public Godot.SingletonBase initialize(Activity activity)
     {
