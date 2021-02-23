@@ -15,6 +15,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.2.7**
+* added idfa consent status to evnts (ios)
+
 **1.2.6**
 * fixed linux dependencies
 

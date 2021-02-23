@@ -6,5 +6,5 @@ binary="GameAnalytics.release.aar"
 
 [dependencies]
 
-remote=["com.gameanalytics.sdk:gameanalytics-android:5.2.4"]
+remote=["com.gameanalytics.sdk:gameanalytics-android:1.2.7"]
 custom_maven_repos=["https://maven.gameanalytics.com/release"]

@@ -1,5 +1,6 @@
 package com.gameanalytics.godotgameanalytics;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.gameanalytics.sdk.GAErrorSeverity;
@@ -17,8 +18,8 @@ import java.util.Set;
 
 public class GodotGameAnalytics extends GodotPlugin
 {
-    private Godot activity = null;
-    private static final String VERSION = "godot 1.2.6";
+    private Activity activity = null;
+    private static final String VERSION = "godot 1.2.7";
 
     public GodotGameAnalytics(Godot godot)
     {
