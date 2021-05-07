@@ -6,7 +6,7 @@ sources = [
 ]
 
 module_env = env.Clone()
-module_env.Append(CXXFLAGS=['-std=c++11'])
+module_env.Append(CXXFLAGS=['-std=c++17'])
 
 if env['platform'] == 'iphone':
     sources.append("ios/src/GameAnalyticsCpp.mm")
