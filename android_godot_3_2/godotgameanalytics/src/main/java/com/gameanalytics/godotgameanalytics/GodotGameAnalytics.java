@@ -19,12 +19,12 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 1.2.7";
+    private static final String VERSION = "godot 1.2.8";
 
     public GodotGameAnalytics(Godot godot)
     {
         super(godot);
-        this.activity = godot;
+        this.activity = godot.getActivity();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class GodotGameAnalytics extends GodotPlugin
     public void init(String gameKey, String secretKey)
     {
         GameAnalytics.configureSdkGameEngineVersion(VERSION);
-        GameAnalytics.initializeWithGameKey(this.activity, gameKey, secretKey);
+        GameAnalytics.initialize(this.activity, gameKey, secretKey);
     }
 
     public void addBusinessEvent(Dictionary options)
@@ -195,7 +195,7 @@ public class GodotGameAnalytics extends GodotPlugin
                 }
             }
         }
-        GameAnalytics.addBusinessEventWithCurrency(currency, amount, itemType, itemId, cartType, receipt, store, signature);
+        GameAnalytics.addBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, store, signature);
     }
 
     public void addResourceEvent(Dictionary options)
@@ -266,7 +266,7 @@ public class GodotGameAnalytics extends GodotPlugin
             }
         }
 
-        GameAnalytics.addResourceEventWithFlowType(flowType, currency, amount, itemType, itemId);
+        GameAnalytics.addResourceEvent(flowType, currency, amount, itemType, itemId);
     }
 
     public void addProgressionEvent(Dictionary options)
@@ -343,11 +343,11 @@ public class GodotGameAnalytics extends GodotPlugin
 
         if(score != null)
         {
-            GameAnalytics.addProgressionEventWithProgressionStatus(progressionStatus, progression01, progression02, progression03, score.doubleValue());
+            GameAnalytics.addProgressionEvent(progressionStatus, progression01, progression02, progression03, score.doubleValue());
         }
         else
         {
-            GameAnalytics.addProgressionEventWithProgressionStatus(progressionStatus, progression01, progression02, progression03);
+            GameAnalytics.addProgressionEvent(progressionStatus, progression01, progression02, progression03);
         }
     }
 
@@ -387,11 +387,11 @@ public class GodotGameAnalytics extends GodotPlugin
 
         if(value != null)
         {
-            GameAnalytics.addDesignEventWithEventId(eventId, value.doubleValue());
+            GameAnalytics.addDesignEvent(eventId, value.doubleValue());
         }
         else
         {
-            GameAnalytics.addDesignEventWithEventId(eventId);
+            GameAnalytics.addDesignEvent(eventId);
         }
     }
 
@@ -443,7 +443,7 @@ public class GodotGameAnalytics extends GodotPlugin
             }
         }
 
-        GameAnalytics.addErrorEventWithSeverity(severity, message);
+        GameAnalytics.addErrorEvent(severity, message);
     }
 
     public void setEnabledInfoLog(boolean flag)

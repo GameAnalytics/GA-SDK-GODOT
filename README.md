@@ -15,6 +15,10 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.2.8**
+* fixed VerifyError for Android for Godot 3.3
+* fixed mutex compile error for Godot 3.3
+
 **1.2.7**
 * added idfa consent status to evnts (ios)
 
