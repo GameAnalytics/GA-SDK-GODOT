@@ -679,6 +679,65 @@ typedef enum GAAdError : NSInteger {
 + (void)addImpressionIronSourceEventWithAdNetworkVersion:(NSString *)adNetworkVersion
                             impressionData:(NSDictionary *)impressionData;
 
+/*!
+ @method
+ 
+ @abstract Add new topon impression event
+ 
+ @param adNetworkVersion
+ Name of ad network version
+ @param impressionData
+ Impression data
+ 
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
++ (void)addImpressionTopOnEventWithAdNetworkVersion:(NSString *)adNetworkVersion
+                            impressionData:(NSDictionary *)impressionData;
+
+/*!
+ @method
+ 
+ @abstract Add new hyperbid impression event
+ 
+ @param adNetworkVersion
+ Name of ad network version
+ @param impressionData
+ Impression data
+ 
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
++ (void)addImpressionHyperBidEventWithAdNetworkVersion:(NSString *)adNetworkVersion
+                            impressionData:(NSDictionary *)impressionData;
+
+/*!
+ @method
+ 
+ @abstract Add new max impression event
+ 
+ @param adNetworkVersion
+ Name of ad network version
+ @param impressionData
+ Impression data
+ 
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
++ (void)addImpressionMaxEventWithAdNetworkVersion:(NSString *)adNetworkVersion
+                            impressionData:(NSDictionary *)impressionData;
+
+/*!
+ @method
+ 
+ @abstract Add new aequus impression event
+ 
+ @param adNetworkVersion
+ Name of ad network version
+ @param impressionData
+ Impression data
+ 
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
++ (void)addImpressionAequusEventWithAdNetworkVersion:(NSString *)adNetworkVersion
+                            impressionData:(NSDictionary *)impressionData;
 
 /*!
  @method
