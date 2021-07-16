@@ -19,7 +19,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 1.3.3";
+    private static final String VERSION = "godot 1.3.4";
 
     public GodotGameAnalytics(Godot godot)
     {
