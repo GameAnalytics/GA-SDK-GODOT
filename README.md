@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.3.3**
+* fixed ios nativelib errors
+
 **1.3.1**
 * small fixes
 
