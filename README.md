@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**1.3.6**
+* small fix
+
 **1.3.5**
 * republished plugin on NativeLib due to malformed urls
 
