@@ -21,7 +21,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 2.0.0"
+#define VERSION "godot 2.1.0"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -380,6 +380,7 @@ void GameAnalytics::addBusinessEvent(const Dictionary &options)
     String cartType = "";
     String receipt = "";
     bool autoFetchReceipt = false;
+    String fields = "{}";
 
     Array keys = options.keys();
     for (int i = 0; i < keys.size(); ++i)
@@ -442,20 +443,28 @@ void GameAnalytics::addBusinessEvent(const Dictionary &options)
                 autoFetchReceipt = *v;
             }
         }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
     }
 #if defined(IOS_PLATFORM)
     if(autoFetchReceipt)
     {
-        GameAnalyticsCpp::addBusinessEventAndAutoFetchReceipt(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data());
+        GameAnalyticsCpp::addBusinessEventAndAutoFetchReceipt(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), fields.utf8().get_data());
     }
     else
     {
-        GameAnalyticsCpp::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), receipt.utf8().get_data());
+        GameAnalyticsCpp::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), receipt.utf8().get_data(), fields.utf8().get_data());
     }
 #elif defined(WEB_PLATFORM)
-    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s')", currency, amount, itemType, itemId, cartType));
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s', JSON.parse('%s'))", currency, amount, itemType, itemId, cartType, fields));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
-    ::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data());
+    ::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), fields.utf8().get_data());
 #endif
 }
 
@@ -466,6 +475,7 @@ void GameAnalytics::addResourceEvent(const Dictionary &options)
     float amount = 0;
     String itemType = "";
     String itemId = "";
+    String fields = "{}";
 
     Array keys = options.keys();
     for (int i = 0; i < keys.size(); ++i)
@@ -520,13 +530,21 @@ void GameAnalytics::addResourceEvent(const Dictionary &options)
                 itemId = *v;
             }
         }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
     }
 #if defined(IOS_PLATFORM)
-    GameAnalyticsCpp::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data());
+    GameAnalyticsCpp::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), fields.utf8().get_data());
 #elif defined(WEB_PLATFORM)
-    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s')", flowType, currency, amount, itemType, itemId));
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s', JSON.parse('%s'))", flowType, currency, amount, itemType, itemId, fields));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
-    ::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data());
+    ::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), fields.utf8().get_data());
 #endif
 }
 
@@ -538,6 +556,7 @@ void GameAnalytics::addProgressionEvent(const Dictionary &options)
     String progression03 = "";
     int score = 0;
     bool sendScore = false;
+    String fields = "{}";
 
     Array keys = options.keys();
     for (int i = 0; i < keys.size(); ++i)
@@ -597,33 +616,41 @@ void GameAnalytics::addProgressionEvent(const Dictionary &options)
                 sendScore = true;
             }
         }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
     }
 #if defined(IOS_PLATFORM)
     if(sendScore)
     {
-        GameAnalyticsCpp::addProgressionEventWithScore(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), score);
+        GameAnalyticsCpp::addProgressionEventWithScore(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), score, fields.utf8().get_data());
     }
     else
     {
-        GameAnalyticsCpp::addProgressionEvent(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data());
+        GameAnalyticsCpp::addProgressionEvent(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), fields.utf8().get_data());
     }
 #elif defined(WEB_PLATFORM)
     if (sendScore)
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %d)", progressionStatus, progression01, progression02, progression03, score));
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %d, JSON.parse('%s'))", progressionStatus, progression01, progression02, progression03, score, fields));
     }
     else
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s')", progressionStatus, progression01, progression02, progression03));
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', JSON.parse('%s'))", progressionStatus, progression01, progression02, progression03, fields));
     }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(sendScore)
     {
-        ::addProgressionEventWithScore(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), score);
+        ::addProgressionEventWithScore(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), score, fields.utf8().get_data());
     }
     else
     {
-        ::addProgressionEvent(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data());
+        ::addProgressionEvent(progressionStatus, progression01.utf8().get_data(), progression02.utf8().get_data(), progression03.utf8().get_data(), fields.utf8().get_data());
     }
 #endif
 }
@@ -633,6 +660,7 @@ void GameAnalytics::addDesignEvent(const Dictionary &options)
     String eventId = "";
     float value = 0;
     bool sendValue = false;
+    String fields = "{}";
 
     Array keys = options.keys();
     for (int i = 0; i < keys.size(); ++i)
@@ -656,33 +684,41 @@ void GameAnalytics::addDesignEvent(const Dictionary &options)
                 sendValue = true;
             }
         }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
     }
 #if defined(IOS_PLATFORM)
     if(sendValue)
     {
-        GameAnalyticsCpp::addDesignEventWithValue(eventId.utf8().get_data(), value);
+        GameAnalyticsCpp::addDesignEventWithValue(eventId.utf8().get_data(), value, fields.utf8().get_data());
     }
     else
     {
-        GameAnalyticsCpp::addDesignEvent(eventId.utf8().get_data());
+        GameAnalyticsCpp::addDesignEvent(eventId.utf8().get_data(), fields.utf8().get_data());
     }
 #elif defined(WEB_PLATFORM)
     if (sendValue)
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f)", eventId, value));
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f, JSON.parse('%s'))", eventId, value, fields));
     }
     else
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s')", eventId));
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', JSON.parse('%s'))", eventId, fields));
     }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(sendValue)
     {
-        ::addDesignEventWithValue(eventId.utf8().get_data(), value);
+        ::addDesignEventWithValue(eventId.utf8().get_data(), value, fields.utf8().get_data());
     }
     else
     {
-        ::addDesignEvent(eventId.utf8().get_data());
+        ::addDesignEvent(eventId.utf8().get_data(), fields.utf8().get_data());
     }
 #endif
 }
@@ -691,6 +727,7 @@ void GameAnalytics::addErrorEvent(const Dictionary &options)
 {
     int severity = 0;
     String message = "";
+    String fields = "{}";
 
     Array keys = options.keys();
     for (int i = 0; i < keys.size(); ++i)
@@ -733,13 +770,21 @@ void GameAnalytics::addErrorEvent(const Dictionary &options)
                 message = *v;
             }
         }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
     }
 #if defined(IOS_PLATFORM)
-    GameAnalyticsCpp::addErrorEvent(severity, message.utf8().get_data());
+    GameAnalyticsCpp::addErrorEvent(severity, message.utf8().get_data(), fields.utf8().get_data());
 #elif defined(WEB_PLATFORM)
-    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s')", severity, message));
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', JSON.parse('%s'))", severity, message, fields));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
-    ::addErrorEvent(severity, message.utf8().get_data());
+    ::addErrorEvent(severity, message.utf8().get_data(), fields.utf8().get_data());
 #endif
 }
 

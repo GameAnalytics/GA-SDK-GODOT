@@ -19,7 +19,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.0.0";
+    private static final String VERSION = "godot 2.1.0";
 
     public GodotGameAnalytics(Godot godot)
     {
@@ -125,6 +125,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String receipt = "";
         String store = "";
         String signature = "";
+        String fields = "";
 
         if(options != null)
         {
@@ -193,9 +194,17 @@ public class GodotGameAnalytics extends GodotPlugin
                         signature = value + "";
                     }
                 }
+                else if (key.equals("customFields"))
+                {
+                    Object value = options.get(key);
+                    if (value != null)
+                    {
+                        fields = value + "";
+                    }
+                }
             }
         }
-        GameAnalytics.addBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, store, signature);
+        GameAnalytics.addBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, store, signature, fields);
     }
 
     public void addResourceEvent(Dictionary options)
@@ -205,6 +214,7 @@ public class GodotGameAnalytics extends GodotPlugin
         float amount = 0;
         String itemType = "";
         String itemId = "";
+        String fields = "";
 
         if(options != null)
         {
@@ -263,10 +273,18 @@ public class GodotGameAnalytics extends GodotPlugin
                         itemId = value + "";
                     }
                 }
+                else if (key.equals("customFields"))
+                {
+                    Object value = options.get(key);
+                    if (value != null)
+                    {
+                        fields = value + "";
+                    }
+                }
             }
         }
 
-        GameAnalytics.addResourceEvent(flowType, currency, amount, itemType, itemId);
+        GameAnalytics.addResourceEvent(flowType.ordinal(), currency, amount, itemType, itemId, fields);
     }
 
     public void addProgressionEvent(Dictionary options)
@@ -276,6 +294,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String progression02 = "";
         String progression03 = "";
         Double score = null;
+        String fields = "";
 
         if(options != null)
         {
@@ -338,16 +357,26 @@ public class GodotGameAnalytics extends GodotPlugin
                         Log.d("GameAnalytics", "'" + key + "' value has the wrong type: " + value.getClass());
                     }
                 }
+                else if (key.equals("customFields"))
+                {
+                    Object value = options.get(key);
+                    if (value != null)
+                    {
+                        fields = value + "";
+                    }
+                }
             }
         }
 
         if(score != null)
         {
-            GameAnalytics.addProgressionEvent(progressionStatus, progression01, progression02, progression03, score.doubleValue());
+            GameAnalytics.addProgressionEvent(progressionStatus.ordinal(), progression01, progression02, progression03, score.doubleValue(),
+                    fields);
         }
         else
         {
-            GameAnalytics.addProgressionEvent(progressionStatus, progression01, progression02, progression03);
+            GameAnalytics.addProgressionEvent(progressionStatus.ordinal(), progression01, progression02, progression03,
+                    fields);
         }
     }
 
@@ -355,6 +384,7 @@ public class GodotGameAnalytics extends GodotPlugin
     {
         String eventId = "";
         Double value = null;
+        String fields = "";
 
         if(options != null)
         {
@@ -382,16 +412,24 @@ public class GodotGameAnalytics extends GodotPlugin
                         Log.d("GameAnalytics", "'" + key + "' value has the wrong type: " + value.getClass());
                     }
                 }
+                else if (key.equals("customFields"))
+                {
+                    Object v = options.get(key);
+                    if (v != null)
+                    {
+                        fields = v + "";
+                    }
+                }
             }
         }
 
         if(value != null)
         {
-            GameAnalytics.addDesignEvent(eventId, value.doubleValue());
+            GameAnalytics.addDesignEvent(eventId, value.doubleValue(), fields);
         }
         else
         {
-            GameAnalytics.addDesignEvent(eventId);
+            GameAnalytics.addDesignEvent(eventId, fields);
         }
     }
 
@@ -399,6 +437,7 @@ public class GodotGameAnalytics extends GodotPlugin
     {
         GAErrorSeverity severity = GAErrorSeverity.Undefined;
         String message = "";
+        String fields = "";
 
         if(options != null)
         {
@@ -440,10 +479,18 @@ public class GodotGameAnalytics extends GodotPlugin
                         message = value + "";
                     }
                 }
+                else if (key.equals("customFields"))
+                {
+                    Object value = options.get(key);
+                    if (value != null)
+                    {
+                        fields = value + "";
+                    }
+                }
             }
         }
 
-        GameAnalytics.addErrorEvent(severity, message);
+        GameAnalytics.addErrorEvent(severity.ordinal(), message, fields);
     }
 
     public void setEnabledInfoLog(boolean flag)
