@@ -1439,6 +1439,16 @@ typedef enum GAAdError : NSInteger {
 
 /*!
  @method
+
+ @abstract Set global custom event fields
+
+ @param customFields
+ Custom event fields to use as global ones
+ */
++ (void)setGlobalCustomEventFields:(NSDictionary *)customFields;
+
+/*!
+ @method
  
  @abstract Start timer for specified key
  

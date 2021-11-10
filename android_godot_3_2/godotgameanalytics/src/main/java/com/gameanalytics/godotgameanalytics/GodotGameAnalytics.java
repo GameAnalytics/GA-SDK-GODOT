@@ -19,7 +19,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.1.1";
+    private static final String VERSION = "godot 2.2.0";
 
     public GodotGameAnalytics(Godot godot)
     {
@@ -60,6 +60,7 @@ public class GodotGameAnalytics extends GodotPlugin
         methods.add("setCustomDimension01");
         methods.add("setCustomDimension02");
         methods.add("setCustomDimension03");
+        methods.add("setGlobalCustomEventFields");
         methods.add("getRemoteConfigsValueAsString");
         methods.add("isRemoteConfigsReady");
         methods.add("getRemoteConfigsContentAsString");
@@ -531,6 +532,11 @@ public class GodotGameAnalytics extends GodotPlugin
     public void setCustomDimension03(String dimension)
     {
         GameAnalytics.setCustomDimension03(dimension);
+    }
+
+    public void setGlobalCustomEventFields(String customFields)
+    {
+        GameAnalytics.setGlobalCustomEventFields(customFields);
     }
 
     public String getRemoteConfigsValueAsString(Dictionary options)

@@ -260,6 +260,15 @@ void GameAnalyticsCpp::setCustomDimension03(const char *dimension) {
     [GameAnalytics setCustomDimension03:dimensionString];
 }
 
+void GameAnalyticsCpp::setGlobalCustomEventFields(const char *fields) {
+    NSString *fieldsString = fields != NULL ? [NSString stringWithUTF8String:fields] : nil;
+    NSDictionary *fields_dict = nil;
+    if (fieldsString) {
+        fields_dict = [NSJSONSerialization JSONObjectWithData:[fieldsString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    }
+    [GameAnalytics setGlobalCustomEventFields:fields_dict];
+}
+
 void GameAnalyticsCpp::startSession() {
     [GameAnalytics startSession];
 }

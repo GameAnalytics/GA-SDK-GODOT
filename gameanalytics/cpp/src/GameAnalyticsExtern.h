@@ -58,6 +58,8 @@ EXPORT void setCustomDimension01(const char *dimension01);
 EXPORT void setCustomDimension02(const char *dimension02);
 EXPORT void setCustomDimension03(const char *dimension03);
 
+EXPORT void setGlobalCustomEventFields(const char *customFields);
+
 EXPORT void gameAnalyticsStartSession();
 EXPORT void gameAnalyticsEndSession();
 

@@ -47,6 +47,8 @@ public:
     void setCustomDimension02(const String &dimension);
     void setCustomDimension03(const String &dimension);
 
+    void setGlobalCustomEventFields(const String &customFields);
+
     void startSession();
     void endSession();
     void onQuit();

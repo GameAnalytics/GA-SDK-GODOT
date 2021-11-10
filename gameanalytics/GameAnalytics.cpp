@@ -21,7 +21,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 2.1.1"
+#define VERSION "godot 2.2.0"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -876,6 +876,17 @@ void GameAnalytics::setCustomDimension03(const String &dimension)
 #endif
 }
 
+void GameAnalytics::setGlobalCustomEventFields(const String &customFields)
+{
+#if defined(IOS_PLATFORM)
+    GameAnalyticsCpp::setGlobalCustomEventFields(customFields.utf8().get_data());
+#elif defined(WEB_PLATFORM)
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setGlobalCustomEventFields(JSON.parse('%s'))", !customFields.empty() ? customFields : "{}"));
+#elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
+    ::setGlobalCustomEventFields(dimension.utf8().get_data());
+#endif
+}
+
 void GameAnalytics::startSession()
 {
 #if defined(IOS_PLATFORM)
@@ -1019,6 +1030,8 @@ void GameAnalytics::_bind_methods()
     ClassDB::bind_method(D_METHOD("setCustomDimension01", "dimension"), &GameAnalytics::setCustomDimension01);
     ClassDB::bind_method(D_METHOD("setCustomDimension02", "dimension"), &GameAnalytics::setCustomDimension02);
     ClassDB::bind_method(D_METHOD("setCustomDimension03", "dimension"), &GameAnalytics::setCustomDimension03);
+
+    ClassDB::bind_method(D_METHOD("setGlobalCustomEventFields", "customFields"), &GameAnalytics::setGlobalCustomEventFields);
 
     ClassDB::bind_method(D_METHOD("startSession"), &GameAnalytics::startSession);
     ClassDB::bind_method(D_METHOD("endSession"), &GameAnalytics::endSession);

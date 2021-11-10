@@ -12,7 +12,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends Godot.SingletonBase
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.1.1";
+    private static final String VERSION = "godot 2.2.0";
 
     static public Godot.SingletonBase initialize(Activity activity)
     {
@@ -46,6 +46,7 @@ public class GodotGameAnalytics extends Godot.SingletonBase
             "setCustomDimension01",
             "setCustomDimension02",
             "setCustomDimension03",
+            "setGlobalCustomEventFields",
             "getRemoteConfigsValueAsString",
             "isRemoteConfigsReady",
             "getRemoteConfigsContentAsString",
@@ -515,6 +516,11 @@ public class GodotGameAnalytics extends Godot.SingletonBase
     public void setCustomDimension03(String dimension)
     {
         GameAnalytics.setCustomDimension03(dimension);
+    }
+
+    public void setGlobalCustomEventFields(String customFields)
+    {
+        GameAnalytics.setGlobalCustomEventFields(customFields);
     }
 
     public String getRemoteConfigsValueAsString(Dictionary options)
