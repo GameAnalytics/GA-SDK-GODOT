@@ -883,7 +883,7 @@ void GameAnalytics::setGlobalCustomEventFields(const String &customFields)
 #elif defined(WEB_PLATFORM)
     JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.setGlobalCustomEventFields(JSON.parse('%s'))", !customFields.empty() ? customFields : "{}"));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
-    ::setGlobalCustomEventFields(dimension.utf8().get_data());
+    ::setGlobalCustomEventFields(customFields.utf8().get_data());
 #endif
 }
 
