@@ -19,7 +19,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.2.1";
+    private static final String VERSION = "godot 2.2.2";
 
     public GodotGameAnalytics(Godot godot)
     {
@@ -127,6 +127,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String store = "";
         String signature = "";
         String fields = "";
+        boolean mergeFields = false;
 
         if(options != null)
         {
@@ -203,9 +204,17 @@ public class GodotGameAnalytics extends GodotPlugin
                         fields = value + "";
                     }
                 }
+                else if (key.equals("mergeFields")) {
+                    Object value = options.get(key);
+                    if (value instanceof Boolean) {
+                        Boolean b = (Boolean) value;
+                        mergeFields = b.booleanValue();
+                    }
+                }
             }
         }
-        GameAnalytics.addBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, store, signature, fields);
+        GameAnalytics.addBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, store, signature, fields,
+                mergeFields);
     }
 
     public void addResourceEvent(Dictionary options)
@@ -216,6 +225,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String itemType = "";
         String itemId = "";
         String fields = "";
+        boolean mergeFields = false;
 
         if(options != null)
         {
@@ -282,10 +292,17 @@ public class GodotGameAnalytics extends GodotPlugin
                         fields = value + "";
                     }
                 }
+                else if (key.equals("mergeFields")) {
+                    Object value = options.get(key);
+                    if (value instanceof Boolean) {
+                        Boolean b = (Boolean) value;
+                        mergeFields = b.booleanValue();
+                    }
+                }
             }
         }
 
-        GameAnalytics.addResourceEvent(flowType.ordinal(), currency, amount, itemType, itemId, fields);
+        GameAnalytics.addResourceEvent(flowType.ordinal(), currency, amount, itemType, itemId, fields, mergeFields);
     }
 
     public void addProgressionEvent(Dictionary options)
@@ -296,6 +313,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String progression03 = "";
         Double score = null;
         String fields = "";
+        boolean mergeFields = false;
 
         if(options != null)
         {
@@ -366,18 +384,25 @@ public class GodotGameAnalytics extends GodotPlugin
                         fields = value + "";
                     }
                 }
+                else if (key.equals("mergeFields")) {
+                    Object value = options.get(key);
+                    if (value instanceof Boolean) {
+                        Boolean b = (Boolean) value;
+                        mergeFields = b.booleanValue();
+                    }
+                }
             }
         }
 
         if(score != null)
         {
             GameAnalytics.addProgressionEvent(progressionStatus.ordinal(), progression01, progression02, progression03, score.doubleValue(),
-                    fields);
+                    fields, mergeFields);
         }
         else
         {
             GameAnalytics.addProgressionEvent(progressionStatus.ordinal(), progression01, progression02, progression03,
-                    fields);
+                    fields, mergeFields);
         }
     }
 
@@ -386,6 +411,7 @@ public class GodotGameAnalytics extends GodotPlugin
         String eventId = "";
         Double value = null;
         String fields = "";
+        boolean mergeFields = false;
 
         if(options != null)
         {
@@ -421,16 +447,23 @@ public class GodotGameAnalytics extends GodotPlugin
                         fields = v + "";
                     }
                 }
+                else if (key.equals("mergeFields")) {
+                    Object v = options.get(key);
+                    if (v instanceof Boolean) {
+                        Boolean b = (Boolean) v;
+                        mergeFields = b.booleanValue();
+                    }
+                }
             }
         }
 
         if(value != null)
         {
-            GameAnalytics.addDesignEvent(eventId, value.doubleValue(), fields);
+            GameAnalytics.addDesignEvent(eventId, value.doubleValue(), fields, mergeFields);
         }
         else
         {
-            GameAnalytics.addDesignEvent(eventId, fields);
+            GameAnalytics.addDesignEvent(eventId, fields, mergeFields);
         }
     }
 
@@ -439,6 +472,7 @@ public class GodotGameAnalytics extends GodotPlugin
         GAErrorSeverity severity = GAErrorSeverity.Undefined;
         String message = "";
         String fields = "";
+        boolean mergeFields = false;
 
         if(options != null)
         {
@@ -488,10 +522,17 @@ public class GodotGameAnalytics extends GodotPlugin
                         fields = value + "";
                     }
                 }
+                else if (key.equals("mergeFields")) {
+                    Object value = options.get(key);
+                    if (value instanceof Boolean) {
+                        Boolean b = (Boolean) value;
+                        mergeFields = b.booleanValue();
+                    }
+                }
             }
         }
 
-        GameAnalytics.addErrorEvent(severity.ordinal(), message, fields);
+        GameAnalytics.addErrorEvent(severity.ordinal(), message, fields, mergeFields);
     }
 
     public void setEnabledInfoLog(boolean flag)

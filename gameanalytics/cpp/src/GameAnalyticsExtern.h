@@ -31,21 +31,21 @@ EXPORT void configureUserId(const char *uId);
 EXPORT void initialize(const char *gameKey, const char *gameSecret);
 
 // add events
-EXPORT void addBusinessEvent(const char *currency, double amount, const char *itemType, const char *itemId, const char *cartType, const char *fields);
+EXPORT void addBusinessEvent(const char *currency, double amount, const char *itemType, const char *itemId, const char *cartType, const char *customFields, double mergeFields);
 EXPORT void addBusinessEventJson(const char *jsonArgs);
 
-EXPORT void addResourceEvent(double flowType, const char *currency, double amount, const char *itemType, const char *itemId, const char *fields);
+EXPORT void addResourceEvent(double flowType, const char *currency, double amount, const char *itemType, const char *itemId, const char *customFields, double mergeFields);
 EXPORT void addResourceEventJson(const char *jsonArgs);
 
-EXPORT void addProgressionEvent(double progressionStatus, const char *progression01, const char *progression02, const char *progression03, const char *fields);
+EXPORT void addProgressionEvent(double progressionStatus, const char *progression01, const char *progression02, const char *progression03, const char *customFields, double mergeFields);
 EXPORT void addProgressionEventJson(const char *jsonArgs);
 
-EXPORT void addProgressionEventWithScore(double progressionStatus, const char *progression01, const char *progression02, const char *progression03, double score, const char *fields);
+EXPORT void addProgressionEventWithScore(double progressionStatus, const char *progression01, const char *progression02, const char *progression03, double score, const char *customFields, double mergeFields);
 EXPORT void addProgressionEventWithScoreJson(const char *jsonArgs);
 
-EXPORT void addDesignEvent(const char *eventId, const char *fields);
-EXPORT void addDesignEventWithValue(const char *eventId, double value, const char *fields);
-EXPORT void addErrorEvent(double severity, const char *message, const char *fields);
+EXPORT void addDesignEvent(const char *eventId, const char *customFields, double mergeFields);
+EXPORT void addDesignEventWithValue(const char *eventId, double value, const char *customFields, double mergeFields);
+EXPORT void addErrorEvent(double severity, const char *message, const char *customFields, double mergeFields);
 
 // set calls can be changed at any time (pre- and post-initialize)
 // some calls only work after a configure is called (setCustomDimension)

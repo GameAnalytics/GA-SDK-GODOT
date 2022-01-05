@@ -20,14 +20,14 @@ public:
 
     static void initialize(const char *gameKey, const char *gameSecret);
 
-    static void addBusinessEvent(const char *currency, int amount, const char *itemType, const char *itemId, const char *cartType, const char *receipt, const char *fields);
-    static void addBusinessEventAndAutoFetchReceipt(const char *currency, int amount, const char *itemType, const char *itemId, const char *cartType, const char *fields);
-    static void addResourceEvent(int flowType, const char *currency, float amount, const char *itemType, const char *itemId, const char *fields);
-    static void addProgressionEvent(int progressionStatus, const char *progression01, const char *progression02, const char *progression03, const char *fields);
-    static void addProgressionEventWithScore(int progressionStatus, const char *progression01, const char *progression02, const char *progression03, int score, const char *fields);
-    static void addDesignEvent(const char *eventId, const char *fields);
-    static void addDesignEventWithValue(const char *eventId, float value, const char *fields);
-    static void addErrorEvent(int severity, const char *message, const char *fields);
+    static void addBusinessEvent(const char *currency, int amount, const char *itemType, const char *itemId, const char *cartType, const char *receipt, const char *fields, bool mergeFields);
+    static void addBusinessEventAndAutoFetchReceipt(const char *currency, int amount, const char *itemType, const char *itemId, const char *cartType, const char *fields, bool mergeFields);
+    static void addResourceEvent(int flowType, const char *currency, float amount, const char *itemType, const char *itemId, const char *fields, bool mergeFields);
+    static void addProgressionEvent(int progressionStatus, const char *progression01, const char *progression02, const char *progression03, const char *fields, bool mergeFields);
+    static void addProgressionEventWithScore(int progressionStatus, const char *progression01, const char *progression02, const char *progression03, int score, const char *fields, bool mergeFields);
+    static void addDesignEvent(const char *eventId, const char *fields, bool mergeFields);
+    static void addDesignEventWithValue(const char *eventId, float value, const char *fields, bool mergeFields);
+    static void addErrorEvent(int severity, const char *message, const char *fields, bool mergeFields);
 
     static void setEnabledInfoLog(bool flag);
     static void setEnabledVerboseLog(bool flag);
