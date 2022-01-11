@@ -28,6 +28,9 @@ public:
     static void addDesignEvent(const char *eventId, const char *fields, bool mergeFields);
     static void addDesignEventWithValue(const char *eventId, float value, const char *fields, bool mergeFields);
     static void addErrorEvent(int severity, const char *message, const char *fields, bool mergeFields);
+    static void addAdEvent(int adAction, int adType, const char *adSdkName, const char *adPlacement, const char *fields, bool mergeFields);
+    static void addAdEventWithDuration(int adAction, int adType, const char *adSdkName, const char *adPlacement, int duration, const char *fields, bool mergeFields);
+    static void addAdEventWithNoAdReason(int adAction, int adType, const char *adSdkName, const char *adPlacement, int noAdReason, const char *fields, bool mergeFields);
 
     static void setEnabledInfoLog(bool flag);
     static void setEnabledVerboseLog(bool flag);

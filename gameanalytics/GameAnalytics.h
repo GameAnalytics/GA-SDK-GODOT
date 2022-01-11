@@ -36,6 +36,7 @@ public:
     void addProgressionEvent(const Dictionary &options);
     void addDesignEvent(const Dictionary &options);
     void addErrorEvent(const Dictionary &options);
+    void addAdEvent(const Dictionary &options);
 
     void setEnabledInfoLog(bool flag);
     void setEnabledVerboseLog(bool flag);

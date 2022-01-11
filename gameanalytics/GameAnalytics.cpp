@@ -21,7 +21,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 2.2.3"
+#define VERSION "godot 2.3.0"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -833,6 +833,167 @@ void GameAnalytics::addErrorEvent(const Dictionary &options)
 #endif
 }
 
+void GameAnalytics::addAdEvent(const Dictionary &options)
+{
+    int adAction = 0;
+    int adType = 0;
+    int noAdReason = 0;
+    String adSdkName = "";
+    String adPlacement = "";
+    bool sendDuration = false;
+    int duration = -1;
+    String fields = "{}";
+    bool mergeFields = false;
+
+    Array keys = options.keys();
+    for (int i = 0; i < keys.size(); ++i)
+    {
+        Variant key = keys[i];
+
+        if (key == "adAction")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                String s = *v;
+                if (s == "Clicked")
+                {
+                    adAction = 1;
+                }
+                else if (s == "Show")
+                {
+                    adAction = 2;
+                }
+                else if (s == "FailedShow")
+                {
+                    adAction = 3;
+                }
+                else if (s == "RewardReceived")
+                {
+                    adAction = 4;
+                }
+            }
+        }
+        else if (key == "adType")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                String s = *v;
+                if (s == "Video")
+                {
+                    adType = 1;
+                }
+                else if (s == "RewardedVideo")
+                {
+                    adType = 2;
+                }
+                else if (s == "Playable")
+                {
+                    adType = 3;
+                }
+                else if (s == "Interstitial")
+                {
+                    adType = 4;
+                }
+                else if (s == "OfferWall")
+                {
+                    adType = 5;
+                }
+                else if (s == "Banner")
+                {
+                    adType = 6;
+                }
+            }
+        }
+        else if (key == "adSdkName")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                adSdkName = *v;
+            }
+        }
+        else if (key == "adPlacement")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                adPlacement = *v;
+            }
+        }
+        else if (key == "duration")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::INT)
+            {
+                duration = *v;
+                sendDuration = true;
+            }
+        }
+        else if (key == "noAdReason")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                String s = *v;
+                if (s == "Unknown")
+                {
+                    noAdReason = 1;
+                }
+                else if (s == "Offline")
+                {
+                    noAdReason = 2;
+                }
+                else if (s == "NoFill")
+                {
+                    noAdReason = 3;
+                }
+                else if (s == "InternalError")
+                {
+                    noAdReason = 4;
+                }
+                else if (s == "InvalidRequest")
+                {
+                    noAdReason = 5;
+                }
+                else if (s == "UnableToPrecache")
+                {
+                    noAdReason = 6;
+                }
+            }
+        }
+        else if (key == "customFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::STRING)
+            {
+                fields = *v;
+            }
+        }
+        else if (key == "mergeFields")
+        {
+            const Variant *v = options.getptr(key);
+            if (v != NULL && v->get_type() == Variant::Type::BOOL)
+            {
+                mergeFields = *v;
+            }
+        }
+    }
+#if defined(IOS_PLATFORM)
+    if(sendDuration)
+    {
+        GameAnalyticsCpp::addAdEventWithDuration(adAction, adType, adSdkName, adPlacement, duration, fields, mergeFields);
+    }
+    else
+    {
+        GameAnalyticsCpp::addAdEventWithNoAdReason(adAction, adType, adSdkName, adPlacement, noAdReason, fields, mergeFields);
+    }
+#elif defined(WEB_PLATFORM)
+#elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
+#endif
+}
+
 void GameAnalytics::setEnabledInfoLog(bool flag)
 {
 #if defined(IOS_PLATFORM)
@@ -1065,6 +1226,7 @@ void GameAnalytics::_bind_methods()
     ClassDB::bind_method(D_METHOD("addProgressionEvent", "options"), &GameAnalytics::addProgressionEvent);
     ClassDB::bind_method(D_METHOD("addDesignEvent", "options"), &GameAnalytics::addDesignEvent);
     ClassDB::bind_method(D_METHOD("addErrorEvent", "options"), &GameAnalytics::addErrorEvent);
+    ClassDB::bind_method(D_METHOD("addAdEvent", "options"), &GameAnalytics::addAdEvent);
 
     ClassDB::bind_method(D_METHOD("setEnabledInfoLog", "flag"), &GameAnalytics::setEnabledInfoLog);
     ClassDB::bind_method(D_METHOD("setEnabledVerboseLog", "flag"), &GameAnalytics::setEnabledVerboseLog);

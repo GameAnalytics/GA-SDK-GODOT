@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.3.0**
+* added ad events for Android and iOS
+
 **2.2.3**
 * removed imei identifiers and other alternative identifiers from user identifier logic (android)
 

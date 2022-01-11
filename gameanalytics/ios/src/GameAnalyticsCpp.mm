@@ -230,6 +230,46 @@ void GameAnalyticsCpp::addErrorEvent(int severity, const char *message, const ch
     [GameAnalytics addErrorEventWithSeverity:(GAErrorSeverity)severity message:messageString customFields:fields_dict mergeFields:mergeFields];
 }
 
+void GameAnalyticsCpp::addAdEvent(int adAction, int adType, const char *adSdkName, const char *adPlacement, const char *fields, bool mergeFields)
+{
+    NSString *adSdkNameString = !isStringNullOrEmpty(adSdkName) ? [NSString stringWithUTF8String:adSdkName] : nil;
+    NSString *adPlacementString = !isStringNullOrEmpty(adPlacement) ? [NSString stringWithUTF8String:adPlacement] : nil;
+    NSString *fieldsString = fields != NULL ? [NSString stringWithUTF8String:fields] : nil;
+    NSDictionary *fields_dict = nil;
+    if (fieldsString) {
+        fields_dict = [NSJSONSerialization JSONObjectWithData:[fieldsString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    }
+
+    [GameAnalytics addAdEventWithAction:(GAAdAction)adAction adType:(GAAdType)adType adSdkName:adSdkNameString adPlacement:adPlacementString customFields:fields_dict mergeFields:mergeFields];
+}
+
+void GameAnalyticsCpp::addAdEventWithDuration(int adAction, int adType, const char *adSdkName, const char *adPlacement, int duration, const char *fields, bool mergeFields)
+{
+    NSString *adSdkNameString = !isStringNullOrEmpty(adSdkName) ? [NSString stringWithUTF8String:adSdkName] : nil;
+    NSString *adPlacementString = !isStringNullOrEmpty(adPlacement) ? [NSString stringWithUTF8String:adPlacement] : nil;
+    NSInteger durationInteger = (NSInteger)duration;
+    NSString *fieldsString = fields != NULL ? [NSString stringWithUTF8String:fields] : nil;
+    NSDictionary *fields_dict = nil;
+    if (fieldsString) {
+        fields_dict = [NSJSONSerialization JSONObjectWithData:[fieldsString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    }
+
+    [GameAnalytics addAdEventWithAction:(GAAdAction)adAction adType:(GAAdType)adType adSdkName:adSdkNameString adPlacement:adPlacementString duration:durationInteger customFields :fields_dict mergeFields:mergeFields];
+}
+
+void GameAnalyticsCpp::addAdEventWithNoAdReason(int adAction, int adType, const char *adSdkName, const char *adPlacement, int noAdReason, const char *fields, bool mergeFields)
+{
+    NSString *adSdkNameString = !isStringNullOrEmpty(adSdkName) ? [NSString stringWithUTF8String:adSdkName] : nil;
+    NSString *adPlacementString = !isStringNullOrEmpty(adPlacement) ? [NSString stringWithUTF8String:adPlacement] : nil;
+    NSString *fieldsString = fields != NULL ? [NSString stringWithUTF8String:fields] : nil;
+    NSDictionary *fields_dict = nil;
+    if (fieldsString) {
+        fields_dict = [NSJSONSerialization JSONObjectWithData:[fieldsString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    }
+
+    [GameAnalytics addAdEventWithAction:(GAAdAction)adAction adType:(GAAdType)adType adSdkName:adSdkNameString adPlacement:adPlacementString noAdReason:(GAAdError)noAdReason customFields:fields_dict mergeFields:mergeFields];
+}
+
 void GameAnalyticsCpp::setEnabledInfoLog(bool flag) {
     [GameAnalytics setEnabledInfoLog:flag];
 }

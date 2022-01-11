@@ -6,6 +6,9 @@ import android.util.Log;
 import com.gameanalytics.sdk.GAErrorSeverity;
 import com.gameanalytics.sdk.GAProgressionStatus;
 import com.gameanalytics.sdk.GAResourceFlowType;
+import com.gameanalytics.sdk.GAAdAction;
+import com.gameanalytics.sdk.GAAdType;
+import com.gameanalytics.sdk.GAAdError;
 import com.gameanalytics.sdk.GameAnalytics;
 
 import org.godotengine.godot.Dictionary;
@@ -19,7 +22,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends GodotPlugin
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.2.3";
+    private static final String VERSION = "godot 2.3.0";
 
     public GodotGameAnalytics(Godot godot)
     {
@@ -52,6 +55,7 @@ public class GodotGameAnalytics extends GodotPlugin
         methods.add("addProgressionEvent");
         methods.add("addDesignEvent");
         methods.add("addErrorEvent");
+        methods.add("addAdEvent");
         methods.add("setEnabledInfoLog");
         methods.add("setEnabledVerboseLog");
         methods.add("setEnabledManualSessionHandling");
@@ -533,6 +537,131 @@ public class GodotGameAnalytics extends GodotPlugin
         }
 
         GameAnalytics.addErrorEvent(severity.ordinal(), message, fields, mergeFields);
+    }
+
+    public void addAdEvent(Dictionary options) {
+        GAAdAction adAction = GAAdAction.Undefined;
+        GAAdType adType = GAAdType.Undefined;
+        GAAdError noAdReason = GAAdError.Undefined;
+        String adSdkName = "";
+        String adPlacement = "";
+        boolean sendDuration = false;
+        Long duration = null;
+        String fields = "";
+        boolean mergeFields = false;
+
+        if (options != null) {
+            Set<String> keys = options.keySet();
+            for (String key : keys) {
+                if (key.equals("adAction")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        if (value.equals("Clicked")) {
+                            adAction = GAAdAction.Clicked;
+                        }
+                        else if (value.equals("Show")) {
+                            adAction = GAAdAction.Show;
+                        }
+                        else if (value.equals("FailedShow")) {
+                            adAction = GAAdAction.FailedShow;
+                        }
+                        else if (value.equals("RewardReceived")) {
+                            adAction = GAAdAction.RewardReceived;
+                        }
+                    }
+                }
+                else if (key.equals("adType")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        if (value.equals("Video")) {
+                            adType = GAAdType.Video;
+                        }
+                        else if (value.equals("RewardedVideo")) {
+                            adType = GAAdType.RewardedVideo;
+                        }
+                        else if (value.equals("Playable")) {
+                            adType = GAAdType.Playable;
+                        }
+                        else if (value.equals("Interstitial")) {
+                            adType = GAAdType.Interstitial;
+                        }
+                        else if (value.equals("OfferWall")) {
+                            adType = GAAdType.OfferWall;
+                        }
+                        else if (value.equals("Banner")) {
+                            adType = GAAdType.Banner;
+                        }
+                    }
+                }
+                else if (key.equals("adSdkName")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        adSdkName = value + "";
+                    }
+                }
+                else if (key.equals("adPlacement")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        adPlacement = value + "";
+                    }
+                }
+                else if (key.equals("duration")) {
+                    Object v = options.get(key);
+                    if (v instanceof Number) {
+                        Number n = (Number) v;
+                        duration = n.longValue();
+                        sendDuration = true;
+                    } else {
+                        Log.d("GameAnalytics", "'" + key + "' value has the wrong type: " + v.getClass());
+                    }
+                }
+                else if (key.equals("noAdReason")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        if (value.equals("Unknown")) {
+                            noAdReason = GAAdError.Unknown;
+                        }
+                        else if (value.equals("Offline")) {
+                            noAdReason = GAAdError.Offline;
+                        }
+                        else if (value.equals("NoFill")) {
+                            noAdReason = GAAdError.NoFill;
+                        }
+                        else if (value.equals("InternalError")) {
+                            noAdReason = GAAdError.InternalError;
+                        }
+                        else if (value.equals("InvalidRequest")) {
+                            noAdReason = GAAdError.InvalidRequest;
+                        }
+                        else if (value.equals("UnableToPrecache")) {
+                            noAdReason = GAAdError.UnableToPrecache;
+                        }
+                    }
+                }
+                else if (key.equals("customFields")) {
+                    Object value = options.get(key);
+                    if (value != null) {
+                        fields = value + "";
+                    }
+                }
+                else if (key.equals("mergeFields")) {
+                    Object value = options.get(key);
+                    if (value instanceof Boolean) {
+                        Boolean b = (Boolean) value;
+                        mergeFields = b.booleanValue();
+                    }
+                }
+            }
+        }
+
+        if(sendDuration)
+        {
+            GameAnalytics.addAdEvent(adAction.ordinal(), adType.ordinal(), adSdkName, adPlacement, duration, fields, mergeFields);
+        }
+        else
+        {
+            GameAnalytics.addAdEvent(adAction.ordinal(), adType.ordinal(), adSdkName, adPlacement,noAdReason.ordinal(), fields, mergeFields);
+        }
     }
 
     public void setEnabledInfoLog(boolean flag)
