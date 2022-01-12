@@ -5,7 +5,7 @@ def can_build(env, platform):
 def configure(env):
     if (env["platform"] == "android"):
         env.android_add_maven_repository("url 'https://maven.gameanalytics.com/release'")
-        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:6.2.5'")
+        env.android_add_dependency("implementation 'com.gameanalytics.sdk:gameanalytics-android:6.2.6'")
         env.android_add_dependency(
             "implementation 'com.google.android.gms:play-services-appset:16.0.1'")
         env.android_add_java_dir("android/src/")
