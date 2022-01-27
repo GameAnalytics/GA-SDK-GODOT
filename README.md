@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.3.2**
+* fixed progression tries bug fordesktop platforms
+
 **2.3.1**
 * changed tagret sdk to 30 instead of 31 for android
 
