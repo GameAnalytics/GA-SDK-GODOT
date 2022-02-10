@@ -15,7 +15,7 @@ import java.util.Set;
 public class GodotGameAnalytics extends Godot.SingletonBase
 {
     private Activity activity = null;
-    private static final String VERSION = "godot 2.3.2";
+    private static final String VERSION = "godot 2.3.3";
 
     static public Godot.SingletonBase initialize(Activity activity)
     {

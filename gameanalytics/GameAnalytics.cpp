@@ -3,7 +3,10 @@
 
 #if __EMSCRIPTEN__
 #define WEB_PLATFORM
-#include "api/javascript_eval.h"
+// Uncomment to use with Godot 3.3 or lower
+// #include "api/javascript_eval.h"
+// Godot 3.4+
+#include "api/javascript_singleton.h"
 #elif defined(__APPLE__)
 #include <TargetConditionals.h>
 #if TARGET_OS_IPHONE
@@ -21,7 +24,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 2.3.2"
+#define VERSION "godot 2.3.3"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -471,7 +474,8 @@ void GameAnalytics::addBusinessEvent(const Dictionary &options)
         GameAnalyticsCpp::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), receipt.utf8().get_data(), fields.utf8().get_data(), mergeFields);
     }
 #elif defined(WEB_PLATFORM)
-    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s', JSON.parse('%s'), %s)", currency, amount, itemType, itemId, cartType, fields, mergeFields ? "true" : "false"));
+    String lastPart = vformat("'%s', JSON.parse('%s'), %s", cartType, fields, mergeFields ? "true" : "false");
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', %s)", currency, amount, itemType, itemId, lastPart));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::addBusinessEvent(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), fields.utf8().get_data(), mergeFields);
 #endif
@@ -560,7 +564,8 @@ void GameAnalytics::addResourceEvent(const Dictionary &options)
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), fields.utf8().get_data(), mergeFields);
 #elif defined(WEB_PLATFORM)
-    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s', JSON.parse('%s'), %s)", flowType, currency, amount, itemType, itemId, fields, mergeFields ? "true" : "false"));
+    String lastPart = vformat("'%s', JSON.parse('%s'), %s", itemId, fields, mergeFields ? "true" : "false");
+    JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', %s)", flowType, currency, amount, itemType, lastPart));
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     ::addResourceEvent(flowType, currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), fields.utf8().get_data(), mergeFields);
 #endif
@@ -664,11 +669,13 @@ void GameAnalytics::addProgressionEvent(const Dictionary &options)
 #elif defined(WEB_PLATFORM)
     if (sendScore)
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %d, JSON.parse('%s'), %s)", progressionStatus, progression01, progression02, progression03, score, fields, mergeFields ? "true" : "false"));
+        String lastPart = vformat("%d, JSON.parse('%s'), %s", score, fields, mergeFields ? "true" : "false");
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s)", progressionStatus, progression01, progression02, progression03, lastPart));
     }
     else
     {
-        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', JSON.parse('%s'), %s)", progressionStatus, progression01, progression02, progression03, fields, mergeFields ? "true" : "false"));
+        String lastPart = vformat("JSON.parse('%s'), %s", fields, mergeFields ? "true" : "false");
+        JavaScript::get_singleton()->eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s)", progressionStatus, progression01, progression02, progression03, lastPart));
     }
 #elif defined(OSX_PLATFORM) || defined(WINDOWS_PLATFORM) || defined(LINUX_PLATFORM)
     if(sendScore)
