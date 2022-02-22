@@ -17,6 +17,9 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.3.5**
+* small fix for android dependencies for nativelib
+
 **2.3.4**
 * fixed bug in internal error reporting
 
