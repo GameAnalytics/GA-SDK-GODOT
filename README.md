@@ -12,11 +12,14 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 > The Godot SDK include support for **iOS**, **Android**, **Web**, **Windows**, **Mac** and **Linux** platforms
 >
 > Requirements:
-> * **Godot:** 3.1+  &nbsp;
+> * **Godot:** 4.0+  &nbsp;
 
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**2.4.0**
+* support for godot 4.0+
+
 **2.3.5**
 * small fix for android dependencies for nativelib
 

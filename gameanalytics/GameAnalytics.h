@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/reference.h"
-#include "core/variant.h"
+#include "core/object/ref_counted.h"
+#include "core/variant/variant.h"
 
 class GameAnalytics : public Object
 {
@@ -16,12 +16,12 @@ public:
     GameAnalytics();
     ~GameAnalytics();
 
-    void configureAvailableCustomDimensions01(const PoolStringArray &customDimensions);
-    void configureAvailableCustomDimensions02(const PoolStringArray &customDimensions);
-    void configureAvailableCustomDimensions03(const PoolStringArray &customDimensions);
+    void configureAvailableCustomDimensions01(const PackedStringArray &customDimensions);
+    void configureAvailableCustomDimensions02(const PackedStringArray &customDimensions);
+    void configureAvailableCustomDimensions03(const PackedStringArray &customDimensions);
 
-    void configureAvailableResourceCurrencies(const PoolStringArray &resourceCurrencies);
-    void configureAvailableResourceItemTypes(const PoolStringArray &resourceItemTypes);
+    void configureAvailableResourceCurrencies(const PackedStringArray &resourceCurrencies);
+    void configureAvailableResourceItemTypes(const PackedStringArray &resourceItemTypes);
 
     void configureBuild(const String &build);
     void configureAutoDetectAppVersion(bool flag);

@@ -1,10 +1,10 @@
 extends Node
-
-var GameAnalytics
+var ga
 const GAME_KEYS = {
 	"Android": "c6cfc80ff69d1e7316bf1e0c8194eda6",
-	"iOS"    : "c6cfc80ff69d1e7316bf1e0c8194eda6",
+	"iOS"    : "c6cfc 80ff69d1e7316bf1e0c8194eda6",
 	"OSX"    : "c6cfc80ff69d1e7316bf1e0c8194eda6",
+	"macOS"  : "c6cfc80ff69d1e7316bf1e0c8194eda6",
 	"Windows": "c6cfc80ff69d1e7316bf1e0c8194eda6",
 	"X11"    : "c6cfc80ff69d1e7316bf1e0c8194eda6",
 	"HTML5"  : "c6cfc80ff69d1e7316bf1e0c8194eda6"
@@ -13,7 +13,7 @@ const GAME_KEYS = {
 const SECRET_KEYS = {
 	"Android": "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"iOS"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
-	"OSX"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
+	"macOS"  : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"Windows": "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"X11"    : "e0ae4809f70e2fa96916c7060f417ae53895f18d",
 	"HTML5"  : "e0ae4809f70e2fa96916c7060f417ae53895f18d"
@@ -22,28 +22,28 @@ const SECRET_KEYS = {
 var platform_os = OS.get_name()
 
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		GameAnalytics.onQuit()
+	if what == NOTIFICATION_WM_CLOSE_REQUEST :
+		ga.onQuit()
 
 func _ready():
 	if(Engine.has_singleton("GameAnalytics")):
-		GameAnalytics = Engine.get_singleton("GameAnalytics")
+		ga = Engine.get_singleton("GameAnalytics")
 
-		GameAnalytics.setEnabledInfoLog(true)
-		GameAnalytics.setEnabledVerboseLog(true)
+		ga.setEnabledInfoLog(true)
+		ga.setEnabledVerboseLog(true)
 
-		GameAnalytics.configureAvailableCustomDimensions01(["ninja", "samurai"])
-		GameAnalytics.configureAvailableCustomDimensions02(["whale", "dolphin"])
-		GameAnalytics.configureAvailableCustomDimensions03(["horde", "alliance"])
-		GameAnalytics.configureAvailableResourceCurrencies(["gold", "gems"])
-		GameAnalytics.configureAvailableResourceItemTypes(["boost", "lives"])
+		ga.configureAvailableCustomDimensions01(["ninja", "samurai"])
+		ga.configureAvailableCustomDimensions02(["whale", "dolphin"])
+		ga.configureAvailableCustomDimensions03(["horde", "alliance"])
+		ga.configureAvailableResourceCurrencies(["gold", "gems"])
+		ga.configureAvailableResourceItemTypes(["boost", "lives"])
 
-		GameAnalytics.configureBuild("0.1.0")
-		GameAnalytics.configureAutoDetectAppVersion(true)
-		GameAnalytics.configureUserId("my_custom_id")
+		ga.configureBuild("0.1.0")
+		ga.configureAutoDetectAppVersion(true)
+		ga.configureUserId("my_custom_id")
 
-		GameAnalytics.init(GAME_KEYS[platform_os], SECRET_KEYS[platform_os])
-	get_node("Button").connect("pressed", self, "_on_Button_pressed")
+		ga.init(GAME_KEYS[platform_os], SECRET_KEYS[platform_os])
+	get_node("Button").connect("pressed", Callable(self, "_on_Button_pressed"))
 
 
 func _on_Button_pressed():

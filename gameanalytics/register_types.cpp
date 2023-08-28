@@ -1,18 +1,18 @@
 #include "register_types.h"
-#include "core/class_db.h"
-#include "core/engine.h"
+#include "core/object/class_db.h"
+#include "core/config/engine.h"
 #include "GameAnalytics.h"
 
 static GameAnalytics* GAPtr = NULL;
 
-void register_gameanalytics_types()
+void initialize_gameanalytics_module(ModuleInitializationLevel p_level)
 {
     ClassDB::register_class<GameAnalytics>();
     GAPtr = memnew(GameAnalytics);
     Engine::get_singleton()->add_singleton(Engine::Singleton("GameAnalytics", GameAnalytics::get_singleton()));
 }
 
-void unregister_gameanalytics_types()
+void uninitialize_gameanalytics_module(ModuleInitializationLevel p_level)
 {
     memdelete(GAPtr);
 }

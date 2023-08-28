@@ -11,5 +11,5 @@ if env['platform'] == 'iphone':
     sources.append("ios/src/GameAnalyticsCpp.mm")
     module_env.add_source_files(env.modules_sources, sources)
 
-if env["platform"] == "windows" or env["platform"] == "osx" or env["platform"] == "x11" or env["platform"] == "javascript":
+if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"] == "osx" or env["platform"] == "x11" or env["platform"] == "javascript":
     module_env.add_source_files(env.modules_sources, sources)

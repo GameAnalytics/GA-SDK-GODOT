@@ -1,5 +1,5 @@
 #include "GameAnalytics.h"
-#include "core/engine.h"
+#include "core/config/engine.h"
 
 #if __EMSCRIPTEN__
 #define WEB_PLATFORM
@@ -24,7 +24,7 @@
 #include "cpp/src/GameAnalyticsExtern.h"
 #endif
 
-#define VERSION "godot 2.3.5"
+#define VERSION "godot 2.4.0"
 
 GameAnalytics *GameAnalytics::instance = NULL;
 
@@ -47,7 +47,7 @@ GameAnalytics::~GameAnalytics()
    }
 }
 
-void GameAnalytics::configureAvailableCustomDimensions01(const PoolStringArray &customDimensions)
+void GameAnalytics::configureAvailableCustomDimensions01(const PackedStringArray &customDimensions)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions01(customDimensions);
@@ -97,7 +97,7 @@ void GameAnalytics::configureAvailableCustomDimensions01(const PoolStringArray &
 #endif
 }
 
-void GameAnalytics::configureAvailableCustomDimensions02(const PoolStringArray &customDimensions)
+void GameAnalytics::configureAvailableCustomDimensions02(const PackedStringArray &customDimensions)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions02(customDimensions);
@@ -147,7 +147,7 @@ void GameAnalytics::configureAvailableCustomDimensions02(const PoolStringArray &
 #endif
 }
 
-void GameAnalytics::configureAvailableCustomDimensions03(const PoolStringArray &customDimensions)
+void GameAnalytics::configureAvailableCustomDimensions03(const PackedStringArray &customDimensions)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableCustomDimensions03(customDimensions);
@@ -197,7 +197,7 @@ void GameAnalytics::configureAvailableCustomDimensions03(const PoolStringArray &
 #endif
 }
 
-void GameAnalytics::configureAvailableResourceCurrencies(const PoolStringArray &resourceCurrencies)
+void GameAnalytics::configureAvailableResourceCurrencies(const PackedStringArray &resourceCurrencies)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableResourceCurrencies(resourceCurrencies);
@@ -247,7 +247,7 @@ void GameAnalytics::configureAvailableResourceCurrencies(const PoolStringArray &
 #endif
 }
 
-void GameAnalytics::configureAvailableResourceItemTypes(const PoolStringArray &resourceItemTypes)
+void GameAnalytics::configureAvailableResourceItemTypes(const PackedStringArray &resourceItemTypes)
 {
 #if defined(IOS_PLATFORM)
     GameAnalyticsCpp::configureAvailableResourceItemTypes(resourceItemTypes);
@@ -523,7 +523,7 @@ void GameAnalytics::addResourceEvent(const Dictionary &options)
         else if(key == "amount")
         {
             const Variant* v = options.getptr(key);
-            if(v != NULL && (v->get_type() == Variant::Type::INT || v->get_type() == Variant::Type::REAL))
+            if(v != NULL && (v->get_type() == Variant::Type::INT || v->get_type() == Variant::Type::FLOAT))
             {
                 amount = *v;
             }
@@ -713,7 +713,7 @@ void GameAnalytics::addDesignEvent(const Dictionary &options)
         else if(key == "value")
         {
             const Variant* v = options.getptr(key);
-            if(v != NULL && (v->get_type() == Variant::Type::INT || v->get_type() == Variant::Type::REAL))
+            if(v != NULL && (v->get_type() == Variant::Type::INT || v->get_type() == Variant::Type::FLOAT))
             {
                 value = *v;
                 sendValue = true;
