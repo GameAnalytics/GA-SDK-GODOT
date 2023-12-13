@@ -7,12 +7,16 @@ static GameAnalytics* GAPtr = NULL;
 
 void initialize_gameanalytics_module(ModuleInitializationLevel p_level)
 {
-    ClassDB::register_class<GameAnalytics>();
-    GAPtr = memnew(GameAnalytics);
-    Engine::get_singleton()->add_singleton(Engine::Singleton("GameAnalytics", GameAnalytics::get_singleton()));
+    if (p_level == MODULE_INITIALIZATION_LEVEL_CORE) {
+        ClassDB::register_class<GameAnalytics>();
+        GAPtr = memnew(GameAnalytics);
+        Engine::get_singleton()->add_singleton(Engine::Singleton("GameAnalytics", GameAnalytics::get_singleton()));
+    }
 }
 
 void uninitialize_gameanalytics_module(ModuleInitializationLevel p_level)
 {
-    memdelete(GAPtr);
+    if (p_level == MODULE_INITIALIZATION_LEVEL_CORE) {
+        memdelete(GAPtr);
+    }
 }
