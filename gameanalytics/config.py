@@ -1,5 +1,5 @@
 def can_build(env, platform):
-    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx" or platform == "macOS" or platform == "x11" or platform == "javascript"
+    return platform == "iphone" or platform == "android" or platform == "windows" or platform == "osx" or platform == "macos" or platform == "x11" or platform == "javascript"
 
 
 def configure(env):
