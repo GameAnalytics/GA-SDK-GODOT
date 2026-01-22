@@ -12,7 +12,7 @@ config_version=5
 
 config/name="testGameAnalytics"
 run/main_scene="res://main_scene.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.5")
 config/icon="res://icon.png"
 
 [display]
@@ -20,3 +20,11 @@ config/icon="res://icon.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 window/handheld/orientation="sensor"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GameAnalyticsAndroid/plugin.cfg")
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
