@@ -17,6 +17,23 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+*3.0.0*
+* support for Godot 4.5
+migrate plugin to .gdextension
+* add Health Event functionality for Desktop (Windows, Linux, MacOS), Android and iOS platforms
+* add support for Remote Configurations v3 with json support
+* add functionality to set/retrieve external user id (getExternalUserId, setExternalUserid)
+* add missing getABTestingId, getExternalUserId, getABTestingVariantId
+* add possibility to set a custom writable path for Desktop platforms
+* add option to enable/disable randomized user id on platform that support it
+update GameAnalytics dependencies for Desktop (v5.1.0), iOS (v5.0.0) and Android (v7.0.0)
+* add mandatory arguments for addEvent functions
+* implement GAWrapper to handle different platforms (keep it in line with GameAnalytics Unreal SDK)
+* rewritten the whole Android implementation
+* remove requirement to manually call onQuit
+* update dependency management
+* various bug fixes
+
 **2.4.0**
 * support for godot 4.0+
 
