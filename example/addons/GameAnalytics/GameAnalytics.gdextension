@@ -8,8 +8,8 @@ compatibility_minimum = 4.3
 linux.debug.x86_64 = "bin/linux/libGodotGameAnalytics.so"
 linux.release.x86_64 = "bin/linux/libGodotGameAnalytics.so"
 
-windows.debug.x86_64 = "bin/win64/libGodotGameAnalytics.dll"
-windows.release.x86_64 = "bin/win64/libGodotGameAnalytics.dll"
+windows.debug.x86_64 = "bin/windows/libGodotGameAnalytics.dll"
+windows.release.x86_64 = "bin/windows/libGodotGameAnalytics.dll"
 
 macos.debug = "bin/macos/libGodotGameAnalytics.dylib"
 macos.release = "bin/macos/libGodotGameAnalytics.dylib"
