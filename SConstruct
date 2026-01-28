@@ -24,7 +24,7 @@ libpath = "src/libs"
 # iphone
 if env['platform'] == 'ios':
     sources.append("src/ios/GAWrapperIOS.mm")
-    libname = '{}/libGodotGameAnalytics.{}'.format(binpath, env["SHLIBSUFFIX"])
+    libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'ios')
     # Use the appropriate framework path based on arch
     framework_path = "src/libs/iOS/GameAnalytics.xcframework/ios-arm64"
