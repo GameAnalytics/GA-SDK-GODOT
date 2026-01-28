@@ -1,6 +1,31 @@
 #import "GameAnalytics.h"
 #import "GAWrapperIOS.h"
 
+
+// Objective-C++ wrapper for FPSTracker
+@interface GAHealthMetricsProvider : NSObject <GAHealthMetricsDelegate>
+{
+    std::function<float()> fpsTracker;
+}
+- (instancetype)initWithFPSTracker:(const std::function<float()>&)tracker;
+@end
+
+@implementation GAHealthMetricsProvider
+- (instancetype)initWithFPSTracker:(const std::function<float()>&)tracker {
+    self = [super init];
+    if (self) {
+        fpsTracker = tracker;
+    }
+    return self;
+}
+- (double)provideCurrentFPS {
+    if (fpsTracker) {
+        return (double)fpsTracker();
+    }
+    return -1.0;
+}
+@end
+
 namespace gameanalytics
 {
     NSString* ToNSString(std::string const& str)
@@ -402,7 +427,7 @@ namespace gameanalytics
 
     void GAWrapperIOS::EnableAdvertisingId(bool value)
     {
-        [GameAnalytics useRandomizedId:!value];
+        // Note: This method is deprecated and has no effect.
     }
 
     void GAWrapperIOS::EnableSDKInitEvent(bool value)
@@ -410,9 +435,40 @@ namespace gameanalytics
         [GameAnalytics enableSDKInitEvent:value];
     }
 
-    void GAWrapperIOS::EnableFpsHistogram(bool value)
+
+
+    void GAWrapperIOS::EnableFpsHistogram(FPSTracker tracker, bool value)
     {
+        if (value)
+        {
+            // Always create a new delegate with the latest tracker
+            GAHealthMetricsProvider *provider = [[GAHealthMetricsProvider alloc] initWithFPSTracker:tracker];
+            [GameAnalytics setHealthMetricsDelegate:provider];
+        }
+        else
+        {
+            [GameAnalytics setHealthMetricsDelegate:nil];
+        }
+		
         [GameAnalytics enableFpsHistogram:value];
+    }
+
+    int64_t GAWrapperIOS::GetElapsedSessionTime()
+    {
+        // Returns the elapsed time for the current session in seconds
+        return (int64_t)[GameAnalytics getElapsedSessionTime];
+    }
+
+    int64_t GAWrapperIOS::GetElapsedTimeForPreviousSession()
+    {
+        // Returns the elapsed time for the previous session in seconds
+        return (int64_t)[GameAnalytics getElapsedTimeForPreviousSession];
+    }
+
+    int64_t GAWrapperIOS::GetElapsedTimeFromAllSessions()
+    {
+        // Returns the total elapsed time from all sessions in seconds
+        return (int64_t)[GameAnalytics getElapsedTimeFromAllSessions];
     }
 
     void GAWrapperIOS::EnableMemoryHistogram(bool value)
@@ -435,8 +491,9 @@ namespace gameanalytics
         (void)path;
     }
 
-    void GAWrapperIOS::UseRandomizedId(bool value)
+    void GAWrapperIOS::UseRandomizedId(bool flag)
     {
-        [GameAnalytics useRandomizedId:value];
+        (void)flag;
     }
+
 }

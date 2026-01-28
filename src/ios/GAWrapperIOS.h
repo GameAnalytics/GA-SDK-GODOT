@@ -85,21 +85,29 @@ namespace gameanalytics
 
             virtual void EnableSDKInitEvent(bool flag) override;
 
-            virtual void EnableFpsHistogram(bool flag) override;
+            virtual void EnableFpsHistogram(FPSTracker tracker, bool flag) override;
 
             virtual void EnableMemoryHistogram(bool flag) override;
 
             virtual void EnableHealthHardwareInfo(bool flag) override;
 
-            /////
+            /////////////////////////////////////////////////////////////
+
+            virtual int64_t GetElapsedSessionTime() override;
+
+            virtual int64_t GetElapsedTimeForPreviousSession() override;
+
+            virtual int64_t GetElapsedTimeFromAllSessions() override;
+
+            ////////////////////////////////////////////////////////
 
             virtual void EnableAdvertisingId(bool value) override;
-
-            virtual void UseRandomizedId(bool value) override;
 
             virtual void OnQuit() override;
 
             virtual void SetWritablePath(std::string const& path) override;
+
+            virtual void UseRandomizedId(bool flag) override;
 
     };
 }

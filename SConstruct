@@ -22,10 +22,11 @@ libpath = "src/libs"
 ################################
 
 # iphone
-if env['platform'] == 'iphone':
+if env['platform'] == 'ios':
     sources.append("src/ios/GAWrapperIOS.mm")
     libname = '{}/libGodotGameAnalytics.{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'ios')
+    env.Append(LINKFLAGS=["-framework", "GameAnalytics"])
 
 # android
 if env['platform'] == 'android':

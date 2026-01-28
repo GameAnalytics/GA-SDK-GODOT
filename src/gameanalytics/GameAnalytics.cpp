@@ -4,6 +4,7 @@
 #if __EMSCRIPTEN__
     #define WEB_PLATFORM
 #elif defined(__APPLE__)
+    #include <TargetConditionals.h>
     #if TARGET_OS_IPHONE
         #define IOS_PLATFORM
     #else
