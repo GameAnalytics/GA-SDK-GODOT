@@ -16,6 +16,10 @@ def copy_android_aar(config : str):
     aar_path = 'android/godotgameanalytics/build/outputs/aar/godotgameanalytics-{}.aar'.format(config)
     plugin_path = os.path.join(android_path, 'godotgameanalytics.aar')
 
+    if not os.path.exists(aar_path):
+        print("Android aar not found, skipping step...")
+        return
+
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
 
