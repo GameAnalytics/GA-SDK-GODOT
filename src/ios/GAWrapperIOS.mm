@@ -1,6 +1,5 @@
-#import "GameAnalytics.h"
+#import "GameAnalytics/GameAnalytics.h"
 #import "GAWrapperIOS.h"
-
 
 // Objective-C++ wrapper for FPSTracker
 @interface GAHealthMetricsProvider : NSObject <GAHealthMetricsDelegate>

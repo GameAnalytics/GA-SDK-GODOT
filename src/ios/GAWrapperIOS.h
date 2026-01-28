@@ -108,6 +108,5 @@ namespace gameanalytics
             virtual void SetWritablePath(std::string const& path) override;
 
             virtual void UseRandomizedId(bool flag) override;
-
     };
 }
