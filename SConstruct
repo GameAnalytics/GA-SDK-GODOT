@@ -26,7 +26,9 @@ if env['platform'] == 'ios':
     sources.append("src/ios/GAWrapperIOS.mm")
     libname = '{}/libGodotGameAnalytics.{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'ios')
-    env.Append(LINKFLAGS=["-framework", "GameAnalytics"])
+    # Use the appropriate framework path based on arch
+    framework_path = "src/libs/iOS/GameAnalytics.xcframework/ios-arm64"
+    env.Append(LINKFLAGS=["-framework", "GameAnalytics", "-F", framework_path])
 
 # android
 if env['platform'] == 'android':
