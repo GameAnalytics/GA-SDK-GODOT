@@ -24,11 +24,20 @@ libpath = "src/libs"
 # iphone
 if env['platform'] == 'ios':
     sources.append("src/ios/GAWrapperIOS.mm")
-    libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'ios')
-    # Use the appropriate framework path based on arch
+    
     framework_path = "src/libs/iOS/GameAnalytics.xcframework/ios-arm64"
-    env.Append(LINKFLAGS=["-framework", "GameAnalytics", "-F", framework_path])
+    framework_headers = os.path.join(framework_path, "GameAnalytics.framework", "Headers")
+    env.Append(CCFLAGS=["-I{}".format(framework_headers)])
+    env.Append(LINKFLAGS=[
+        "-ObjC",
+        "-framework", "AdSupport",
+        "-framework", "SystemConfiguration",
+        "-framework", "AppTrackingTransparency",
+        "-framework", "GameAnalytics",
+        "-l", "sqlite3",
+        "-l", "z"
+    ])
 
 # android
 if env['platform'] == 'android':
@@ -90,9 +99,16 @@ env.Append(CPPPATH=["src/gameanalytics",
 
 env.Append(LIBPATH=[libpath, os.path.join(libpath, '3rdParty')])
 
-library = env.SharedLibrary(
-    libname,
-    source=sources,
-)
+if env['platform'] == 'ios':
+    library = env.StaticLibrary(
+        "lib/libgameanalytics.{}.{}.a".format(
+            env["platform"], env["target"]),
+        source=sources,
+    )
+else:
+    library = env.SharedLibrary(
+        libname,
+        source=sources,
+    )
 
 Default(library)
