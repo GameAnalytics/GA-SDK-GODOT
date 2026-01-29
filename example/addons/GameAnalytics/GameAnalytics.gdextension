@@ -14,5 +14,19 @@ windows.release.x86_64 = "bin/windows/libGodotGameAnalytics.dll"
 macos.debug = "bin/macos/libGodotGameAnalytics.dylib"
 macos.release = "bin/macos/libGodotGameAnalytics.dylib"
 
+ios.debug = "bin/ios/libGodotGameAnalytics.ios.template_debug.xcframework"
+ios.release = "bin/ios/libGodotGameAnalytics.ios.template_release.xcframework"
+
 android.debug.arm64 = "bin/android/libGodotGameAnalytics.so"
 android.release.arm64 = "bin/android/libGodotGameAnalytics.so"
+
+[dependencies]
+
+ios.debug = {
+    "res://addons/GameAnalytics/lib/ios/GameAnalytics.xcframework": "",
+    "res://addons/GameAnalytics/lib/ios/libgodot-cpp.ios.template_debug.xcframework": ""
+}
+ios.release = {
+    "res://addons/GameAnalytics/lib/ios/GameAnalytics.xcframework": "",
+    "res://addons/GameAnalytics/lib/ios/libgodot-cpp.ios.template_release.xcframework": ""
+}
