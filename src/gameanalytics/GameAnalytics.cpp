@@ -30,13 +30,13 @@
     #include "GAWrapperCpp.h"
     using GAWrapperImpl = gameanalytics::GAWrapperCpp;
 #elif defined(WEB_PLATFORM)
-    #include "GAWebWrapper.h"
+    #include "GAWrapperWeb.h"
     using GAWrapperImpl = gameanalytics::GAWrapperWeb;
 #else
     #error unsupported platform
 #endif
 
-inline std::string ToStdString(godot::String const& s)
+std::string ToStdString(godot::String const& s)
 {
     return std::string(s.utf8().get_data(), s.length());
 }

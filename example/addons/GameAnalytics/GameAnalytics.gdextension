@@ -16,3 +16,6 @@ macos.release = "bin/macos/libGodotGameAnalytics.dylib"
 
 android.debug.arm64 = "bin/android/libGodotGameAnalytics.so"
 android.release.arm64 = "bin/android/libGodotGameAnalytics.so"
+
+web.debug = "bin/web/libGodotGameAnalytics.wasm"
+web.release = "bin/web/libGodotGameAnalytics.wasm"

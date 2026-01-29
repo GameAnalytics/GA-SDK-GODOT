@@ -16,7 +16,6 @@ if env['target'] == 'template_release':
     target = 'release'
 
 binpath = 'bin/{}/{}'.format(env['platform'], target)
-
 libpath = "src/libs"
 
 ################################
@@ -74,10 +73,10 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
         env.Append(LIBS=["crypto"])
 
 # web
-if env["platform"] == "javascript":
-    sources.append("src/javascript/GAWrapperWeb.cpp")
+if env["platform"] == "web":
+    sources.append("src/web/GAWrapperWeb.cpp")
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
-    platform_path = os.path.join(platform_path, 'javascript')
+    platform_path = os.path.join(platform_path, 'web')
 
 #################################
 

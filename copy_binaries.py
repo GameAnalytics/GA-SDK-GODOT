@@ -23,8 +23,8 @@ def copy_android_aar(config : str):
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
 
-platforms    = ['macos', 'windows', 'linux', 'android', 'ios']
-exts         = ['dylib', 'dll', 'so', 'so', '.framework']
+platforms    = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
+exts         = ['dylib', 'dll', 'so', 'so', '.framework', 'wasm']
 
 num_libs = len(platforms)
 
@@ -38,7 +38,6 @@ for i in range(0, num_libs):
 
     src_bin = os.path.join(src, lib)
     dst_bin = os.path.join(dst, platform, binary)
-
 
     if(os.path.exists(src_bin)):
         print('copying binary:', dst_bin, 'from path', src_bin)
