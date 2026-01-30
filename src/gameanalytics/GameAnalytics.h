@@ -123,4 +123,7 @@ public:
     void enableHealthHardwareInfo(bool flag);
 
     void setWritablePath(String const& path);
+
+    int64_t getElapsedSessionTime();
+    int64_t getElapsedTimeFromAllSessions();
 };

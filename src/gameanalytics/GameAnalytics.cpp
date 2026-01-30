@@ -719,6 +719,26 @@ godot::Variant GameAnalytics::getRemoteConfigsValueAsJSON(godot::String const& k
     return Variant();
 }
 
+int64_t GameAnalytics::getElapsedSessionTime()
+{
+    if(_impl)
+    {
+        return _impl->GetElapsedSessionTime();
+    }
+
+    return 0;
+}
+
+int64_t GameAnalytics::getElapsedTimeFromAllSessions()
+{
+    if(_impl)
+    {
+        return _impl->GetElapsedTimeFromAllSessions();
+    }
+
+    return 0;
+}
+
 void GameAnalytics::_bind_methods()
 {
     using namespace godot;
@@ -779,4 +799,7 @@ void GameAnalytics::_bind_methods()
     ClassDB::bind_method(D_METHOD("getABTestingId"), &GameAnalytics::getABTestingId);
     ClassDB::bind_method(D_METHOD("getABTestingVariantId"), &GameAnalytics::getABTestingVariantId);
     ClassDB::bind_method(D_METHOD("useRandomizedId"), &GameAnalytics::useRandomizedId);
+
+    ClassDB::bind_method(D_METHOD("getElapsedSessionTime"), &GameAnalytics::getElapsedSessionTime);
+    ClassDB::bind_method(D_METHOD("getElapsedTimeFromAllSessions"), &GameAnalytics::getElapsedTimeFromAllSessions);
 }
