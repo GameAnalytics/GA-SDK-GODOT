@@ -37,7 +37,7 @@ if env['platform'] == 'android':
     env.Append(LINKFLAGS=["-llog"])
 
 # desktop
-if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"] == "osx" or env["platform"] == "x11":
+if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"] == "osx" or env["platform"] == "linux":
     sources.append("src/desktop/GAWrapperCpp.cpp")
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'desktop')
@@ -60,6 +60,9 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "eay32",
             "ssleay32"
         ])
+
+    if(env['platform'] == 'linux'):
+        env.Append(LIBS=["crypto"])
 
     if(env["platform"] == "macos"):
         env.Append(LINKFLAGS=[
