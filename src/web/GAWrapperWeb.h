@@ -13,6 +13,7 @@ namespace gameanalytics
     {
         godot::Object* _jsBridge{nullptr};
 
+        bool InitJavascript();
         godot::Variant Eval(godot::String const& code);
 
         public:

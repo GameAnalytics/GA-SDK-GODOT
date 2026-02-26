@@ -9,38 +9,58 @@ namespace gameanalytics
 {
     using namespace godot;
 
-    inline constexpr const char* BoolToStr(bool v)
+    inline godot::String BoolToStr(bool v)
     {
         return v ? "true" : "false";
     }
 
+    inline godot::String ToGodotString(std::string const& s)
+    {
+        return godot::String::utf8(s.c_str());
+    }
+
     godot::String MakeJSArray(const std::vector<std::string>& list)
     {
-        godot::String arrayString = "";
+        godot::String arrayString = "[";
+
+        godot::print_line("print array");
         if (list.size() > 0)
         {
-            arrayString += "[\"";
             for (int i = 0; i < list.size(); ++i)
             {
-                godot::String entry = list[i].c_str();
-                if (i > 0)
+                godot::String entry = ToGodotString(list[i]);
+                arrayString += vformat("\"%s\"", entry);
+
+                if(i < (list.size() - 1))
                 {
-                    arrayString += "\",\"";
+                    arrayString += ",";
                 }
-                arrayString += entry;
             }
-            arrayString += "\"]";
         }
-        else
-        {
-            arrayString = "[]";
-        }
+        
+        arrayString += "]";
+        godot::print_line("GA array: %s", arrayString);
 
         return arrayString;
     }
 
+    bool GAWrapperWeb::InitJavascript()
+    {
+        if(!_jsBridge)
+        {
+            _jsBridge = godot::Engine::get_singleton()->get_singleton("JavaScriptBridge");
+        }
+        
+        return _jsBridge;
+    }
+
     godot::Variant GAWrapperWeb::Eval(godot::String const& code)
     {
+        if(!_jsBridge)
+        {
+            InitJavascript();
+        }
+
         if(_jsBridge)
         {
             return _jsBridge->call("eval", code);
@@ -51,7 +71,6 @@ namespace gameanalytics
 
     GAWrapperWeb::GAWrapperWeb()
     {
-        _jsBridge = godot::Engine::get_singleton()->get_singleton("JavaScriptBridge");
     }
 
     void GAWrapperWeb::SetAvailableCustomDimensions01(const std::vector<std::string>& list) 
@@ -85,7 +104,7 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::SetBuild(std::string const& build) {
-        Eval(vformat("gameanalytics.GameAnalytics.configureBuild(\'%s\')", build.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.configureBuild('%s')", ToGodotString(build)));
     }
 
     void GAWrapperWeb::SetAutoDetectAppVersion(bool flag) {
@@ -93,19 +112,19 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::SetCustomUserId(std::string const& userId) {
-        Eval(vformat("gameanalytics.GameAnalytics.configureBuild(\'%s\')", userId.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.configureBuild('%s')", ToGodotString(userId)));
     }
 
     void GAWrapperWeb::SetSDKVersion(std::string const& gameEngineSdkVersion) {
-        Eval(vformat("gameanalytics.GameAnalytics.configureSdkGameEngineVersion(\'%s\')", gameEngineSdkVersion.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.configureSdkGameEngineVersion('%s')", ToGodotString(gameEngineSdkVersion)));
     }
 
     void GAWrapperWeb::SetGameEngineVersion(std::string const& gameEngineVersion) {
-       Eval(vformat("gameanalytics.GameAnalytics.configureGameEngineVersion(\'%s\')", gameEngineVersion.c_str()));
+       Eval(vformat("gameanalytics.GameAnalytics.configureGameEngineVersion('%s')", ToGodotString(gameEngineVersion)));
     }
 
     void GAWrapperWeb::Initialize(std::string const& gameKey, std::string const& gameSecret) {
-        Eval(vformat("gameanalytics.GameAnalytics.initialize(\'%s\', \'%s\')", gameKey.c_str(), gameSecret.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.initialize('%s', '%s')", ToGodotString(gameKey), ToGodotString(gameSecret)));
     }
 
     void GAWrapperWeb::AddBusinessEvent(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& fields, bool mergeFields) 
@@ -181,15 +200,15 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::SetCustomDimension01(std::string const& customDimension) {
-        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension01('%s')", customDimension.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension01('%s')", ToGodotString(customDimension)));
     }
 
     void GAWrapperWeb::SetCustomDimension02(std::string const& customDimension) {
-        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension02('%s')", customDimension.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension02('%s')", ToGodotString(customDimension)));
     }
 
     void GAWrapperWeb::SetCustomDimension03(std::string const& customDimension) {
-        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension03('%s')", customDimension.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.setCustomDimension03('%s')", ToGodotString(customDimension)));
     }
 
     void GAWrapperWeb::StartSession() {
@@ -201,7 +220,7 @@ namespace gameanalytics
     }
 
     std::string GAWrapperWeb::GetRemoteConfigsValueAsString(std::string const& key, std::string const& defaultValue) {
-        godot::String s = Eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '%s')", key.c_str(), defaultValue.c_str()));
+        godot::String s = Eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '%s')", ToGodotString(key), ToGodotString(defaultValue)));
         return ToStdString(s);
     }
 
@@ -273,7 +292,7 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::SetGlobalCustomEventFields(const std::string &customFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.setGlobalCustomEventFields(JSON.parse('%s'))", !customFields.empty() ? customFields.c_str() : "{}"));
+        Eval(vformat("gameanalytics.GameAnalytics.setGlobalCustomEventFields(JSON.parse('%s'))", !customFields.empty() ? ToGodotString(customFields) : "{}"));
     }
 
     int64_t GAWrapperWeb::GetElapsedSessionTime() {
