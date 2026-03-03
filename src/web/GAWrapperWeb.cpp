@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include <iostream>
+
 extern std::string ToStdString(godot::String const& s);
 
 namespace gameanalytics
@@ -16,22 +18,22 @@ namespace gameanalytics
 
     inline godot::String ToGodotString(std::string const& s)
     {
-        return godot::String::utf8(s.c_str());
+        return godot::String::utf8(s.c_str(), s.size());
     }
 
     godot::String MakeJSArray(const std::vector<std::string>& list)
     {
         godot::String arrayString = "[";
 
-        godot::print_line("print array");
         if (list.size() > 0)
         {
+            const size_t last = list.size() - 1;
             for (int i = 0; i < list.size(); ++i)
             {
                 godot::String entry = ToGodotString(list[i]);
-                arrayString += vformat("\"%s\"", entry);
+                arrayString += '\"' + entry + '\"';
 
-                if(i < (list.size() - 1))
+                if(i < last)
                 {
                     arrayString += ",";
                 }
@@ -39,8 +41,6 @@ namespace gameanalytics
         }
         
         arrayString += "]";
-        godot::print_line("GA array: %s", arrayString);
-
         return arrayString;
     }
 
@@ -75,32 +75,32 @@ namespace gameanalytics
 
     void GAWrapperWeb::SetAvailableCustomDimensions01(const std::vector<std::string>& list) 
     {
-        godot::String arrayString = MakeJSArray(list);
-        Eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions01(JSON.parse('" + arrayString + "'))");
+        String arrayString = MakeJSArray(list);
+        Eval(vformat("gameanalytics.GameAnalytics.configureAvailableCustomDimensions01(%s)", arrayString));
     }
 
     void GAWrapperWeb::SetAvailableCustomDimensions02(const std::vector<std::string>& list) 
     {
         String arrayString = MakeJSArray(list);
-        Eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions02(JSON.parse('" + arrayString + "'))");
+        Eval(vformat("gameanalytics.GameAnalytics.configureAvailableCustomDimensions02(%s)", arrayString));
     }
 
     void GAWrapperWeb::SetAvailableCustomDimensions03(const std::vector<std::string>& list) 
     {
         String arrayString = MakeJSArray(list);
-        Eval("gameanalytics.GameAnalytics.configureAvailableCustomDimensions03(JSON.parse('" + arrayString + "'))");
+        Eval(vformat("gameanalytics.GameAnalytics.configureAvailableCustomDimensions03(%s)", arrayString));
     }
 
     void GAWrapperWeb::SetAvailableResourceCurrencies(const std::vector<std::string>& list) 
     {
         String arrayString = MakeJSArray(list);
-        Eval("gameanalytics.GameAnalytics.configureAvailableResourceCurrencies(JSON.parse('" + arrayString + "'))");
+        Eval(vformat("gameanalytics.GameAnalytics.configureAvailableResourceCurrencies(%s)", arrayString));
     }
 
     void GAWrapperWeb::SetAvailableResourceItemTypes(const std::vector<std::string>& list) 
     {
         String arrayString = MakeJSArray(list);
-        Eval("gameanalytics.GameAnalytics.configureAvailableResourceItemTypes(JSON.parse('" + arrayString + "'))");
+        Eval(vformat("gameanalytics.GameAnalytics.configureAvailableResourceItemTypes(%s)", arrayString));
     }
 
     void GAWrapperWeb::SetBuild(std::string const& build) {
@@ -146,15 +146,15 @@ namespace gameanalytics
 
     void GAWrapperWeb::AddResourceEvent(::EGAResourceFlowType flowType, std::string const& currency, float amount, std::string const& itemType, std::string const& itemId, std::string const& fields, bool mergeFields) 
     {    
-        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', %s)", (int)flowType, currency.c_str(), amount, itemType.c_str(), fields.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s')", (int)flowType, currency.c_str(), amount, itemType.c_str(), fields.c_str()));
     }
 
     void GAWrapperWeb::AddProgressionEvent(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s, %d, \'%s\', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), 0, fields.c_str(), mergeFields));
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s', %d, '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), 0, fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddProgressionEventWithScore(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, int score, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s, \'%s\', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s', '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddDesignEvent(std::string const& eventId, std::string const& fields, bool mergeFields) {
