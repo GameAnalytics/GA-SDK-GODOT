@@ -1,14 +1,21 @@
 import os
 import shutil
 
+import argparse
+
 src = './bin'
 dst = './example/addons/GameAnalytics/bin'
 
 src_js = './src/web/GameAnalytics.js'
 dst_js = './example/addons/GameAnalytics/js'
 
-config = 'debug'
 libname = 'libGodotGameAnalytics'
+
+parser = argparse.ArgumentParser()
+parser.add_argument("config", choices=["debug", "release"])
+args = parser.parse_args()
+
+config = args.config
 
 android_path = 'example/addons/GameAnalytics/bin/android'
 
@@ -27,7 +34,7 @@ def copy_android_aar(config : str):
     shutil.copyfile(aar_path, plugin_path)
 
 platforms = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
-exts      = ['dylib', 'dll', 'so', 'so', '.framework', 'wasm']
+exts      = ['dylib', 'dll', 'so', 'so', 'framework', 'wasm']
 
 num_libs = len(platforms)
 
@@ -46,5 +53,3 @@ for i in range(0, num_libs):
         print('copying binary:', dst_bin, 'from path', src_bin)
         os.makedirs(os.path.dirname(dst_bin), exist_ok=True)
         shutil.copy(src_bin, dst_bin)
-
-    i
