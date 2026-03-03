@@ -63,7 +63,7 @@ namespace gameanalytics
 
         if(_jsBridge)
         {
-            return _jsBridge->call("eval", code);
+            return _jsBridge->call("eval", code, true);
         }
 
         return {};
@@ -112,7 +112,7 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::SetCustomUserId(std::string const& userId) {
-        Eval(vformat("gameanalytics.GameAnalytics.configureBuild('%s')", ToGodotString(userId)));
+        Eval(vformat("gameanalytics.GameAnalytics.configureUserId('%s')", ToGodotString(userId)));
     }
 
     void GAWrapperWeb::SetSDKVersion(std::string const& gameEngineSdkVersion) {
