@@ -150,11 +150,11 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::AddProgressionEvent(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s', %d, '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), 0, fields.c_str(), BoolToStr(mergeFields)));
+        return AddProgressionEventWithScore(progressionStatus, progression01, progression02, progression03, 0, fields, mergeFields);
     }
 
     void GAWrapperWeb::AddProgressionEventWithScore(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, int score, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s', '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s')", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str()));
     }
 
     void GAWrapperWeb::AddDesignEvent(std::string const& eventId, std::string const& fields, bool mergeFields) {
