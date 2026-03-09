@@ -20,6 +20,9 @@ ios.release = "bin/ios/libGodotGameAnalytics.ios.template_release.xcframework"
 android.debug.arm64 = "bin/android/libGodotGameAnalytics.so"
 android.release.arm64 = "bin/android/libGodotGameAnalytics.so"
 
+web.debug = "bin/web/libGodotGameAnalytics.wasm"
+web.release = "bin/web/libGodotGameAnalytics.wasm"
+
 [dependencies]
 
 ios.debug = {
@@ -30,5 +33,3 @@ ios.release = {
     "res://addons/GameAnalytics/lib/ios/GameAnalytics.xcframework": "",
     "res://addons/GameAnalytics/lib/ios/libgodot-cpp.ios.template_release.xcframework": ""
 }
-web.debug = "bin/web/libGodotGameAnalytics.wasm"
-web.release = "bin/web/libGodotGameAnalytics.wasm"
