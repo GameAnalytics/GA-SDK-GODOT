@@ -26,14 +26,8 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 
 Run the following command in the trunk of the cloned repository with the desired platform:
 
-```
-scons platform=[insert platform here] target=[target_debug or target_release]
-```
-
-After succesfully building the plugin, the binaries can be found inside the `bin` folder. In order to update the sample project located in `example`. Run the following script to copy all binaries into the plugin folder:
-
-```
-python copy_binaries.py [debug or release]
+```sh
+python ./build.py [platform] [debug or release]
 ```
 
 Afterwards, you can open the `example/project.godot` project. The resulting `.gdextension` can be found in `example/addons/GameAnalytics`.
