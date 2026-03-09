@@ -43,12 +43,14 @@ std::string ToStdString(godot::String const& s)
 
 std::vector<std::string> ToStringVector(const godot::PackedStringArray &arr)
 {
-    std::vector<std::string> v;
-    v.reserve(arr.size());
+    const size_t len = arr.size();
 
-    for(const godot::String& s : arr)
+    std::vector<std::string> v;
+    v.reserve(len);
+
+    for(size_t i = 0; i < len; ++i)
     {
-        v.push_back(ToStdString(s));
+        v.push_back(ToStdString(arr[i]));
     }
 
     return v;
@@ -82,6 +84,7 @@ GameAnalytics::~GameAnalytics()
 
 void GameAnalytics::configureAvailableCustomDimensions01(const PackedStringArray &customDimensions)
 {
+    godot::UtilityFunctions::print("Set custom dimension 1");
     if(_impl)
     {
         return _impl->SetAvailableCustomDimensions01(ToStringVector(customDimensions));
