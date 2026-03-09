@@ -150,7 +150,7 @@ namespace gameanalytics
     }
 
     std::string GAWrapperCpp::GetRemoteConfigsValueAsJson(std::string const& key) {
-        return ""; //return GameAnalytics::getRemoteConfigsValueAsJson(key);
+        return GameAnalytics::getRemoteConfigsValueAsJson(key);
     }
 
     bool GAWrapperCpp::IsRemoteConfigsReady() {
