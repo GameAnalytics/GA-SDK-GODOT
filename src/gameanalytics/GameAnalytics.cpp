@@ -84,7 +84,6 @@ GameAnalytics::~GameAnalytics()
 
 void GameAnalytics::configureAvailableCustomDimensions01(const PackedStringArray &customDimensions)
 {
-    godot::UtilityFunctions::print("Set custom dimension 1");
     if(_impl)
     {
         return _impl->SetAvailableCustomDimensions01(ToStringVector(customDimensions));
