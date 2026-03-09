@@ -166,7 +166,7 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::AddErrorEvent(::EGAErrorSeverity severity, std::string const& message, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', '%s', %s", (int)severity, message.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', '%s', %s)", (int)severity, message.c_str(), fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddAdEvent(::EGAAdAction action, ::EGAAdType adType, std::string const& adSdkName, std::string const& adPlacement, std::string const& fields, bool mergeFields) {
