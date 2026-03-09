@@ -11,16 +11,10 @@ dst_js = './example/addons/GameAnalytics/js'
 
 libname = 'libGodotGameAnalytics'
 
-parser = argparse.ArgumentParser()
-parser.add_argument("config", choices=["debug", "release"])
-args = parser.parse_args()
-
-config = args.config
-
 android_path = 'example/addons/GameAnalytics/bin/android'
 
-def get_lib_path(platform: str, ext: str):
-    return os.path.join(platform, config, '{}.{}'.format(libname, ext))
+def get_lib_path(platform: str, ext: str, cfg: str):
+    return os.path.join(platform, cfg, '{}.{}'.format(libname, ext))
 
 def copy_android_aar(config : str):
     aar_path = 'android/godotgameanalytics/build/outputs/aar/godotgameanalytics-{}.aar'.format(config)
@@ -33,23 +27,34 @@ def copy_android_aar(config : str):
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
 
-platforms = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
-exts      = ['dylib', 'dll', 'so', 'so', 'framework', 'wasm']
+def copy_binaries(config: str):
+    platforms = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
+    exts      = ['dylib', 'dll', 'so', 'so', 'framework', 'wasm']
 
-num_libs = len(platforms)
+    num_libs = len(platforms)
 
-copy_android_aar(config)
+    copy_android_aar(config)
 
-for i in range(0, num_libs):
-    platform = platforms[i]
-    ext = exts[i]
-    lib = get_lib_path(platform, ext)
-    binary = '{}.{}'.format(libname, ext)
+    for i in range(0, num_libs):
+        platform = platforms[i]
+        ext = exts[i]
+        lib = get_lib_path(platform, ext, config)
+        binary = '{}.{}'.format(libname, ext)
 
-    src_bin = os.path.join(src, lib)
-    dst_bin = os.path.join(dst, platform, binary)
+        src_bin = os.path.join(src, lib)
+        dst_bin = os.path.join(dst, platform, binary)
 
-    if(os.path.exists(src_bin)):
-        print('copying binary:', dst_bin, 'from path', src_bin)
-        os.makedirs(os.path.dirname(dst_bin), exist_ok=True)
-        shutil.copy(src_bin, dst_bin)
+        if(os.path.exists(src_bin)):
+            print('copying binary:', dst_bin, 'from path', src_bin)
+            os.makedirs(os.path.dirname(dst_bin), exist_ok=True)
+            shutil.copy(src_bin, dst_bin)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("config", choices=["debug", "release"])
+    args = parser.parse_args()
+
+    config = args.config
+
+    copy_binaries(config)
