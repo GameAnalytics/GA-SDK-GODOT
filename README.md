@@ -1,8 +1,6 @@
 # GA-SDK-GODOT
 GameAnalytics SDK for Godot.
 
-For Android, iOS and OSX you can also get the SDK via Nativelib like described [here](https://github.com/GameAnalytics/godot-gameanalytics).
-
 Documentation is located [here](https://gameanalytics.com/docs/item/godot-sdk).
 
 If you have any issues or feedback regarding the SDK, please contact our friendly support team [here](https://gameanalytics.com/contact).
@@ -24,7 +22,7 @@ If you have any issues or feedback regarding the SDK, please contact our friendl
 
 ## Compilation
 
-Run the following command in the trunk of the cloned repository with the desired platform:
+Run the following command in the trunk of the cloned repository with the desired platform and configuration:
 
 ```sh
 python ./build.py [platform] [debug or release]
@@ -40,7 +38,7 @@ Inisde `Project Settings -> Plugins` enable the `GameAnalytics` plugin.
 
 ### Windows, Linux and MacOS
 
-No additional steps are necessary, the plugin can also be used directly in the editor
+No additional steps are necessary, the plugin can also be used directly from within the editor.
 
 ### iOS
 
@@ -52,7 +50,7 @@ In the `Project` menu run `Install Android Build Template...`. Afterwards you wi
 
 ### Web
 
-In the `Export` dialog, add the following line in `HTML -> Head Include`
+In the `Export` dialog, add the following line in `HTML -> Head Include`:
 
 ```js
 <script src="GameAnalytics.js"></script>
