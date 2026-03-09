@@ -45,7 +45,7 @@ echo "==========================================================================
 echo ""
 echo "Step 1: Building godot-cpp for iOS device..."
 cd godot-cpp
-scons platform=ios target=$TARGET disable_exceptions=false $EXTRA_ARGS
+scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false $EXTRA_ARGS
 cd ..
 
 # ============================================================================
@@ -53,7 +53,7 @@ cd ..
 # ============================================================================
 echo ""
 echo "Step 2: Building GameAnalytics SDK for iOS device..."
-scons platform=ios target=$TARGET disable_exceptions=false $EXTRA_ARGS
+scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false $EXTRA_ARGS
 
 # ============================================================================
 # Step 3: Create xcframeworks
