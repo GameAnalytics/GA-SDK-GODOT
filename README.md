@@ -1,22 +1,85 @@
 # GA-SDK-GODOT
 GameAnalytics SDK for Godot.
 
-For Android, iOS and OSX you can also get the SDK via Nativelib like described [here](https://github.com/GameAnalytics/godot-gameanalytics).
-
 Documentation is located [here](https://gameanalytics.com/docs/item/godot-sdk).
 
 If you have any issues or feedback regarding the SDK, please contact our friendly support team [here](https://gameanalytics.com/contact).
 
-> :information_source:
->
-> The Godot SDK include support for **iOS**, **Android**, **Web**, **Windows**, **Mac** and **Linux** platforms
->
-> Requirements:
-> * **Godot:** 4.0+  &nbsp;
+## Supported Platforms
 
-Changelog
+- Windows
+- MacOS
+- Linux
+- Android
+- iOS
+- Web
+
+## Requirements
+
+- Godot 4.5 or newer
+- SCons
+- Python 3.6 or newer
+
+## Compilation
+
+Run the following command in the trunk of the cloned repository with the desired platform and configuration:
+
+```sh
+python ./build.py [platform] [debug or release]
+```
+
+Afterwards, you can open the `example/project.godot` project. The resulting `.gdextension` can be found in `example/addons/GameAnalytics`.
+
+## Usage
+
+After building the gdextension for your platform, you can copy the `example/addons/GameAnalytics` folder to your own project `your_project/addons/GameAnalytics`.
+
+Inisde `Project Settings -> Plugins` enable the `GameAnalytics` plugin.
+
+### Windows, Linux and MacOS
+
+No additional steps are necessary, the plugin can also be used directly from within the editor.
+
+### iOS
+
+Export the project for iOS.
+
+### Android
+
+In the `Project` menu run `Install Android Build Template...`. Afterwards you will be able to export the plugin to Android.
+
+### Web
+
+In the `Export` dialog, add the following line in `HTML -> Head Include`:
+
+```js
+<script src="GameAnalytics.js"></script>
+```
+
+<br/>
+
+## Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**3.0.0**
+* support for Godot 4.5
+* migrate plugin to .gdextension
+* add Health Event functionality for Desktop (Windows, Linux, MacOS), Android and iOS platforms
+* add support for Remote Configurations v2 with json support
+* add functionality to set/retrieve external user id (getExternalUserId, setExternalUserid)
+* add missing A/B test functions: getABTestingId, getABTestingVariantId
+* add possibility to set a custom writable path for Desktop platforms
+* add playtime tracking support
+* add option to enable/disable randomized user id on platform that support it
+* update GameAnalytics dependencies for Desktop (v5.1.0), iOS (v5.0.0) and Android (v7.0.1)
+* add mandatory arguments for addEvent functions, keep dictionary argument for optional values
+* expose all functions to gdscript
+* use GAWrapper to handle different platforms (keep it in line with GameAnalytics Unreal SDK)
+* rewritten the whole Android plugin implementation
+* remove requirement to manually call onQuit
+* update dependency management
+* various bug fixes
+
 **2.4.0**
 * support for godot 4.0+
 
