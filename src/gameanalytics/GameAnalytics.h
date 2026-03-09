@@ -5,6 +5,8 @@
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/classes/json.hpp"
 
+#include <memory>
+
 #include "GAWrapper.h"
 
 class GameAnalytics : public godot::Object
@@ -123,4 +125,7 @@ public:
     void enableHealthHardwareInfo(bool flag);
 
     void setWritablePath(String const& path);
+
+    int64_t getElapsedSessionTime();
+    int64_t getElapsedTimeFromAllSessions();
 };

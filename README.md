@@ -7,14 +7,66 @@ Documentation is located [here](https://gameanalytics.com/docs/item/godot-sdk).
 
 If you have any issues or feedback regarding the SDK, please contact our friendly support team [here](https://gameanalytics.com/contact).
 
-> :information_source:
->
-> The Godot SDK include support for **iOS**, **Android**, **Web**, **Windows**, **Mac** and **Linux** platforms
->
-> Requirements:
-> * **Godot:** 4.0+  &nbsp;
+## Supported Platforms
 
-Changelog
+- Windows
+- MacOS
+- Linux
+- Android
+- iOS
+- Web
+
+## Requirements
+
+- Godot 4.5 or newer
+- SCons
+- Python 3.6 or newer
+
+## Compilation
+
+Run the following command in the trunk of the cloned repository with the desired platform:
+
+```
+scons platform=[insert platform here] target=[target_debug or target_release]
+```
+
+After succesfully building the plugin, the binaries can be found inside the `bin` folder. In order to update the sample project located in `example`. Run the following script to copy all binaries into the plugin folder:
+
+```
+python copy_binaries.py [debug or release]
+```
+
+Afterwards, you can open the `example/project.godot` project. The resulting `.gdextension` can be found in `example/addons/GameAnalytics`.
+
+## Usage
+
+After building the gdextension for your platform, you can copy the `example/addons/GameAnalytics` folder to your own project `your_project/addons/GameAnalytics`.
+
+Inisde `Project Settings -> Plugins` enable the `GameAnalytics` plugin.
+
+### Windows, Linux and MacOS
+
+No additional steps are necessary, the plugin can also be used directly in the editor
+
+### iOS
+
+Export the project for iOS.
+
+### Android
+
+In the `Project` menu run `Install Android Build Template...`. Afterwards you will be able to export the plugin to Android.
+
+### Web
+
+In the `Export` dialog, add the following line in `HTML -> Head Include`
+
+```js
+<script src="GameAnalytics.js"></script>
+```
+
+<br/>
+
+## Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
 *3.0.0*

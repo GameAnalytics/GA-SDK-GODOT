@@ -1,13 +1,23 @@
 import os
 import shutil
 
+import argparse
+
 src = './bin'
 dst = './example/addons/GameAnalytics/bin'
 
-config = 'debug'
+src_js = './src/web/GameAnalytics.js'
+dst_js = './example/addons/GameAnalytics/js'
+
 libname = 'libGodotGameAnalytics'
 
-android_path = 'example/addons/GameAnalyticsAndroid'
+parser = argparse.ArgumentParser()
+parser.add_argument("config", choices=["debug", "release"])
+args = parser.parse_args()
+
+config = args.config
+
+android_path = 'example/addons/GameAnalytics/bin/android'
 
 def get_lib_path(platform: str, ext: str):
     return os.path.join(platform, config, '{}.{}'.format(libname, ext))
@@ -23,8 +33,8 @@ def copy_android_aar(config : str):
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
 
-platforms    = ['macos', 'windows', 'linux', 'android', 'ios']
-exts         = ['dylib', 'dll', 'so', 'so', '.framework']
+platforms = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
+exts      = ['dylib', 'dll', 'so', 'so', 'framework', 'wasm']
 
 num_libs = len(platforms)
 
@@ -38,7 +48,6 @@ for i in range(0, num_libs):
 
     src_bin = os.path.join(src, lib)
     dst_bin = os.path.join(dst, platform, binary)
-
 
     if(os.path.exists(src_bin)):
         print('copying binary:', dst_bin, 'from path', src_bin)
