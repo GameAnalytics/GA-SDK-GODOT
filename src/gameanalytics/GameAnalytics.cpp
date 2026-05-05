@@ -118,7 +118,7 @@ void GameAnalytics::configureAvailableResourceItemTypes(const PackedStringArray 
 {
     if(_impl)
     {
-        return _impl->SetAvailableResourceCurrencies(ToStringVector(types));
+        return _impl->SetAvailableResourceItemTypes(ToStringVector(types));
     }
 }
 
