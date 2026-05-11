@@ -18,7 +18,7 @@
     #define DESKTOP_PLATFORM
 #endif
 
-#define GA_VERSION "godot 3.0.0"
+#define GA_VERSION "godot 3.0.1"
 
 #ifdef IOS_PLATFORM
     #include "GAWrapperIOS.h"
