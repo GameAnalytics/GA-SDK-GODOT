@@ -61,6 +61,10 @@ In the `Export` dialog, add the following line in `HTML -> Head Include`:
 ## Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**3.0.1**
+* fix crash on Android if the plugin was not properly enabled
+* fix `configureAvailableResourceItemTypes`
+
 **3.0.0**
 * support for Godot 4.5
 * migrate plugin to .gdextension

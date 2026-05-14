@@ -73,7 +73,21 @@ namespace gameanalytics
 
         jclass GAWrapperAndroid::GetGameAnalyticsClass()
         {
-            return jniEnv->FindClass(GAMEANALYTICS_CLASS_NAME);
+            JNIEnv* env = GetJavaEnv();
+            if(!env)
+            {
+                __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "JNI environment is null. Please ensure the GameAnalytics plugin has been enabled in Project Settings");
+                return nullptr;
+            }
+
+            jclass cls = env->FindClass(GAMEANALYTICS_CLASS_NAME);
+            if (!cls)
+            {
+                env->ExceptionClear();
+                __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "Failed to retireve GameAnalytics class from java. Please ensure the GameAnalytics plugin has been enabled in Project Settings");
+
+            }
+            return cls;
         }
 
         std::string GAWrapperAndroid::ConvertJString(jstring s)
@@ -546,13 +560,21 @@ namespace gameanalytics
                 if(jMethod)
                 {
                     jobject activity = gameanalytics::gameActivity;
-                    jstring j_gameKey = env->NewStringUTF(gameKey.c_str());
-                    jstring j_gameSecret = env->NewStringUTF(gameSecret.c_str());
-                    
-                    env->CallStaticVoidMethod(jClass, jMethod, activity, j_gameKey, j_gameSecret);
-                    
-                    env->DeleteLocalRef(j_gameKey);
-                    env->DeleteLocalRef(j_gameSecret);
+
+                    if(activity)
+                    {
+                        jstring j_gameKey = env->NewStringUTF(gameKey.c_str());
+                        jstring j_gameSecret = env->NewStringUTF(gameSecret.c_str());
+                        
+                        env->CallStaticVoidMethod(jClass, jMethod, activity, j_gameKey, j_gameSecret);
+                        
+                        env->DeleteLocalRef(j_gameKey);
+                        env->DeleteLocalRef(j_gameSecret);
+                    }
+                    else
+                    {
+                        __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "GameAnalytics failed to retrieve the Android activity. Please ensure the plugin has been installed correctly!");
+                    }
                 }
                 else
                 {
