@@ -229,7 +229,9 @@ namespace gameanalytics
     }
 
     std::string GAWrapperWeb::GetRemoteConfigsValueAsJson(std::string const& key) {
-        return ""; //return GameAnalytics::getRemoteConfigsValueAsJson(key);
+        // will be parsed to json by the GA <> Godot interface
+        godot::String s = Eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '%s')", ToGodotString(key), ToGodotString(defaultValue)));
+        return ToStdString(s);
     }
 
     bool GAWrapperWeb::IsRemoteConfigsReady() {
@@ -242,32 +244,34 @@ namespace gameanalytics
     }
 
     std::string GAWrapperWeb::GetABTestingId() {
-        return "";
+        godot::String s = Eval("gameanalytics.GameAnalytics.getABTestingId()");
+        return ToStdString(s);
     }
 
     std::string GAWrapperWeb::GetABTestingVariantId() {
-        return "";
+        godot::String s = Eval("gameanalytics.GameAnalytics.getABTestingVariantId()");
+        return ToStdString(s);
     }
 
     void GAWrapperWeb::EnableAdvertisingId(bool value) {
         (void)value; // for desktop advertising ids are not collected
     }
 
-    void GAWrapperWeb::EnableSDKInitEvent(bool value) {
-        (void)value;
+    void GAWrapperWeb::EnableSDKInitEvent(bool flag) {
+        Eval(vformat("gameanalytics.GameAnalytics.enableHealthEvent(%s)", BoolToStr(flag)));
     }
 
-    void GAWrapperWeb::EnableFpsHistogram(FPSTracker tracker, bool value) {
-        (void)tracker;
-        (void)value;
+    void GAWrapperWeb::EnableFpsHistogram(FPSTracker tracker, bool flag) {
+        (void)tracker; // javascript SDK uses its own tracker
+        Eval(vformat("gameanalytics.GameAnalytics.enableHealthEvent(%s)", BoolToStr(flag)));
     }
 
-    void GAWrapperWeb::EnableMemoryHistogram(bool value) {
-        (void)value;
+    void GAWrapperWeb::EnableMemoryHistogram(bool flag) {
+        Eval(vformat("gameanalytics.GameAnalytics.enableHealthEvent(%s)", BoolToStr(flag)));
     }
 
-    void GAWrapperWeb::EnableHealthHardwareInfo(bool value) {
-        (void)value;
+    void GAWrapperWeb::EnableHealthHardwareInfo(bool flag) {
+        Eval(vformat("gameanalytics.GameAnalytics.enableHealthEvent(%s)", BoolToStr(flag)));
     }
 
     void GAWrapperWeb::OnQuit() {
@@ -277,14 +281,17 @@ namespace gameanalytics
     }
 
     std::string GAWrapperWeb::GetExternalUserId() {
-        return "";
+        godot::String s = Eval("gameanalytics.GameAnalytics.getExtUserId()");
+        return ToStdString(s);
     }
 
     void GAWrapperWeb::SetExternalUserId(const std::string &extUserId) {
+        Eval(vformat("gameanalytics.GameAnalytics.setExtUserId('%s')", ToGodotString(extUserId)));
     }
 
     std::string GAWrapperWeb::GetUserId() {
-        return "";
+        godot::String s = Eval("gameanalytics.GameAnalytics.getUserId()");
+        return ToStdString(s);
     }
 
     void GAWrapperWeb::UseRandomizedId(bool value) {
