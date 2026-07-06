@@ -86,10 +86,12 @@ def download_and_update_js_sdk(sdk_info):
     version = sdk_info["version"]
     base_url = sdk_info["url"]
 
-    # Construct the download URL for the built dist file at the release tag
+    # Construct the download URL for the built dist file at the release tag.
+    # Use the "construct" bundle, which inlines CryptoJS, since this plugin
+    # evals the file standalone rather than loading it through a module bundler.
     version_tag = f"v{version}"
     raw_base_url = base_url.replace("github.com", "raw.githubusercontent.com").rstrip("/")
-    download_url = f"{raw_base_url}/{version_tag}/dist/GameAnalytics.js"
+    download_url = f"{raw_base_url}/{version_tag}/dist/GameAnalytics.construct.js"
 
     # Download GameAnalytics.js directly into the web directory
     dest_path = os.path.join(web_dir, "GameAnalytics.js")
