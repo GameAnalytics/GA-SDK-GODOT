@@ -13,6 +13,9 @@ libname = 'libGodotGameAnalytics'
 
 android_path = 'example/addons/GameAnalytics/bin/android'
 
+addons_src = './example/addons'
+addons_dst = './addons'
+
 def get_lib_path(platform: str, ext: str, cfg: str):
     return os.path.join(platform, cfg, '{}.{}'.format(libname, ext))
 
@@ -26,6 +29,13 @@ def copy_android_aar(config : str):
 
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
+
+def copy_addons():
+    if os.path.exists(addons_dst):
+        shutil.rmtree(addons_dst)
+
+    print('copying addons from', addons_src, 'to', addons_dst)
+    shutil.copytree(addons_src, addons_dst)
 
 def copy_binaries(config: str):
     platforms = ['macos', 'windows', 'linux', 'android', 'ios', 'web']
@@ -49,6 +59,7 @@ def copy_binaries(config: str):
             os.makedirs(os.path.dirname(dst_bin), exist_ok=True)
             shutil.copy(src_bin, dst_bin)
 
+    copy_addons()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
