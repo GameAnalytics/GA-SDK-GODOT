@@ -6,9 +6,11 @@
 #pragma once
 
 #include "GameAnalytics/GATypes.h"
+#include "GameAnalytics/GAHttpClient.h"
 
 namespace gameanalytics
 {
+
     class GameAnalytics
     {
      public:
@@ -60,6 +62,14 @@ namespace gameanalytics
          static void configureUserId(std::string const& uId);
         
          static void configureExternalUserId(std::string const& extId);
+
+         // Set a custom HTTP implementation. Must be called before initialize().
+         // If not called, the default cURL implementation is used.
+         template<typename T, typename ...args_t>
+         static void configureHttpClient(args_t&&... args)
+         {
+            return setHttpClient(std::make_unique<T>(std::forward<args_t>(args)...));
+         }
 
          // initialize - starting SDK (need configuration before starting)
          static void initialize(std::string const& gameKey, std::string const& gameSecret);
@@ -131,6 +141,8 @@ namespace gameanalytics
          static bool isThreadEnding();
 
      private:
+
+        static void setHttpClient(std::unique_ptr<GAHttpClient>&& httpClient);
 
         static bool _endThread;
         static bool isSdkReady(bool needsInitialized, bool warn = true, std::string const& message = "");
