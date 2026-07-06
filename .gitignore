@@ -3,6 +3,7 @@
 *.import
 .import
 *.o
+*.os
 *.d
 *.apk
 *.bc
