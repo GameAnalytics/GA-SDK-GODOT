@@ -130,7 +130,7 @@ namespace gameanalytics
     void GAWrapperWeb::AddBusinessEvent(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& fields, bool mergeFields) 
     {
         (void)receipt;
-        Eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', %s, '%s', '%s', %s)", currency.c_str(), amount, itemType.c_str(), itemId.c_str(), cartType.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s', %s, %s)", currency.c_str(), amount, itemType.c_str(), itemId.c_str(), cartType.c_str(), fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddBusinessEventWithReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& store, std::string const& signature, std::string const& fields, bool mergeFields) 
@@ -146,7 +146,7 @@ namespace gameanalytics
 
     void GAWrapperWeb::AddResourceEvent(::EGAResourceFlowType flowType, std::string const& currency, float amount, std::string const& itemType, std::string const& itemId, std::string const& fields, bool mergeFields) 
     {    
-        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s')", (int)flowType, currency.c_str(), amount, itemType.c_str(), fields.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', %s)", (int)flowType, currency.c_str(), amount, itemType.c_str(), fields.c_str()));
     }
 
     void GAWrapperWeb::AddProgressionEvent(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, std::string const& fields, bool mergeFields) {
@@ -154,19 +154,19 @@ namespace gameanalytics
     }
 
     void GAWrapperWeb::AddProgressionEventWithScore(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, int score, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', '%s')", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str()));
     }
 
     void GAWrapperWeb::AddDesignEvent(std::string const& eventId, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', '%s', %s)", eventId.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %s, %s)", eventId.c_str(), ToGodotString(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddDesignEventWithValue(std::string const& eventId, float value, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f, '%s', %s)", eventId.c_str(), value, fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f, %s, %s)", eventId.c_str(), value, fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddErrorEvent(::EGAErrorSeverity severity, std::string const& message, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', '%s', %s)", (int)severity, message.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', %s, %s)", (int)severity, message.c_str(), fields.c_str(), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddAdEvent(::EGAAdAction action, ::EGAAdType adType, std::string const& adSdkName, std::string const& adPlacement, std::string const& fields, bool mergeFields) {
@@ -230,7 +230,7 @@ namespace gameanalytics
 
     std::string GAWrapperWeb::GetRemoteConfigsValueAsJson(std::string const& key) {
         // will be parsed to json by the GA <> Godot interface
-        godot::String s = Eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '%s')", ToGodotString(key), ToGodotString(defaultValue)));
+        godot::String s = Eval(vformat("gameanalytics.GameAnalytics.getRemoteConfigsValueAsString('%s', '')", ToGodotString(key)));
         return ToStdString(s);
     }
 
