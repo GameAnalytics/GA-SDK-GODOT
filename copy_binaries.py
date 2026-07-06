@@ -7,7 +7,7 @@ src = './bin'
 dst = './example/addons/GameAnalytics/bin'
 
 src_js = './src/web/GameAnalytics.js'
-dst_js = './example/addons/GameAnalytics/js'
+dst_js = './example/addons/GameAnalytics/web/GameAnalytics.js'
 
 libname = 'libGodotGameAnalytics'
 
@@ -29,6 +29,11 @@ def copy_android_aar(config : str):
 
     print('copying android plugin from', aar_path, 'to', plugin_path)
     shutil.copyfile(aar_path, plugin_path)
+
+def copy_js():
+    print('copying js:', dst_js, 'from path', src_js)
+    os.makedirs(os.path.dirname(dst_js), exist_ok=True)
+    shutil.copy(src_js, dst_js)
 
 def copy_addons():
     if os.path.exists(addons_dst):
@@ -59,6 +64,7 @@ def copy_binaries(config: str):
             os.makedirs(os.path.dirname(dst_bin), exist_ok=True)
             shutil.copy(src_bin, dst_bin)
 
+    copy_js()
     copy_addons()
 
 if __name__ == "__main__":
