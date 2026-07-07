@@ -22,6 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        platform: [linux, windows, macos]
+        config: ${{ fromJSON(inputs.configs) }}
         include:
           - platform: linux
             os: ubuntu-latest
@@ -29,7 +31,6 @@ jobs:
             os: windows-latest
           - platform: macos
             os: macos-latest
-        config: ${{ fromJSON(inputs.configs) }}
 
     steps:
       - name: Checkout
