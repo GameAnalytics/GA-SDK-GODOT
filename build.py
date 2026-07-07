@@ -17,9 +17,7 @@ config = args.config
 platform = args.platform
 
 def run(cmd):
-    r = subprocess.run(cmd)
-    print(r.stdout)
-    print(r.stderr)
+    subprocess.run(cmd, check=True)
 
 def clean():
     print('Deleting cached build data...')
