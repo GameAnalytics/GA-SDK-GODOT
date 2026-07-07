@@ -1,0 +1,61 @@
+name: Create Release
+run-name: Godot SDK Release ${{ inputs.tag_name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/scons-build.yml
+    with:
+      configs: '["release"]'
+      upload_artifacts: true
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags and commits
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./addon
+          pattern: godotgameanalytics-*-release
+          merge-multiple: true
+
+      - name: Zip addon
+        run: |
+          cd addon && zip -r ../GameAnalytics-Godot-${{ inputs.tag_name }}.zip .
+
+      - name: Set up Git credentials
+        run: |
+          git config user.name "ga-sdk-release[bot]"
+          git config user.email "ga-sdk-release[bot]@noreply.gameanalytics.com"
+
+      - name: Push tag ${{ inputs.tag_name }}
+        run: |
+          git tag ${{ inputs.tag_name }}
+          git push origin ${{ inputs.tag_name }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          name: Release GA-SDK-GODOT ${{ inputs.tag_name }}
+          generate_release_notes: true
+          make_latest: true
+          files: GameAnalytics-Godot-${{ inputs.tag_name }}.zip
