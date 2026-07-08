@@ -66,8 +66,8 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "secur32",
             "shell32",
             "Ole32",
-            "eay32",
-            "ssleay32"
+            #"eay32",
+            #"ssleay32"
         ])
 
     #if(env['platform'] == 'linux'):
