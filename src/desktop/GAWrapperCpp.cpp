@@ -1,6 +1,8 @@
 #include "GAWrapperCpp.h"
 #include "GameAnalytics/GameAnalytics.h"
 
+#include "GAHttpGodot.h"
+
 #include "godot_cpp/godot.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/classes/engine.hpp"
@@ -9,6 +11,9 @@ namespace gameanalytics
 {
     GAWrapperCpp::GAWrapperCpp()
     {
+        godot::print_line("GameAnalytics - Initializing http client");
+        GameAnalytics::configureHttpClient<GAHttpGodot>();
+
         godot::UtilityFunctions::print("GameAnalytics - Initializing Log");
         // redirect output to godot console
         SetGodotLogHandler();
