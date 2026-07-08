@@ -58,7 +58,12 @@ jobs:
         shell: bash
         env:
           SCONS_CACHE: ${{ github.workspace }}/.scons-cache
-        run: python build.py ${{ matrix.platform }} ${{ matrix.config }}
+        run: |
+          ARCH_FLAG=""
+          if [ "${{ matrix.platform }}" == "macos" ]; then
+            ARCH_FLAG="--arch arm64"
+          fi
+          python build.py ${{ matrix.platform }} ${{ matrix.config }} $ARCH_FLAG
 
       - name: Upload build artifact
         if: ${{ inputs.upload_artifacts }}
