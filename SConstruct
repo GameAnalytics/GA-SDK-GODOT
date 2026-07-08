@@ -51,7 +51,7 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'desktop')
 
-    env.Append(LIBS=["GameAnalytics", "curl", "ssl"])
+    #env.Append(LIBS=["GameAnalytics", "curl", "ssl"])
 
     libpath = os.path.join(libpath, env['platform'])
 
@@ -70,8 +70,8 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "ssleay32"
         ])
 
-    if(env['platform'] == 'linux'):
-        env.Append(LIBS=["crypto"])
+    #if(env['platform'] == 'linux'):
+    #    env.Append(LIBS=["crypto"])
 
     if(env["platform"] == "macos"):
         env.Append(LINKFLAGS=[
@@ -82,7 +82,7 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "-framework", "Metal",
             "-framework", "MetalKit"
             ])
-        env.Append(LIBS=["crypto"])
+        #env.Append(LIBS=["crypto"])
 
 # web
 if env["platform"] == "web":
