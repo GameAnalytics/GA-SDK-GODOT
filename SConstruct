@@ -51,7 +51,7 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'desktop')
 
-    #env.Append(LIBS=["GameAnalytics", "curl", "ssl"])
+    env.Append(LIBS=["GameAnalytics"])
 
     libpath = os.path.join(libpath, env['platform'])
 
