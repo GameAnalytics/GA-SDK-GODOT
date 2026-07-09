@@ -7,6 +7,12 @@ namespace gameanalytics
     class GAWrapperCpp:
         public GAWrapper
     {
+        public:
+
+        GAWrapperCpp();
+
+        protected:
+
         virtual void SetAvailableCustomDimensions01(std::vector<std::string> const& list) override;
         virtual void SetAvailableCustomDimensions02(std::vector<std::string> const& list) override;
         virtual void SetAvailableCustomDimensions03(std::vector<std::string> const& list) override;
@@ -107,5 +113,7 @@ namespace gameanalytics
         virtual void OnQuit() override;
 
         virtual void SetWritablePath(std::string const& path) override;
+
+        void SetGodotLogHandler();
     };
 }

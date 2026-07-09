@@ -48,10 +48,11 @@ if env['platform'] == 'android':
 # desktop
 if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"] == "osx" or env["platform"] == "linux":
     sources.append("src/desktop/GAWrapperCpp.cpp")
+    sources.append("src/desktop/GAHttpGodot.cpp")
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'desktop')
 
-    env.Append(LIBS=["GameAnalytics", "curl", "ssl"])
+    env.Append(LIBS=["GameAnalytics"])
 
     libpath = os.path.join(libpath, env['platform'])
 
@@ -65,13 +66,8 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "crypt32",
             "secur32",
             "shell32",
-            "Ole32",
-            "eay32",
-            "ssleay32"
+            "Ole32"
         ])
-
-    if(env['platform'] == 'linux'):
-        env.Append(LIBS=["crypto"])
 
     if(env["platform"] == "macos"):
         env.Append(LINKFLAGS=[
@@ -82,7 +78,6 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "-framework", "Metal",
             "-framework", "MetalKit"
             ])
-        env.Append(LIBS=["crypto"])
 
 # web
 if env["platform"] == "web":
@@ -99,7 +94,7 @@ env.Append(CPPPATH=["src/gameanalytics",
     'godot-cpp/include/core/', 
     'godot-cpp/include/gen/'])
 
-env.Append(LIBPATH=[libpath, os.path.join(libpath, '3rdParty')])
+env.Append(LIBPATH=[libpath])
 
 if env['platform'] == 'ios':
     library = env.StaticLibrary(

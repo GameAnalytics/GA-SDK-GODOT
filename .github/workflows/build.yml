@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: ['*']  # Trigger on push events for all branches
+    tags-ignore: ['*']  # Ignore push events on all tags
+  pull_request:
+    branches: ['master']  # Trigger on pull requests to master
+  workflow_dispatch:  # Allow manual triggering of workflow
+
+jobs:
+  build:
+    uses: ./.github/workflows/scons-build.yml
+    with:
+      configs: '["debug","release"]'
+      upload_artifacts: true

@@ -1,8 +1,24 @@
 #include "GAWrapperCpp.h"
 #include "GameAnalytics/GameAnalytics.h"
 
+#include "GAHttpGodot.h"
+
+#include "godot_cpp/godot.hpp"
+#include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/classes/engine.hpp"
+
 namespace gameanalytics
 {
+    GAWrapperCpp::GAWrapperCpp()
+    {
+        godot::print_line("GameAnalytics - Initializing http client");
+        GameAnalytics::configureHttpClient<GAHttpGodot>();
+
+        godot::UtilityFunctions::print("GameAnalytics - Initializing Log");
+        // redirect output to godot console
+        SetGodotLogHandler();
+    }
+
     void GAWrapperCpp::SetAvailableCustomDimensions01(const std::vector<std::string>& list) {
         GameAnalytics::configureAvailableCustomDimensions01(list);
     }
@@ -229,5 +245,25 @@ namespace gameanalytics
         
     int64_t GAWrapperCpp::GetElapsedTimeFromAllSessions() {
         return GameAnalytics::getElapsedTimeFromAllSessions();
+    }
+
+    void GAWrapperCpp::SetGodotLogHandler()
+    {
+        static auto logHandler = [](std::string const& msg, EGALoggerMessageType type)
+        {
+            switch(type)
+            {
+                case EGALoggerMessageType::LogWarning:
+                case EGALoggerMessageType::LogError:
+                    godot::print_error("GameAnalytics ", msg.c_str());
+                    break;
+
+                default:
+                    godot::print_line("GameAnalytics ", msg.c_str());
+                    break;
+            }
+        };
+
+        GameAnalytics::configureCustomLogHandler(logHandler);
     }
 }
