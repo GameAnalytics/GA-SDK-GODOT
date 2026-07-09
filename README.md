@@ -70,7 +70,6 @@ In the `Export` dialog, add the following line in `HTML -> Head Include`:
 * add support for health event for the Web platform
 * add support for external user id for the Web platform
 * change directory structure for store submission
-* add release workflow
 
 **3.0.1**
 * fix crash on Android if the plugin was not properly enabled
