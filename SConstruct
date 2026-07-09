@@ -48,6 +48,7 @@ if env['platform'] == 'android':
 # desktop
 if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"] == "osx" or env["platform"] == "linux":
     sources.append("src/desktop/GAWrapperCpp.cpp")
+    sources.append("src/desktop/GAHttpGodot.cpp")
     libname = '{}/libGodotGameAnalytics{}'.format(binpath, env["SHLIBSUFFIX"])
     platform_path = os.path.join(platform_path, 'desktop')
 
