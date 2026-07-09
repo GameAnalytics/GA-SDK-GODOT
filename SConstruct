@@ -65,13 +65,8 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "crypt32",
             "secur32",
             "shell32",
-            "Ole32",
-            #"eay32",
-            #"ssleay32"
+            "Ole32"
         ])
-
-    #if(env['platform'] == 'linux'):
-    #    env.Append(LIBS=["crypto"])
 
     if(env["platform"] == "macos"):
         env.Append(LINKFLAGS=[
@@ -82,7 +77,6 @@ if env["platform"] == "windows" or env["platform"] == "macos" or env["platform"]
             "-framework", "Metal",
             "-framework", "MetalKit"
             ])
-        #env.Append(LIBS=["crypto"])
 
 # web
 if env["platform"] == "web":
@@ -98,8 +92,6 @@ env.Append(CPPPATH=["src/gameanalytics",
     'godot-cpp/include/', 
     'godot-cpp/include/core/', 
     'godot-cpp/include/gen/'])
-
-env.Append(LIBPATH=[libpath, os.path.join(libpath, '3rdParty')])
 
 if env['platform'] == 'ios':
     library = env.StaticLibrary(
