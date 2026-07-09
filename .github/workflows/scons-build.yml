@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [linux, windows, macos]
+        platform: [linux, windows, macos, web]
         config: ${{ fromJSON(inputs.configs) }}
         include:
           - platform: linux
@@ -31,6 +31,8 @@ jobs:
             os: windows-latest
           - platform: macos
             os: macos-latest
+          - platform: web
+            os: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -45,6 +47,13 @@ jobs:
 
       - name: Install SCons
         run: python -m pip install scons
+
+      - name: Set up Emscripten
+        if: matrix.platform == 'web'
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 4.0.11
+          no-cache: true
 
       - name: Restore SCons cache
         uses: actions/cache@v4
