@@ -33,13 +33,13 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./addon
+          path: ./release/addons/GameAnalytics
           pattern: godotgameanalytics-*-release
           merge-multiple: true
 
       - name: Zip addon
         run: |
-          cd addon && zip -r ../GameAnalytics-Godot-${{ inputs.tag_name }}.zip .
+          cd release && zip -r ../GameAnalytics-Godot-${{ inputs.tag_name }}.zip addons
 
       - name: Set up Git credentials
         run: |
