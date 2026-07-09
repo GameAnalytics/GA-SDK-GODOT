@@ -93,6 +93,8 @@ env.Append(CPPPATH=["src/gameanalytics",
     'godot-cpp/include/core/', 
     'godot-cpp/include/gen/'])
 
+env.Append(LIBPATH=[libpath])
+
 if env['platform'] == 'ios':
     library = env.StaticLibrary(
         "lib/libgameanalytics.{}.{}.a".format(
