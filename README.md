@@ -61,6 +61,16 @@ In the `Export` dialog, add the following line in `HTML -> Head Include`:
 ## Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**3.1.0**
+* fix getRemoteConfigValueAs*
+* use Godot's HTTP client, remove dependencies to CURL
+* show GameAnalytics logs in Godot editor if enabled (Windows, Linux and MacOS only)
+* update GameAnalytics JavaScript SDK to v5.0.0
+* update GameAnalytics C++ SDK to v5.3.1
+* add support for health event for the Web platform
+* add support for external user id for the Web platform
+* change directory structure for store submission
+
 **3.0.1**
 * fix crash on Android if the plugin was not properly enabled
 * fix `configureAvailableResourceItemTypes`
