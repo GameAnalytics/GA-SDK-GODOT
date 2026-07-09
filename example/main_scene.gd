@@ -1,8 +1,8 @@
 extends Node
 var ga
 
-const GAME_KEY 	 = "INSERT YOUR GAME KEY HERE"
-const SECRET_KEY = "INSERT YOUR SECRET KEY HERE"
+const GAME_KEY 	 = "bd624ee6f8e6efb32a054f8d7ba11618"
+const SECRET_KEY = "7f5c3f682cbd217841efba92e92ffb1b3b6612bc"
 
 var platform_os = OS.get_name()
 
@@ -48,6 +48,13 @@ func _ready():
 func _on_Button_pressed():
 	if ga != null:
 		
+		var optArgs = {
+				"value": 5000,
+				"fields": JSON.stringify({"my_key": "my_value"}) # custom fields
+		}
+		
+		ga.addDesignEvent("Merge:Sea:Tier9", {})
+		ga.addDesignEvent("collect:artifact", optArgs);
 		ga.addBusinessEvent("USD", 100, "gold", "gold_premium_pack", "shop", {});
 		ga.addResourceEvent("source", "gold", 100, "gold_pile", "gold_pile_big", {})
 		ga.addProgressionEventWithScore("start", "act2", "zone2", "level4", 1000)
@@ -58,4 +65,4 @@ func _on_Button_pressed():
 		
 		print("/GameAnalytics: " + str(ga.isRemoteConfigsReady()))
 		print("/GameAnalytics: " + ga.getRemoteConfigsContentAsString())
-		print("/GameAnalytics: " + ga.getRemoteConfigsValueAsString("ga_test", "my_defaultValue"))
+		print("/GameAnalytics: " + ga.getRemoteConfigsValueAsString("New Config", ""))
