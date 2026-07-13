@@ -33,9 +33,19 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./release/addons/GameAnalytics
+          path: ./artifacts
           pattern: godotgameanalytics-*-release
-          merge-multiple: true
+
+      - name: Assemble addon
+        run: |
+          set -e
+          mkdir -p release/addons/GameAnalytics
+          cp -r artifacts/godotgameanalytics-linux-release/. release/addons/GameAnalytics/
+          cp -f artifacts/godotgameanalytics-linux-release/bin/linux/libGodotGameAnalytics.so release/addons/GameAnalytics/bin/linux/libGodotGameAnalytics.so
+          cp -f artifacts/godotgameanalytics-windows-release/bin/windows/libGodotGameAnalytics.dll release/addons/GameAnalytics/bin/windows/libGodotGameAnalytics.dll
+          cp -f artifacts/godotgameanalytics-macos-release/bin/macos/libGodotGameAnalytics.dylib release/addons/GameAnalytics/bin/macos/libGodotGameAnalytics.dylib
+          cp -f artifacts/godotgameanalytics-web-release/bin/web/libGodotGameAnalytics.wasm release/addons/GameAnalytics/bin/web/libGodotGameAnalytics.wasm
+          cp -f artifacts/godotgameanalytics-web-release/web/GameAnalytics.js release/addons/GameAnalytics/web/GameAnalytics.js
 
       - name: Zip addon
         run: |
