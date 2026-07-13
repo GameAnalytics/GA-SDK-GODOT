@@ -8,6 +8,11 @@ on:
         description: 'Tag name for the release (e.g., v1.0.0)'
         required: true
         type: string
+      publish:
+        description: 'Push the tag and create the GitHub release. If false, only builds and uploads the zip as a workflow artifact.'
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -51,17 +56,27 @@ jobs:
         run: |
           cd release && zip -r ../GameAnalytics-Godot-${{ inputs.tag_name }}.zip addons
 
+      - name: Upload release zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GameAnalytics-Godot-${{ inputs.tag_name }}
+          path: GameAnalytics-Godot-${{ inputs.tag_name }}.zip
+          retention-days: 7
+
       - name: Set up Git credentials
+        if: ${{ inputs.publish }}
         run: |
           git config user.name "ga-sdk-release[bot]"
           git config user.email "ga-sdk-release[bot]@noreply.gameanalytics.com"
 
       - name: Push tag ${{ inputs.tag_name }}
+        if: ${{ inputs.publish }}
         run: |
           git tag ${{ inputs.tag_name }}
           git push origin ${{ inputs.tag_name }}
 
       - name: Create release
+        if: ${{ inputs.publish }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag_name }}
