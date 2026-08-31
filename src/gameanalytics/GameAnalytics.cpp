@@ -1,6 +1,8 @@
 #include "GameAnalytics.h"
 #include <godot_cpp/classes/engine.hpp>
 
+#include <atomic>
+
 #if __EMSCRIPTEN__
     #define WEB_PLATFORM
 #elif defined(__APPLE__)
@@ -35,6 +37,24 @@
 #else
     #error unsupported platform
 #endif
+
+namespace
+{
+    // Set once Godot begins tearing down the subsystems the SDK borrows. Written
+    // on the main thread from the extension terminator, read on the SDK's worker
+    // thread, hence atomic.
+    std::atomic<bool> g_engineShuttingDown{false};
+}
+
+void GameAnalytics::GANotifyEngineShutdown()
+{
+    g_engineShuttingDown.store(true, std::memory_order_release);
+}
+
+bool GameAnalytics::isEngineShuttingDown()
+{
+    return g_engineShuttingDown.load(std::memory_order_acquire);
+}
 
 std::string ToStdString(godot::String const& s)
 {
@@ -539,8 +559,12 @@ void GameAnalytics::endSession()
 
 void GameAnalytics::onQuit()
 {
-    if(_impl)
+    // Called by the extension itself on shutdown, so it has to be a no-op when
+    // the game never initialized the SDK - there is no session or queue to stop.
+    // Also guarded against running twice, since games may call it explicitly.
+    if(_impl && _wasInitialized && !_hasQuit)
     {
+        _hasQuit = true;
         _impl->OnQuit();
     }
 }

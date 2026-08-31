@@ -24,9 +24,13 @@ protected:
     static void _bind_methods();
 
     bool _wasInitialized = false;
+    bool _hasQuit = false;
     std::unique_ptr<gameanalytics::GAWrapper> _impl;
 
 public:
+
+    static void GANotifyEngineShutdown();
+    static bool isEngineShuttingDown();
     static GameAnalytics* get_singleton();
     GameAnalytics();
     ~GameAnalytics();
