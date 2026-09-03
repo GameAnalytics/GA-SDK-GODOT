@@ -59,3 +59,15 @@ jobs:
           generate_release_notes: true
           make_latest: true
           files: GameAnalytics-Godot-${{ inputs.tag_name }}.zip
+
+
+  notify:
+    name: Slack notification
+    needs: release
+    uses: GameAnalytics/sdk-release-notify/.github/workflows/notify.yml@main
+    with:
+      sdk_name: Godot SDK
+      tag: ${{ inputs.tag_name }}
+      releaser: ${{ github.actor }}
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
