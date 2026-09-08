@@ -16,11 +16,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="testGameAnalytics"
 run/main_scene="res://main_scene.tscn"
-config/features=PackedStringArray("4.6")
+config/features=PackedStringArray("4.7")
 config/icon="res://icon.png"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=820
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 window/handheld/orientation="sensor"
