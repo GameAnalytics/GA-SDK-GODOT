@@ -1,5 +1,6 @@
 import os
 import sys
+import glob
 import zipfile
 import shutil
 import urllib.request
@@ -10,6 +11,9 @@ def download_and_update_sdk(sdk_info):
     """
     Downloads the specified version of the GameAnalytics C++ SDK from sdk_info,
     extracts it, and updates the headers and binaries in the plugin directory.
+
+    The "no deps" static package is used: the plugin supplies its own HTTP client
+    (src/desktop/GAHttpGodot.cpp) so the SDK does not need to bundle curl/openssl.
 
     :param sdk_info: A dictionary containing 'name', 'version', and 'url' of the SDK.
     """
@@ -22,7 +26,7 @@ def download_and_update_sdk(sdk_info):
 
     # Construct the download URL
     version_tag = f"v{version}"
-    zip_filename = f"ga-sdk-static-{version_tag}.zip"
+    zip_filename = f"ga-sdk-static-no-deps-{version_tag}.zip"
     download_url = f"{base_url}releases/download/{version_tag}/{zip_filename}"
 
     # Download the zip file
@@ -36,12 +40,12 @@ def download_and_update_sdk(sdk_info):
         sys.exit(1)
 
     # Extract the zip file
-    extract_dir = os.path.join(os.getcwd(), f"ga-sdk-static-{version_tag}")
+    extract_dir = os.path.join(os.getcwd(), f"ga-sdk-static-no-deps-{version_tag}")
     print(f"Extracting {zip_path} to {extract_dir}...")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_dir)
 
-    final_release_dir = os.path.join(extract_dir, "static-release")
+    final_release_dir = os.path.join(extract_dir, "static-no-deps-release")
 
     # Update headers
     include_src = os.path.join(final_release_dir, 'include')
@@ -50,15 +54,22 @@ def download_and_update_sdk(sdk_info):
     print(f"Copying headers from {include_src} to {include_dst}...")
     shutil.copytree(include_src, include_dst, dirs_exist_ok=True)
 
-    # Update binaries per platform
+    # Update binaries per platform. The folders in the archive are named after the
+    # CI runner image (e.g. windows-latest-cl-Release became windows-2022-cl-Release),
+    # so match them by pattern instead of hardcoding the runner name.
     platforms = [
-        ('macOS-latest-clang-Release', 'libGameAnalytics.a', 'macos'),
-        ('ubuntu-latest-clang-Release', 'libGameAnalytics.a', 'linux'),
-        ('windows-latest-cl-Release', 'GameAnalytics.lib', 'windows'),
+        ('macOS-*-clang-Release', 'libGameAnalytics.a', 'macos'),
+        ('ubuntu-*-clang-Release', 'libGameAnalytics.a', 'linux'),
+        ('windows-*-cl-Release', 'GameAnalytics.lib', 'windows'),
     ]
 
-    for folder_name, lib_name, platform_name in platforms:
-        lib_src = os.path.join(final_release_dir, folder_name, lib_name)
+    for folder_pattern, lib_name, platform_name in platforms:
+        matches = sorted(glob.glob(os.path.join(final_release_dir, folder_pattern)))
+        if not matches:
+            print(f"No folder matching '{folder_pattern}' found in {final_release_dir}")
+            sys.exit(1)
+
+        lib_src = os.path.join(matches[0], lib_name)
         lib_dst_dir = os.path.join(plugin_dir, 'libs', platform_name)
         lib_dst = os.path.join(lib_dst_dir, lib_name)
         print(f"Copying {lib_src} to {lib_dst}...")
@@ -108,7 +119,7 @@ def download_and_update_js_sdk(sdk_info):
 
 def process_dependencies():
     """
-    Processes dependencies listed in Dependencies.json.
+    Processes dependencies listed in dependencies.json.
     For GA-SDK-CPP, it downloads and updates the C++ SDK.
     For GA-SDK-JAVASCRIPT, it downloads and updates the JavaScript SDK.
     For other dependencies, it prints that they are not implemented yet.
@@ -116,16 +127,16 @@ def process_dependencies():
     # Determine the root directory
     root_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Load dependencies from Dependencies.json
-    dependencies_file = os.path.join(root_dir, 'Dependencies.json')
+    # Load dependencies from dependencies.json
+    dependencies_file = os.path.join(root_dir, 'dependencies.json')
     try:
         with open(dependencies_file, 'r') as f:
             dependencies = json.load(f)
     except FileNotFoundError:
-        print(f"Dependencies.json not found in {root_dir}")
+        print(f"dependencies.json not found in {root_dir}")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"Error parsing Dependencies.json: {e}")
+        print(f"Error parsing dependencies.json: {e}")
         sys.exit(1)
 
     # Process each dependency
