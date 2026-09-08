@@ -2,14 +2,19 @@
 
 #include "GAWrapper.h"
 
+#include <memory>
+
 namespace gameanalytics
 {
+    struct IRemoteConfigsListener; // from GameAnalytics/GATypes.h
+
     class GAWrapperCpp:
         public GAWrapper
     {
         public:
 
         GAWrapperCpp();
+        virtual ~GAWrapperCpp();
 
         protected:
 
@@ -86,6 +91,8 @@ namespace gameanalytics
 
         virtual std::string GetABTestingVariantId() override;
 
+        virtual void RegisterRemoteConfigsListener(RemoteConfigsListener listener) override;
+
         /////////////////// HEALTH /////////////////////////
 
         virtual void EnableSDKInitEvent(bool flag) override;
@@ -115,5 +122,10 @@ namespace gameanalytics
         virtual void SetWritablePath(std::string const& path) override;
 
         void SetGodotLogHandler();
+
+        private:
+
+        // owned by us: the sdk keeps only the shared_ptr we hand it
+        std::shared_ptr<IRemoteConfigsListener> _remoteConfigsListener;
     };
 }
