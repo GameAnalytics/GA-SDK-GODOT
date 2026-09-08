@@ -1,5 +1,7 @@
 #include "GAWrapperWeb.h"
 
+#include "godot_cpp/variant/callable_method_pointer.hpp"
+
 #include <vector>
 #include <string>
 
@@ -19,6 +21,13 @@ namespace gameanalytics
     inline godot::String ToGodotString(std::string const& s)
     {
         return godot::String::utf8(s.c_str(), s.size());
+    }
+
+    // an empty fields string would leave a hole in the argument list of the
+    // eval'd call, so it has to become a real object literal first
+    inline godot::String JsFields(std::string const& fields)
+    {
+        return fields.empty() ? godot::String("{}") : ToGodotString(fields);
     }
 
     godot::String MakeJSArray(const std::vector<std::string>& list)
@@ -42,6 +51,19 @@ namespace gameanalytics
         
         arrayString += "]";
         return arrayString;
+    }
+
+    static RemoteConfigsListener webRemoteConfigsListener;
+
+    // callbacks made with JavaScriptBridge.create_callback receive a single array holding the
+    // arguments the javascript side passed
+    static void OnRemoteConfigsUpdatedFromJS(godot::Array args)
+    {
+        if(webRemoteConfigsListener)
+        {
+            godot::String configs = args.size() > 0 ? godot::String(args[0]) : godot::String("{}");
+            webRemoteConfigsListener(ToStdString(configs));
+        }
     }
 
     bool GAWrapperWeb::InitJavascript()
@@ -130,7 +152,7 @@ namespace gameanalytics
     void GAWrapperWeb::AddBusinessEvent(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& fields, bool mergeFields) 
     {
         (void)receipt;
-        Eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s', %s, %s)", currency.c_str(), amount, itemType.c_str(), itemId.c_str(), cartType.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addBusinessEvent('%s', %d, '%s', '%s', '%s', %s, %s)", ToGodotString(currency), amount, ToGodotString(itemType), ToGodotString(itemId), ToGodotString(cartType), JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddBusinessEventWithReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& store, std::string const& signature, std::string const& fields, bool mergeFields) 
@@ -146,27 +168,29 @@ namespace gameanalytics
 
     void GAWrapperWeb::AddResourceEvent(::EGAResourceFlowType flowType, std::string const& currency, float amount, std::string const& itemType, std::string const& itemId, std::string const& fields, bool mergeFields) 
     {    
-        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', %s)", (int)flowType, currency.c_str(), amount, itemType.c_str(), fields.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.addResourceEvent(%d, '%s', %f, '%s', '%s', %s, %s)", (int)flowType, ToGodotString(currency), amount, ToGodotString(itemType), ToGodotString(itemId), JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddProgressionEvent(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, std::string const& fields, bool mergeFields) {
-        return AddProgressionEventWithScore(progressionStatus, progression01, progression02, progression03, 0, fields, mergeFields);
+        // `undefined` in the score slot is what makes the JS SDK set sendScore = false
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', undefined, %s, %s)", (int)progressionStatus, ToGodotString(progression01), ToGodotString(progression02), ToGodotString(progression03), JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddProgressionEventWithScore(::EGAProgressionStatus progressionStatus, std::string const& progression01, std::string const& progression02, std::string const& progression03, int score, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %s)", (int)progressionStatus, progression01.c_str(), progression02.c_str(), progression03.c_str(), fields.c_str()));
+        Eval(vformat("gameanalytics.GameAnalytics.addProgressionEvent(%d, '%s', '%s', '%s', %d, %s, %s)", (int)progressionStatus, ToGodotString(progression01), ToGodotString(progression02), ToGodotString(progression03), score, JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddDesignEvent(std::string const& eventId, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %s, %s)", eventId.c_str(), ToGodotString(fields), BoolToStr(mergeFields)));
+        // `undefined` in the value slot is what makes the JS SDK set sendValue = false
+        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', undefined, %s, %s)", ToGodotString(eventId), JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddDesignEventWithValue(std::string const& eventId, float value, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f, %s, %s)", eventId.c_str(), value, fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addDesignEvent('%s', %f, %s, %s)", ToGodotString(eventId), value, JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddErrorEvent(::EGAErrorSeverity severity, std::string const& message, std::string const& fields, bool mergeFields) {
-        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', %s, %s)", (int)severity, message.c_str(), fields.c_str(), BoolToStr(mergeFields)));
+        Eval(vformat("gameanalytics.GameAnalytics.addErrorEvent(%d, '%s', %s, %s)", (int)severity, ToGodotString(message), JsFields(fields), BoolToStr(mergeFields)));
     }
 
     void GAWrapperWeb::AddAdEvent(::EGAAdAction action, ::EGAAdType adType, std::string const& adSdkName, std::string const& adPlacement, std::string const& fields, bool mergeFields) {
@@ -251,6 +275,27 @@ namespace gameanalytics
     std::string GAWrapperWeb::GetABTestingVariantId() {
         godot::String s = Eval("gameanalytics.GameAnalytics.getABTestingVariantId()");
         return ToStdString(s);
+    }
+
+    void GAWrapperWeb::RegisterRemoteConfigsListener(RemoteConfigsListener listener) {
+        if(!InitJavascript())
+        {
+            return;
+        }
+
+        webRemoteConfigsListener = std::move(listener);
+
+        _remoteConfigsJsCallback = _jsBridge->call("create_callback", callable_mp_static(&OnRemoteConfigsUpdatedFromJS));
+
+        godot::Variant window = _jsBridge->call("get_interface", "window");
+        if(godot::Object* windowObj = window)
+        {
+            windowObj->set("godotGameAnalyticsOnRemoteConfigs", _remoteConfigsJsCallback);
+        }
+
+        Eval("gameanalytics.GameAnalytics.addRemoteConfigsListener({onRemoteConfigsUpdated: function() {"
+             "  window.godotGameAnalyticsOnRemoteConfigs(gameanalytics.GameAnalytics.getRemoteConfigsContentAsString());"
+             "}})");
     }
 
     void GAWrapperWeb::EnableAdvertisingId(bool value) {
