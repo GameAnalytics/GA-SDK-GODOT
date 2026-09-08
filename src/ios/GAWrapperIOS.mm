@@ -25,6 +25,33 @@
 }
 @end
 
+// Objective-C++ wrapper for remote config update notifications
+@interface GARemoteConfigsProvider : NSObject <GARemoteConfigsDelegate>
+{
+    std::function<void()> remoteConfigsUpdatedCallback;
+}
+- (instancetype)initWithCallback:(const std::function<void()>&)callback;
+@end
+
+@implementation GARemoteConfigsProvider
+- (instancetype)initWithCallback:(const std::function<void()>&)callback {
+    self = [super init];
+    if (self) {
+        remoteConfigsUpdatedCallback = callback;
+    }
+    return self;
+}
+- (void)onRemoteConfigsUpdated {
+    if (remoteConfigsUpdatedCallback) {
+        remoteConfigsUpdatedCallback();
+    }
+}
+@end
+
+// kept alive for as long as the sdk may notify it: it is up to the sdk whether the delegate is
+// held strongly, so the provider must not be left to a local
+static GARemoteConfigsProvider* g_remoteConfigsProvider = nil;
+
 namespace gameanalytics
 {
     NSString* ToNSString(std::string const& str)
@@ -393,6 +420,18 @@ namespace gameanalytics
 
         std::string s = FromNSString(result);
         return s;
+    }
+
+    void GAWrapperIOS::RegisterRemoteConfigsListener(RemoteConfigsListener listener) {
+        g_remoteConfigsProvider = [[GARemoteConfigsProvider alloc] initWithCallback:[this, listener]()
+        {
+            if(listener)
+            {
+                listener(GetRemoteConfigsContentAsString());
+            }
+        }];
+
+        [GameAnalytics setRemoteConfigsDelegate:g_remoteConfigsProvider];
     }
 
     std::string GAWrapperIOS::GetUserId() {

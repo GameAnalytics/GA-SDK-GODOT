@@ -77,6 +77,8 @@ namespace gameanalytics
 
             virtual std::string GetRemoteConfigsContentAsString() override;
 
+            virtual void RegisterRemoteConfigsListener(RemoteConfigsListener listener) override;
+
             virtual std::string GetABTestingId() override;
 
             virtual std::string GetABTestingVariantId() override;
