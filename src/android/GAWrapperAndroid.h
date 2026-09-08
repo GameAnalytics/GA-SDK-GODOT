@@ -90,6 +90,8 @@ namespace gameanalytics
 
         virtual std::string GetABTestingVariantId() override;
 
+        virtual void RegisterRemoteConfigsListener(RemoteConfigsListener listener) override;
+
         ///// HEALTH
 
         virtual void EnableSDKInitEvent(bool flag) override;
