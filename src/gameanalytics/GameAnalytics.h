@@ -25,7 +25,10 @@ protected:
 
     bool _wasInitialized = false;
     bool _hasQuit = false;
+    bool _remoteConfigsListenerRegistered = false;
     std::unique_ptr<gameanalytics::GAWrapper> _impl;
+
+    void ensureRemoteConfigsListener();
 
 public:
 
@@ -122,6 +125,7 @@ public:
     
     bool isRemoteConfigsReady();
     String getRemoteConfigsContentAsString();
+    void registerRemoteConfigsListener(godot::Callable listener);
 
     void enableSDKInitEvent(bool flag);
     void enableFpsHistogram(godot::Callable tracker);

@@ -197,6 +197,8 @@ void GameAnalytics::init(const String &gameKey, const String &secretKey)
         
         _impl->Initialize(ToStdString(gameKey), ToStdString(secretKey));
         _wasInitialized = true;
+
+        ensureRemoteConfigsListener();
     }
 }
 
@@ -601,6 +603,35 @@ godot::String GameAnalytics::getRemoteConfigsContentAsString()
     return "";
 }
 
+void GameAnalytics::registerRemoteConfigsListener(godot::Callable listener)
+{
+    if(listener.is_valid() && !is_connected("remote_configs_updated", listener))
+    {
+        connect("remote_configs_updated", listener);
+    }
+
+    if(_wasInitialized)
+    {
+        ensureRemoteConfigsListener();
+    }
+}
+
+void GameAnalytics::ensureRemoteConfigsListener()
+{
+    if(_remoteConfigsListenerRegistered || !_impl)
+    {
+        return;
+    }
+
+    _remoteConfigsListenerRegistered = true;
+
+    _impl->RegisterRemoteConfigsListener([this](std::string const& configs)
+    {
+        // the sdk notifies us from a worker thread, so hop to the main thread before emitting
+        call_deferred("emit_signal", "remote_configs_updated", String::utf8(configs.c_str(), configs.size()));
+    });
+}
+
 godot::String GameAnalytics::getUserId() const
 {
     if(_impl)
@@ -811,6 +842,9 @@ void GameAnalytics::_bind_methods()
     ClassDB::bind_method(D_METHOD("isRemoteConfigsReady"), &GameAnalytics::isRemoteConfigsReady);
     ClassDB::bind_method(D_METHOD("getRemoteConfigsContentAsString"), &GameAnalytics::getRemoteConfigsContentAsString);
     ClassDB::bind_method(D_METHOD("getRemoteConfigsValueAsJSON", "key"), &GameAnalytics::getRemoteConfigsValueAsJSON);
+    ClassDB::bind_method(D_METHOD("registerRemoteConfigsListener", "listener"), &GameAnalytics::registerRemoteConfigsListener);
+
+    ADD_SIGNAL(MethodInfo("remote_configs_updated", PropertyInfo(Variant::STRING, "configs")));
 
     ClassDB::bind_method(D_METHOD("enableSDKInitEvent", "flag"), &GameAnalytics::enableSDKInitEvent);
     ClassDB::bind_method(D_METHOD("enableFpsHistogram", "tracker"), &GameAnalytics::enableFpsHistogram);

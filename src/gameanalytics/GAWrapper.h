@@ -10,6 +10,7 @@
 namespace gameanalytics
 {
     using FPSTracker = std::function<float()>;
+    using RemoteConfigsListener = std::function<void(std::string const&)>;
     
     class GAWrapper
     {
@@ -89,6 +90,8 @@ namespace gameanalytics
         virtual std::string GetABTestingId() = 0;
 
         virtual std::string GetABTestingVariantId() = 0;
+
+        virtual void RegisterRemoteConfigsListener(RemoteConfigsListener listener) = 0;
 
         /////////////////// HEALTH /////////////////////////
 
