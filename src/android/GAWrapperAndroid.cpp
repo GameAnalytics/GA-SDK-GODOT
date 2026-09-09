@@ -152,11 +152,13 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -196,6 +198,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -203,6 +206,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -242,6 +246,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -249,6 +254,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -288,6 +294,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -295,6 +302,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -335,6 +343,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -342,6 +351,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -364,6 +374,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -371,6 +382,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -391,6 +403,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -398,6 +411,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -455,6 +469,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -462,6 +477,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -489,6 +505,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -496,6 +513,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -518,6 +536,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -525,6 +544,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -547,6 +567,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -554,6 +575,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -589,6 +611,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -596,6 +619,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -626,6 +650,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -633,6 +658,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -670,6 +696,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -677,6 +704,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -711,6 +739,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -718,6 +747,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -746,6 +776,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -753,6 +784,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -781,6 +813,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -788,6 +821,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -812,6 +846,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -819,6 +854,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -843,6 +879,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -850,6 +887,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -874,6 +912,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -881,6 +920,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -907,6 +947,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -914,6 +955,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -940,6 +982,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -947,6 +990,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -973,6 +1017,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -980,6 +1025,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1000,6 +1046,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1007,6 +1054,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1027,6 +1075,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1034,6 +1083,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1054,6 +1104,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1061,6 +1112,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1081,6 +1133,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1088,6 +1141,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1108,6 +1162,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1115,6 +1170,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1138,6 +1194,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
                 
@@ -1145,6 +1202,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1167,6 +1225,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1174,6 +1233,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1196,6 +1256,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1203,6 +1264,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1225,6 +1287,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1232,6 +1295,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1252,6 +1316,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1259,6 +1324,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1278,6 +1344,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1285,6 +1352,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1321,6 +1389,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1328,6 +1397,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1351,6 +1421,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1358,6 +1429,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1384,6 +1456,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1391,6 +1464,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1417,6 +1491,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1424,6 +1499,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1451,6 +1527,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1458,6 +1535,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1493,6 +1571,7 @@ namespace gameanalytics
                 else
                 {
                     env->ExceptionClear();
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1500,6 +1579,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1520,6 +1600,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1527,6 +1608,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1561,6 +1643,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1568,6 +1651,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1588,6 +1672,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1595,6 +1680,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1615,6 +1701,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1622,6 +1709,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1642,6 +1730,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1649,6 +1738,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
         }
@@ -1671,7 +1761,7 @@ namespace gameanalytics
 
             if(jClass)
             {
-                jmethodID jMethod = env->GetStaticMethodID(jClass, methodName, "()L");
+                jmethodID jMethod = env->GetStaticMethodID(jClass, methodName, "()J");
 
                 if(jMethod)
                 {
@@ -1680,6 +1770,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1687,6 +1778,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
@@ -1703,11 +1795,11 @@ namespace gameanalytics
         {
             JNIEnv* env = GetJavaEnv();
             jclass jClass = GetGameAnalyticsClass();
-            constexpr const char* methodName = "getElapsedTotalSessionTime";
+            constexpr const char* methodName = "getElapsedTimeFromAllSessions";
 
             if(jClass)
             {
-                jmethodID jMethod = env->GetStaticMethodID(jClass, methodName, "()L");
+                jmethodID jMethod = env->GetStaticMethodID(jClass, methodName, "()J");
 
                 if(jMethod)
                 {
@@ -1716,6 +1808,7 @@ namespace gameanalytics
                 }
                 else
                 {
+                    if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
@@ -1723,6 +1816,7 @@ namespace gameanalytics
             }
             else
             {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
                 __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
             }
 
