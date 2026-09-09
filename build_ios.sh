@@ -38,7 +38,7 @@ EXTRA_ARGS=$2
 # Step 1 builds godot-cpp from inside its own directory, bypassing our SConstruct,
 # so the GDExtension API version has to be passed explicitly here too. Keep this in
 # sync with the api_version default in SConstruct.
-API_VERSION="${API_VERSION:-4.3}"
+API_VERSION="${API_VERSION:-4.5}"
 
 echo "============================================================================"
 echo "Building GameAnalytics iOS SDK - Target: $TARGET"
