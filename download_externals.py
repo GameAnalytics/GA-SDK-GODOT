@@ -59,7 +59,10 @@ def download_and_update_sdk(sdk_info):
     # so match them by pattern instead of hardcoding the runner name.
     platforms = [
         ('macOS-*-clang-Release', 'libGameAnalytics.a', 'macos'),
-        ('ubuntu-*-clang-Release', 'libGameAnalytics.a', 'linux'),
+        # gcc, not clang: the clang build links libc++ (std::__1) while godot-cpp on
+        # Linux links libstdc++, which left the extension with undefined libc++
+        # symbols and made it fail to load ('undefined symbol: ..._ZNKSt3__1...')
+        ('ubuntu-*-gcc-Release', 'libGameAnalytics.a', 'linux'),
         ('windows-*-cl-Release', 'GameAnalytics.lib', 'windows'),
     ]
 
