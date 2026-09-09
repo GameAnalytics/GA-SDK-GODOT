@@ -13,16 +13,39 @@ on:
         default: true
         required: false
         type: boolean
+    secrets:
+      # Optional. When absent the headless suite runs offline: no init(), no network,
+      # no events. Never point these at a production game - use a throwaway sandbox.
+      GA_TEST_GAME_KEY:
+        required: false
+      GA_TEST_SECRET_KEY:
+        required: false
 
 jobs:
+  # Fast contract checks. No toolchain, no engine - these catch the classes of bug that
+  # compile cleanly. See CI_TESTING.md for what each one guards against.
+  static-checks:
+    name: static-checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Version consistency
+        run: python3 .github/scripts/check_versions.py
+
+      - name: JNI contract lint
+        run: python3 .github/scripts/check_jni.py
+
   build:
     name: ${{ matrix.platform }}-${{ matrix.config }}
     runs-on: ${{ matrix.os }}
+    needs: static-checks
 
     strategy:
       fail-fast: false
       matrix:
-        platform: [linux, windows, macos, web]
+        platform: [linux, windows, macos, web, android]
         config: ${{ fromJSON(inputs.configs) }}
         include:
           - platform: linux
@@ -32,6 +55,8 @@ jobs:
           - platform: macos
             os: macos-latest
           - platform: web
+            os: ubuntu-latest
+          - platform: android
             os: ubuntu-latest
 
     steps:
@@ -55,6 +80,13 @@ jobs:
           version: 4.0.11
           no-cache: true
 
+      - name: Set up Android NDK
+        if: matrix.platform == 'android'
+        run: |
+          # must match the ndk_version default in SConstruct; godot-cpp resolves the
+          # toolchain as $ANDROID_HOME/ndk/<ndk_version>, so install it there
+          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "ndk;27.2.12479018"
+
       - name: Restore SCons cache
         uses: actions/cache@v4
         with:
@@ -73,6 +105,79 @@ jobs:
             ARCH_FLAG="--arch arm64"
           fi
           python build.py ${{ matrix.platform }} ${{ matrix.config }} $ARCH_FLAG
+
+      # A binary that builds is not necessarily a binary that loads. An unsigned macOS
+      # dylib is SIGKILLed with no diagnostic at all, so assert loadability here.
+      - name: Verify build artifact
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          CFG=${{ matrix.config }}
+          case "${{ matrix.platform }}" in
+            macos)
+              LIB="bin/macos/$CFG/libGodotGameAnalytics.dylib"
+              codesign -v --verbose=2 "$LIB"
+              nm -gU "$LIB" | grep -q gameanalytics_init
+              ;;
+            linux)
+              LIB="bin/linux/$CFG/libGodotGameAnalytics.so"
+              nm -D --defined-only "$LIB" | grep -q gameanalytics_init
+              ;;
+            android)
+              LIB="bin/android/$CFG/libGodotGameAnalytics.so"
+              nm -D --defined-only "$LIB" | grep -q gameanalytics_init
+              ;;
+            web)
+              LIB="bin/web/$CFG/libGodotGameAnalytics.wasm"
+              # a GDExtension must be a wasm side module
+              grep -qa dylink "$LIB"
+              grep -qa gameanalytics_init "$LIB"
+              ;;
+          esac
+          echo "artifact ok: $LIB"
+
+      # The full engine and the real extension. Offline by default: no credentials means
+      # init() is never called and nothing leaves the runner, but the binding surface and
+      # the platform wrapper are still exercised. Run against the declared
+      # compatibility_minimum as well as the current engine, so the manifest's claim is
+      # actually verified rather than assumed.
+      - name: Run headless test suite
+        if: matrix.platform == 'linux'
+        shell: bash
+        env:
+          # empty unless the caller supplies them, in which case the suite stays offline
+          GA_TEST_GAME_KEY: ${{ secrets.GA_TEST_GAME_KEY }}
+          GA_TEST_SECRET_KEY: ${{ secrets.GA_TEST_SECRET_KEY }}
+        run: |
+          set -euo pipefail
+          for V in 4.5 4.7.2; do
+            echo "::group::Godot $V"
+            curl -sSLo "godot-$V.zip" \
+              "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_linux.x86_64.zip"
+            unzip -oq "godot-$V.zip"
+            BIN="./Godot_v${V}-stable_linux.x86_64"
+            chmod +x "$BIN"
+
+            # first run builds the filesystem cache; it may exit non-zero on a cold project
+            "$BIN" --headless --path example --import || true
+
+            "$BIN" --headless --path example \
+              --script res://tests/test_gameanalytics.gd 2>&1 | tee "test-$V.log"
+            # exit code is authoritative (pipefail); the grep guards against a silent no-op run.
+            # anchored so "10 failures" cannot satisfy a check for "0 failures"
+            grep -qE ', 0 failures,' "test-$V.log"
+            echo "::endgroup::"
+          done
+
+      - name: Upload test logs
+        if: always() && matrix.platform == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs-${{ matrix.config }}
+          path: test-*.log
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: Upload build artifact
         if: ${{ inputs.upload_artifacts }}
