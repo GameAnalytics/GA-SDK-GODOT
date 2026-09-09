@@ -6,6 +6,11 @@ extends Control
 # identifiers and remote configs the SDK exposes. Remote configs are kept up to
 # date through the `remote_configs_updated` signal rather than by polling.
 
+# the previous example scene initialized on launch; keep that behaviour so a fresh
+# install starts a session without user interaction. Set to false to fill in the
+# setup panel and initialize by hand.
+const AUTO_INITIALIZE := true
+
 const GAME_KEY := "bd624ee6f8e6efb32a054f8d7ba11618"
 const SECRET_KEY := "7f5c3f682cbd217841efba92e92ffb1b3b6612bc"
 
@@ -69,6 +74,9 @@ func _ready() -> void:
 	_set_enabled(_needs_sdk, ga != null)
 	_set_enabled(_needs_init, false)
 	_refresh_info()
+
+	if AUTO_INITIALIZE and ga != null:
+		_on_initialize_pressed()
 
 
 # ---------------------------------------------------------------- SDK actions
