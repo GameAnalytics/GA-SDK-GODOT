@@ -11,8 +11,8 @@ extends Control
 # setup panel and initialize by hand.
 const AUTO_INITIALIZE := true
 
-const GAME_KEY := "bd624ee6f8e6efb32a054f8d7ba11618"
-const SECRET_KEY := "7f5c3f682cbd217841efba92e92ffb1b3b6612bc"
+const GAME_KEY := "[INSERT YOUR KEY HERE]"
+const SECRET_KEY := "[INSERT YOUR KEY HERE]"
 
 # configured before init() and reused by the event forms below
 const CURRENCIES := ["gold", "gems"]
@@ -75,7 +75,7 @@ func _ready() -> void:
 	_set_enabled(_needs_init, false)
 	_refresh_info()
 
-	if AUTO_INITIALIZE and ga != null:
+	if AUTO_INITIALIZE and ga != null and not GAME_KEY.begins_with("["):
 		_on_initialize_pressed()
 
 
