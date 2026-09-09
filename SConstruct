@@ -3,6 +3,11 @@ import os
 import sys
 from glob import glob
 
+# godot-cpp (master) requires an explicit GDExtension API version. Default it to
+# the plugin's compatibility_minimum so the extension keeps loading on 4.3+, and
+# builds do not need the flag on the command line. Override with api_version=4.x.
+ARGUMENTS.setdefault("api_version", "4.3")
+
 env = SConscript("godot-cpp/SConstruct")
 
 sources = Glob("src/gameanalytics/*.cpp")

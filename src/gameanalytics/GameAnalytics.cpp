@@ -251,7 +251,7 @@ void GameAnalytics::addProgressionEventWithScore(const String& status,
                              int score)
 {
     Dictionary opts;
-    opts.set("score", score);
+    opts["score"] = score;
     
     return addProgressionEvent(status, progression1, progression2, progression3, opts);
 }

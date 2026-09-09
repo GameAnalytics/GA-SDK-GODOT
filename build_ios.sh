@@ -35,6 +35,11 @@ fi
 TARGET=$1
 EXTRA_ARGS=$2
 
+# Step 1 builds godot-cpp from inside its own directory, bypassing our SConstruct,
+# so the GDExtension API version has to be passed explicitly here too. Keep this in
+# sync with the api_version default in SConstruct.
+API_VERSION="${API_VERSION:-4.3}"
+
 echo "============================================================================"
 echo "Building GameAnalytics iOS SDK - Target: $TARGET"
 echo "============================================================================"
@@ -45,7 +50,7 @@ echo "==========================================================================
 echo ""
 echo "Step 1: Building godot-cpp for iOS device..."
 cd godot-cpp
-scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false $EXTRA_ARGS
+scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false api_version=$API_VERSION $EXTRA_ARGS
 cd ..
 
 # ============================================================================
@@ -53,7 +58,7 @@ cd ..
 # ============================================================================
 echo ""
 echo "Step 2: Building GameAnalytics SDK for iOS device..."
-scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false $EXTRA_ARGS
+scons platform=ios target=$TARGET arch=arm64 disable_exceptions=false api_version=$API_VERSION $EXTRA_ARGS
 
 # ============================================================================
 # Step 3: Create xcframeworks
