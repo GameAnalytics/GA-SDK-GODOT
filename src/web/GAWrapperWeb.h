@@ -13,6 +13,9 @@ namespace gameanalytics
     {
         godot::Object* _jsBridge{nullptr};
 
+        // holds the JavaScriptObject wrapping our callback: the js listener keeps calling it
+        godot::Variant _remoteConfigsJsCallback;
+
         bool InitJavascript();
         godot::Variant Eval(godot::String const& code);
 
@@ -91,6 +94,8 @@ namespace gameanalytics
             virtual std::string GetABTestingId() override;
 
             virtual std::string GetABTestingVariantId() override;
+
+            virtual void RegisterRemoteConfigsListener(RemoteConfigsListener listener) override;
 
             ///// HEALTH
 

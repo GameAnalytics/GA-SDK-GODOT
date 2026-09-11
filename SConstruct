@@ -3,6 +3,15 @@ import os
 import sys
 from glob import glob
 
+# godot-cpp (master) requires an explicit GDExtension API version, and defaults the
+# Android NDK to a version we do not pin elsewhere. Set both here so build.py, CI and
+# a bare scons call all agree. Override on the command line if needed.
+#
+# api_version 4.5 matches what the plugin shipped against before the godot-cpp bump;
+# 4.3 produces an Android build that restarts into a process without the Java plugin.
+ARGUMENTS.setdefault("api_version", "4.5")
+ARGUMENTS.setdefault("ndk_version", "27.2.12479018")
+
 env = SConscript("godot-cpp/SConstruct")
 
 sources = Glob("src/gameanalytics/*.cpp")
@@ -107,5 +116,11 @@ else:
         libname,
         source=sources,
     )
+
+# A universal macOS build is stitched together from per-arch slices, which drops the
+# linker's ad-hoc signature ("code object is not signed at all"). macOS then SIGKILLs
+# any process that loads it, so re-sign the finished binary.
+if env["platform"] == "macos":
+    env.AddPostAction(library, Action("codesign --force --sign - $TARGET", "Codesigning $TARGET (ad-hoc)"))
 
 Default(library)

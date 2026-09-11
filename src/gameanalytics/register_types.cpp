@@ -18,6 +18,15 @@ void gdextension_init(godot::ModuleInitializationLevel p_level)
 
 void gdextension_terminate(godot::ModuleInitializationLevel p_level)
 {
+    if (p_level == godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
+
+        if (GAPtr) {
+            GAPtr->onQuit();
+        }
+
+        GameAnalytics::GANotifyEngineShutdown();
+    }
+
     if (p_level == godot::MODULE_INITIALIZATION_LEVEL_CORE) {
         memdelete(GAPtr);
     }

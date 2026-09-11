@@ -8,6 +8,11 @@ on:
         description: 'Tag name for the release (e.g., v1.0.0)'
         required: true
         type: string
+      publish:
+        description: 'Push the tag and create the GitHub release. If false, only builds and uploads the zip as a workflow artifact.'
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -33,25 +38,45 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./release/addons/GameAnalytics
+          path: ./artifacts
           pattern: godotgameanalytics-*-release
-          merge-multiple: true
+
+      - name: Assemble addon
+        run: |
+          set -e
+          mkdir -p release/addons/GameAnalytics
+          cp -r artifacts/godotgameanalytics-linux-release/. release/addons/GameAnalytics/
+          cp -f artifacts/godotgameanalytics-linux-release/bin/linux/libGodotGameAnalytics.so release/addons/GameAnalytics/bin/linux/libGodotGameAnalytics.so
+          cp -f artifacts/godotgameanalytics-windows-release/bin/windows/libGodotGameAnalytics.dll release/addons/GameAnalytics/bin/windows/libGodotGameAnalytics.dll
+          cp -f artifacts/godotgameanalytics-macos-release/bin/macos/libGodotGameAnalytics.dylib release/addons/GameAnalytics/bin/macos/libGodotGameAnalytics.dylib
+          cp -f artifacts/godotgameanalytics-web-release/bin/web/libGodotGameAnalytics.wasm release/addons/GameAnalytics/bin/web/libGodotGameAnalytics.wasm
+          cp -f artifacts/godotgameanalytics-web-release/web/GameAnalytics.js release/addons/GameAnalytics/web/GameAnalytics.js
 
       - name: Zip addon
         run: |
           cd release && zip -r ../GameAnalytics-Godot-${{ inputs.tag_name }}.zip addons
 
+      - name: Upload release zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GameAnalytics-Godot-${{ inputs.tag_name }}
+          path: GameAnalytics-Godot-${{ inputs.tag_name }}.zip
+          retention-days: 7
+
       - name: Set up Git credentials
+        if: ${{ inputs.publish }}
         run: |
           git config user.name "ga-sdk-release[bot]"
           git config user.email "ga-sdk-release[bot]@noreply.gameanalytics.com"
 
       - name: Push tag ${{ inputs.tag_name }}
+        if: ${{ inputs.publish }}
         run: |
           git tag ${{ inputs.tag_name }}
           git push origin ${{ inputs.tag_name }}
 
       - name: Create release
+        if: ${{ inputs.publish }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag_name }}

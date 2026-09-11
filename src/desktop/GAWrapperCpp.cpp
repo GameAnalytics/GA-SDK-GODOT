@@ -9,6 +9,27 @@
 
 namespace gameanalytics
 {
+    struct GodotRemoteConfigsListener:
+        public IRemoteConfigsListener
+    {
+        explicit GodotRemoteConfigsListener(RemoteConfigsListener callback):
+            _callback(std::move(callback))
+        {
+        }
+
+        virtual void onRemoteConfigsUpdated(std::string const& remoteConfigs) override
+        {
+            if(_callback)
+            {
+                _callback(remoteConfigs);
+            }
+        }
+
+        private:
+
+            RemoteConfigsListener _callback;
+    };
+
     GAWrapperCpp::GAWrapperCpp()
     {
         godot::print_line("GameAnalytics - Initializing http client");
@@ -17,6 +38,15 @@ namespace gameanalytics
         godot::UtilityFunctions::print("GameAnalytics - Initializing Log");
         // redirect output to godot console
         SetGodotLogHandler();
+    }
+
+    GAWrapperCpp::~GAWrapperCpp()
+    {
+        if(_remoteConfigsListener)
+        {
+            GameAnalytics::removeRemoteConfigsListener(_remoteConfigsListener);
+            _remoteConfigsListener.reset();
+        }
     }
 
     void GAWrapperCpp::SetAvailableCustomDimensions01(const std::vector<std::string>& list) {
@@ -183,6 +213,16 @@ namespace gameanalytics
 
     std::string GAWrapperCpp::GetABTestingVariantId() {
         return GameAnalytics::getABTestingVariantId();
+    }
+
+    void GAWrapperCpp::RegisterRemoteConfigsListener(RemoteConfigsListener listener) {
+        if(_remoteConfigsListener)
+        {
+            GameAnalytics::removeRemoteConfigsListener(_remoteConfigsListener);
+        }
+
+        _remoteConfigsListener = std::make_shared<GodotRemoteConfigsListener>(std::move(listener));
+        GameAnalytics::addRemoteConfigsListener(_remoteConfigsListener);
     }
 
     void GAWrapperCpp::EnableAdvertisingId(bool value) {

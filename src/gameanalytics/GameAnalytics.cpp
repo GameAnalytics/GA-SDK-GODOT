@@ -1,6 +1,8 @@
 #include "GameAnalytics.h"
 #include <godot_cpp/classes/engine.hpp>
 
+#include <atomic>
+
 #if __EMSCRIPTEN__
     #define WEB_PLATFORM
 #elif defined(__APPLE__)
@@ -18,7 +20,7 @@
     #define DESKTOP_PLATFORM
 #endif
 
-#define GA_VERSION "godot 3.1.0"
+#define GA_VERSION "godot 3.1.1"
 
 #ifdef IOS_PLATFORM
     #include "GAWrapperIOS.h"
@@ -35,6 +37,24 @@
 #else
     #error unsupported platform
 #endif
+
+namespace
+{
+    // Set once Godot begins tearing down the subsystems the SDK borrows. Written
+    // on the main thread from the extension terminator, read on the SDK's worker
+    // thread, hence atomic.
+    std::atomic<bool> g_engineShuttingDown{false};
+}
+
+void GameAnalytics::GANotifyEngineShutdown()
+{
+    g_engineShuttingDown.store(true, std::memory_order_release);
+}
+
+bool GameAnalytics::isEngineShuttingDown()
+{
+    return g_engineShuttingDown.load(std::memory_order_acquire);
+}
 
 std::string ToStdString(godot::String const& s)
 {
@@ -177,6 +197,8 @@ void GameAnalytics::init(const String &gameKey, const String &secretKey)
         
         _impl->Initialize(ToStdString(gameKey), ToStdString(secretKey));
         _wasInitialized = true;
+
+        ensureRemoteConfigsListener();
     }
 }
 
@@ -229,7 +251,7 @@ void GameAnalytics::addProgressionEventWithScore(const String& status,
                              int score)
 {
     Dictionary opts;
-    opts.set("score", score);
+    opts["score"] = score;
     
     return addProgressionEvent(status, progression1, progression2, progression3, opts);
 }
@@ -539,8 +561,12 @@ void GameAnalytics::endSession()
 
 void GameAnalytics::onQuit()
 {
-    if(_impl)
+    // Called by the extension itself on shutdown, so it has to be a no-op when
+    // the game never initialized the SDK - there is no session or queue to stop.
+    // Also guarded against running twice, since games may call it explicitly.
+    if(_impl && _wasInitialized && !_hasQuit)
     {
+        _hasQuit = true;
         _impl->OnQuit();
     }
 }
@@ -575,6 +601,35 @@ godot::String GameAnalytics::getRemoteConfigsContentAsString()
     }
 
     return "";
+}
+
+void GameAnalytics::registerRemoteConfigsListener(godot::Callable listener)
+{
+    if(listener.is_valid() && !is_connected("remote_configs_updated", listener))
+    {
+        connect("remote_configs_updated", listener);
+    }
+
+    if(_wasInitialized)
+    {
+        ensureRemoteConfigsListener();
+    }
+}
+
+void GameAnalytics::ensureRemoteConfigsListener()
+{
+    if(_remoteConfigsListenerRegistered || !_impl)
+    {
+        return;
+    }
+
+    _remoteConfigsListenerRegistered = true;
+
+    _impl->RegisterRemoteConfigsListener([this](std::string const& configs)
+    {
+        // the sdk notifies us from a worker thread, so hop to the main thread before emitting
+        call_deferred("emit_signal", "remote_configs_updated", String::utf8(configs.c_str(), configs.size()));
+    });
 }
 
 godot::String GameAnalytics::getUserId() const
@@ -787,6 +842,9 @@ void GameAnalytics::_bind_methods()
     ClassDB::bind_method(D_METHOD("isRemoteConfigsReady"), &GameAnalytics::isRemoteConfigsReady);
     ClassDB::bind_method(D_METHOD("getRemoteConfigsContentAsString"), &GameAnalytics::getRemoteConfigsContentAsString);
     ClassDB::bind_method(D_METHOD("getRemoteConfigsValueAsJSON", "key"), &GameAnalytics::getRemoteConfigsValueAsJSON);
+    ClassDB::bind_method(D_METHOD("registerRemoteConfigsListener", "listener"), &GameAnalytics::registerRemoteConfigsListener);
+
+    ADD_SIGNAL(MethodInfo("remote_configs_updated", PropertyInfo(Variant::STRING, "configs")));
 
     ClassDB::bind_method(D_METHOD("enableSDKInitEvent", "flag"), &GameAnalytics::enableSDKInitEvent);
     ClassDB::bind_method(D_METHOD("enableFpsHistogram", "tracker"), &GameAnalytics::enableFpsHistogram);

@@ -56,11 +56,55 @@ In the `Export` dialog, add the following line in `HTML -> Head Include`:
 <script src="GameAnalytics.js"></script>
 ```
 
+### Example app
+
+`example/` sends every supported event type and displays the SDK's live state: user id, external
+user id, A/B testing id and variant, and the remote configs (refreshed through the
+`remote_configs_updated` signal). Open `example/project.godot` in Godot and press `Initialize`.
+
+`python copy_binaries.py <debug|release>` (which `build.py` runs for you) fills in
+`example/addons/GameAnalytics/bin` with the binaries you have built.
+
+Two things behave differently per platform, and the app says so where it matters: ad events are
+dropped on desktop (the C++ SDK does not implement them), and the external user id is only
+accepted before `init`, so it lives in the setup panel rather than in a runtime setter.
+
+The design and progression tabs each carry a toggle that routes the call through the
+`addDesignEventWithValue` / `addProgressionEventWithScore` convenience overloads instead of the
+options dictionary, so both code paths are exercised from the UI.
+
+### Remote Configs
+
+To be notified when remote configs have been fetched, connect to the `remote_configs_updated`
+signal before calling `init`:
+
+```gdscript
+func _on_remote_configs_updated(configs: String) -> void:
+	var data: Dictionary = JSON.parse_string(configs)
+	print("remote configs: ", data)
+
+func _ready():
+	var ga = Engine.get_singleton("GameAnalytics")
+	ga.remote_configs_updated.connect(_on_remote_configs_updated)
+	ga.init(GAME_KEY, SECRET_KEY)
+```
+
+The signal carries the same payload as `getRemoteConfigsContentAsString()` and is always emitted
+on the main thread. `registerRemoteConfigsListener(callable)` does the same thing for a single
+`Callable`:
+
+```gdscript
+	ga.registerRemoteConfigsListener(_on_remote_configs_updated)
+```
+
 <br/>
 
 ## Changelog
 ---------
 <!--(CHANGELOG_TOP)-->
+**unreleased**
+* add remote configs update listener (`remote_configs_updated` signal / `registerRemoteConfigsListener`)
+
 **3.1.0**
 * fix getRemoteConfigValueAs*
 * use Godot's HTTP client, remove dependencies to CURL

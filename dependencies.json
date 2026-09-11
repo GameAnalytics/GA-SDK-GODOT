@@ -1,7 +1,7 @@
 [
     {
         "name": "GA-SDK-CPP",
-        "version": "5.3.1",
+        "version": "5.4.1",
         "url": "https://github.com/GameAnalytics/gameanalytics-sdk-cpp/"
     },
     {

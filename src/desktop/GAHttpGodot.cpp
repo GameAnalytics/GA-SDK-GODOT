@@ -1,4 +1,5 @@
 #include "GAHttpGodot.h"
+#include "GameAnalytics.h"
 
 #include <cstring>
 
@@ -63,7 +64,7 @@ namespace gameanalytics
             uint64_t deadline = Time::get_singleton()->get_ticks_msec() + (uint64_t)(timeoutSeconds * 1000.0);
             while(!isDone(client->get_status()))
             {
-                if(Time::get_singleton()->get_ticks_msec() > deadline)
+                if(Time::get_singleton()->get_ticks_msec() > deadline || ::GameAnalytics::isEngineShuttingDown())
                 {
                     return false;
                 }
@@ -92,6 +93,14 @@ namespace gameanalytics
         (void)userData;
 
         Response response;
+
+        if(::GameAnalytics::isEngineShuttingDown())
+        {
+            // Leave response.code at -1 so the SDK treats this as a failed send
+            // and keeps the events cached for the next session.
+            return response;
+        }
+
         ParsedUrl parsed = parseUrl(url);
 
         Ref<HTTPClient> client;
@@ -153,7 +162,7 @@ namespace gameanalytics
 
         response.code = client->get_response_code();
 
-        while(client->get_status() == HTTPClient::STATUS_BODY)
+        while(client->get_status() == HTTPClient::STATUS_BODY && !::GameAnalytics::isEngineShuttingDown())
         {
             client->poll();
             PackedByteArray chunk = client->read_response_body_chunk();
