@@ -57,7 +57,7 @@ class GameAnalyticsExportPlugin extends EditorExportPlugin:
 	
 	func _get_android_dependencies(platform, debug):
 		print("add android dependencies")
-		return PackedStringArray(["com.gameanalytics.sdk:gameanalytics-android:7.0.1"])
+		return PackedStringArray(["com.gameanalytics.sdk:gameanalytics-android:7.1.0"])
 
 	# Return the plugin's name.
 	func _get_name():
