@@ -9,7 +9,8 @@ Produces GameAnalytics-Godot-<version>.zip laid out as the Asset Store and the
 editor both expect:
 
     addons/GameAnalytics/...     <- extracts straight into a project
-    LICENSE                      <- required at the zip root
+    addons/GameAnalytics/LICENSE <- packaged with the addon, not at the zip root,
+                                    so it cannot collide with other addons
 
 Verifies before writing: the version matches plugin.cfg and GA_VERSION, every
 platform binary declared in the .gdextension is present, and no stray build
@@ -84,7 +85,7 @@ def main():
     if not ADDON.is_dir():
         fail("addon not found: %s" % ADDON)
     if not LICENSE.is_file():
-        fail("LICENSE not found at the repo root (the Asset Store requires it)")
+        fail("LICENSE not found at the repo root")
 
     cfg_version = plugin_version()
     version = args.version or cfg_version
@@ -122,7 +123,7 @@ def main():
             # addons/GameAnalytics/... so it extracts straight into a project
             z.write(path, Path("addons/GameAnalytics") / path.relative_to(ADDON))
             count += 1
-        z.write(LICENSE, "LICENSE")
+        z.write(LICENSE, "addons/GameAnalytics/LICENSE")
         count += 1
 
     size_mb = zip_path.stat().st_size / (1024 * 1024)
@@ -130,7 +131,7 @@ def main():
     print("  version : %s" % version)
     print("  files   : %d" % count)
     print("  size    : %.1f MB%s" % (size_mb, "  (Asset Store limit is 1 GB)" if size_mb < 1024 else "  OVER THE 1 GB LIMIT"))
-    print("  layout  : addons/GameAnalytics/... + LICENSE at root")
+    print("  layout  : addons/GameAnalytics/... (LICENSE included)")
 
 
 if __name__ == "__main__":

@@ -83,9 +83,10 @@ jobs:
       - name: Set up Android NDK
         if: matrix.platform == 'android'
         run: |
-          # must match the ndk_version default in SConstruct; godot-cpp resolves the
-          # toolchain as $ANDROID_HOME/ndk/<ndk_version>, so install it there
-          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "ndk;27.2.12479018"
+          # must match godot-cpp's ndk_version default (tools/android.py); godot-cpp
+          # resolves the toolchain as $ANDROID_HOME/ndk/<ndk_version>, so install it
+          # there. r28+ links with a 16 KB max-page-size, which Google Play requires.
+          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.1.13356709"
 
       - name: Restore SCons cache
         uses: actions/cache@v4
