@@ -214,9 +214,24 @@ void GameAnalytics::addBusinessEvent(const String& currency,
     String fields = GetOptionalValue<String>(options, "fields", "{}");;
     bool mergeFields = GetOptionalValue<bool>(options, "mergeFields", false);
 
+    String store = GetOptionalValue<String>(options, "store", "");
+    String productId = GetOptionalValue<String>(options, "product_id", "");
+    String purchaseToken = GetOptionalValue<String>(options, "purchase_token", "");
+    String transactionId = GetOptionalValue<String>(options, "transaction_id", "");
+
+    // the App Store calls it a transaction id, Google Play a purchase token;
+    // the wrapper takes a single token slot either way
+    String token = purchaseToken.is_empty() ? transactionId : purchaseToken;
+
     if(_impl)
     {
-        if(autoFetchReceipt)
+        if(!token.is_empty())
+        {
+            // a token means the purchase can be validated, which is preferred over
+            // sending it unvalidated; wrappers that cannot validate fall back themselves
+            _impl->AddBusinessEventWithValidation(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), store.utf8().get_data(), productId.utf8().get_data(), token.utf8().get_data(), fields.utf8().get_data(), mergeFields);
+        }
+        else if(autoFetchReceipt)
         {
             _impl->AddBusinessEventAndAutoFetchReceipt(currency.utf8().get_data(), amount, itemType.utf8().get_data(), itemId.utf8().get_data(), cartType.utf8().get_data(), fields.utf8().get_data(), mergeFields);
         }
