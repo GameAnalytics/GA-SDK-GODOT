@@ -190,6 +190,33 @@ namespace gameanalytics
         return AddBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, fields, mergeFields);
     }
 
+    void GAWrapperIOS::AddBusinessEventWithValidation(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& store, std::string const& productId, std::string const& purchaseToken, std::string const& fields, bool mergeFields)
+    {
+        // on iOS the purchase token is the App Store transaction id; store and product id are not used
+        (void)store;
+        (void)productId;
+        NSString *currencyString = ToNSString(currency);
+        NSInteger amountInteger = (NSInteger)amount;
+        NSString *itemTypeString = ToNSString(itemType);
+        NSString *itemIdString = ToNSString(itemId);
+        NSString *cartTypeString = ToNSString(cartType);
+        NSString *transactionIdString = ToNSString(purchaseToken);
+        NSString *fieldsString = ToNSString(fields);
+        NSDictionary *fields_dict = nil;
+        if (fieldsString) {
+            fields_dict = [NSJSONSerialization JSONObjectWithData:[fieldsString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+        }
+
+        [GameAnalytics addBusinessEventWithCurrency:currencyString
+                                            amount:amountInteger
+                                        itemType:itemTypeString
+                                            itemId:itemIdString
+                                        cartType:cartTypeString
+                                    transactionId:transactionIdString
+                                    customFields:fields_dict
+                                        mergeFields:mergeFields];
+    }
+
     void GAWrapperIOS::AddBusinessEventAndAutoFetchReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& fields, bool mergeFields) {
         NSString *currencyString = ToNSString(currency);
         NSInteger amountInteger = (NSInteger)amount;

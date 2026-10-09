@@ -5,6 +5,7 @@ namespace gameanalytics
 {
         constexpr const char* LOG_TAG = "GameAnalytics";
         constexpr const char* GAMEANALYTICS_CLASS_NAME = "com/gameanalytics/sdk/GameAnalytics";
+        constexpr const char* RECEIPT_INFO_CLASS_NAME = "com/gameanalytics/sdk/events/ReceiptInfo";
 
         static JavaVM* javaVM             = nullptr;
         static jobject gameActivity       = nullptr;
@@ -700,6 +701,81 @@ namespace gameanalytics
                     __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
                 }
 
+                env->DeleteLocalRef(jClass);
+            }
+            else
+            {
+                if(env) env->ExceptionClear(); // a failed lookup leaves a pending exception
+                __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", GAMEANALYTICS_CLASS_NAME);
+            }
+        }
+
+        void GAWrapperAndroid::AddBusinessEventWithValidation(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType,
+                                             std::string const& store, std::string const& productId, std::string const& purchaseToken, std::string const& fields, bool mergeFields)
+        {
+            JNIEnv* env = GetJavaEnv();
+            jclass jClass = GetGameAnalyticsClass();
+            constexpr const char* methodName = "addBusinessEvent";
+
+            if(jClass)
+            {
+                jclass jReceiptClass = env->FindClass(RECEIPT_INFO_CLASS_NAME);
+                if(!jReceiptClass)
+                {
+                    env->ExceptionClear(); // a failed lookup leaves a pending exception
+                    __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find class %s ***", RECEIPT_INFO_CLASS_NAME);
+                    env->DeleteLocalRef(jClass);
+                    return;
+                }
+
+                jmethodID jMethod = env->GetStaticMethodID(jClass, methodName, "(Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/gameanalytics/sdk/events/ReceiptInfo;Ljava/lang/String;Z)V");
+
+                if(jMethod)
+                {
+                    // ReceiptInfo has no no-arg constructor and its fields are final, so the
+                    // values go in through the (store, productId, purchaseToken) constructor
+                    jmethodID jReceiptInit = env->GetMethodID(jReceiptClass, "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+
+                    if(jReceiptInit)
+                    {
+                        // mirrors ReceiptInfo.STORE_GOOGLE_PLAY, used unless a store is explicitly given
+                        jstring j_store = env->NewStringUTF(store.empty() ? "google_play_store" : store.c_str());
+                        jstring j_productId = env->NewStringUTF(productId.c_str());
+                        jstring j_purchaseToken = env->NewStringUTF(purchaseToken.c_str());
+
+                        jobject j_receiptInfo = env->NewObject(jReceiptClass, jReceiptInit, j_store, j_productId, j_purchaseToken);
+
+                        jstring j_currency = env->NewStringUTF(currency.c_str());
+                        jstring j_itemType = env->NewStringUTF(itemType.c_str());
+                        jstring j_itemId = env->NewStringUTF(itemId.c_str());
+                        jstring j_cartType = env->NewStringUTF(cartType.c_str());
+                        jstring j_fields = env->NewStringUTF(fields.c_str());
+
+                        env->CallStaticVoidMethod(jClass, jMethod, j_currency, amount, j_itemType, j_itemId, j_cartType, j_receiptInfo, j_fields, mergeFields);
+
+                        env->DeleteLocalRef(j_currency);
+                        env->DeleteLocalRef(j_itemType);
+                        env->DeleteLocalRef(j_itemId);
+                        env->DeleteLocalRef(j_cartType);
+                        env->DeleteLocalRef(j_fields);
+                        env->DeleteLocalRef(j_store);
+                        env->DeleteLocalRef(j_productId);
+                        env->DeleteLocalRef(j_purchaseToken);
+                        env->DeleteLocalRef(j_receiptInfo);
+                    }
+                    else
+                    {
+                        env->ExceptionClear(); // a failed lookup leaves a pending exception
+                        __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find the %s constructor ***", RECEIPT_INFO_CLASS_NAME);
+                    }
+                }
+                else
+                {
+                    env->ExceptionClear(); // a failed lookup leaves a pending exception
+                    __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "*** Failed to find method %s ***", methodName);
+                }
+
+                env->DeleteLocalRef(jReceiptClass);
                 env->DeleteLocalRef(jClass);
             }
             else
