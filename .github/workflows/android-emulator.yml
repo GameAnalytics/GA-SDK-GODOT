@@ -16,10 +16,11 @@ concurrency:
 
 env:
   GODOT_VERSION: 4.7.2
-  # minSdk is 24 in both the plugin module and Godot's build template, so this is the
-  # oldest Android the SDK claims to support. Testing the floor is the point: a newer
-  # image would hide an API-level problem that a real user on 7.0 would hit.
-  API_LEVEL: 24
+  # The floor an exported game actually ships with. Note this is NOT the 24 that
+  # config.gradle and the plugin module declare: Godot injects its own default min sdk
+  # into the gradle build, and 4.7 exports at 29, so 24 is only a template fallback.
+  # The APK is checked against this below, so the two cannot drift apart silently.
+  API_LEVEL: 29
   PKG: com.gameanalytics.godottest
 
 jobs:
@@ -124,7 +125,22 @@ jobs:
           unzip -p build/smoke.apk classes.dex > classes.dex
           grep -aq "events/ReceiptInfo" classes.dex \
             || { echo "FAIL: ReceiptInfo is not in the APK - the runtime dependency is too old"; exit 1; }
-          echo "ok: extension and ReceiptInfo are both packaged"
+
+          # the emulator image has to satisfy the APK, and we want it to BE the floor
+          AAPT=$(ls -d "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)
+          MIN=$("$AAPT" dump xmltree --file AndroidManifest.xml build/smoke.apk \
+                | grep -m1 'minSdkVersion' | sed 's/.*=//')
+          echo "APK minSdkVersion=$MIN, emulator API_LEVEL=$API_LEVEL"
+          if [ "$MIN" -gt "$API_LEVEL" ]; then
+            echo "FAIL: the APK needs API $MIN but this job boots API $API_LEVEL, so it cannot install."
+            echo "      Something raised the minimum; set API_LEVEL to $MIN once you know why."
+            exit 1
+          fi
+          if [ "$MIN" -lt "$API_LEVEL" ]; then
+            echo "WARNING: the APK supports API $MIN but this job tests $API_LEVEL,"
+            echo "         so the oldest supported Android is no longer being exercised."
+          fi
+          echo "ok: extension and ReceiptInfo packaged, API level satisfies the APK"
 
       - name: Enable KVM
         run: |
