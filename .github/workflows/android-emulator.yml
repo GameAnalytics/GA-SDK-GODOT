@@ -1,0 +1,155 @@
+name: Android emulator
+
+# Exporting a Godot APK and booting an emulator is much heavier than the rest of CI,
+# so this deliberately does not run on every branch push. The static checks and the
+# build matrix still gate those.
+on:
+  pull_request:
+    branches: ['master']
+  push:
+    branches: ['master', 'development']
+  workflow_dispatch:
+
+concurrency:
+  group: android-emulator-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: 4.7.2
+  # minSdk is 24 in both the plugin module and Godot's build template, so this is the
+  # oldest Android the SDK claims to support. Testing the floor is the point: a newer
+  # image would hide an API-level problem that a real user on 7.0 would hit.
+  API_LEVEL: 24
+  PKG: com.gameanalytics.godottest
+
+jobs:
+  emulator:
+    name: android-emulator
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install SCons
+        run: python -m pip install scons
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android NDK
+        run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.1.13356709"
+
+      - name: Restore SCons cache
+        uses: actions/cache@v4
+        with:
+          path: .scons-cache
+          key: scons-android-x86_64-${{ github.sha }}
+          restore-keys: scons-android-x86_64-
+
+      # The emulator on a standard runner is x86_64, while we ship arm64. That is fine
+      # for what this job tests: the JNI contract - class names, method descriptors,
+      # the dependency the export resolves - is identical on both. An arm64 image would
+      # have to be fully emulated and would take the job from minutes to tens of minutes.
+      - name: Build the extension for x86_64
+        env:
+          SCONS_CACHE: ${{ github.workspace }}/.scons-cache
+        run: scons platform=android target=template_release arch=x86_64 -j2
+
+      - name: Cache Godot and the Android build template
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            godot-bin
+            templates
+          key: godot-android-${{ env.GODOT_VERSION }}
+
+      # Only the Android pieces are kept. The full .tpz is about a gigabyte, almost all
+      # of it other platforms, and caching that would cost more than it saves.
+      - name: Fetch Godot and the Android template
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          V="${GODOT_VERSION}"
+          curl -sSLo godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_linux.x86_64.zip"
+          mkdir -p godot-bin && unzip -oq godot.zip -d godot-bin
+          chmod +x godot-bin/Godot_v${V}-stable_linux.x86_64
+
+          curl -sSLo templates.tpz \
+            "https://github.com/godotengine/godot/releases/download/${V}-stable/Godot_v${V}-stable_export_templates.tpz"
+          unzip -oq templates.tpz "templates/android_source.zip"
+          rm -f templates.tpz godot.zip
+
+      # What the editor's "Install Android Build Template" does. The zip is a complete
+      # gradle project and carries the godot-lib aars, so nothing else is needed.
+      - name: Install the Android build template
+        run: |
+          set -euo pipefail
+          mkdir -p example/android/build
+          unzip -oq templates/android_source.zip -d example/android/build
+          echo "${GODOT_VERSION}.stable" > example/android/.build_version
+
+      # CI-only, never committed: the shipped addon stays arm64. See the script for why
+      # testing on x86_64 is a valid proxy for the JNI contract.
+      - name: Point the project at the smoke scene and the x86_64 library
+        run: python3 .github/scripts/ci_enable_x86_64.py
+
+      - name: Export the APK
+        run: |
+          set -euo pipefail
+          BIN="godot-bin/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
+          mkdir -p build
+          "$BIN" --headless --path example --import || true
+          "$BIN" --headless --path example --export-debug "Android" "$GITHUB_WORKSPACE/build/smoke.apk"
+          ls -la build/smoke.apk
+
+      - name: Sanity-check the APK
+        run: |
+          set -euo pipefail
+          unzip -l build/smoke.apk | grep -E 'lib/x86_64/libGodotGameAnalytics.so' \
+            || { echo "FAIL: the extension is not in the APK"; exit 1; }
+          unzip -p build/smoke.apk classes.dex > classes.dex
+          grep -aq "events/ReceiptInfo" classes.dex \
+            || { echo "FAIL: ReceiptInfo is not in the APK - the runtime dependency is too old"; exit 1; }
+          echo "ok: extension and ReceiptInfo are both packaged"
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run the smoke scene on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ env.API_LEVEL }}
+          target: default        # no Google APIs: a smaller, faster image
+          arch: x86_64
+          ram-size: 2048M
+          disk-size: 2048M
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back none -camera-front none
+          disable-animations: true
+          script: bash .github/scripts/android_smoke.sh build/smoke.apk
+
+      - name: Upload logcat
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-emulator-logcat
+          path: logcat.txt
+          retention-days: 7
+          if-no-files-found: ignore
