@@ -3,6 +3,18 @@
 All notable changes to the GameAnalytics Godot SDK.
 
 <!--(CHANGELOG_TOP)-->
+**3.2.0**
+* add purchase validation to `addBusinessEvent`: pass `product_id` and `purchase_token` on Android, or `transaction_id` on iOS, and GameAnalytics validates the purchase with the store
+* `store` can be set explicitly in the options, otherwise it defaults to the store of the platform the game is running on
+* updated GameAnalytics Android SDK dependency to 7.2.0
+* updated GameAnalytics iOS SDK dependency to 5.1.0
+* fixed the iOS export preset of the example project, which was missing a bundle identifier and targeted an iOS version below the one the Metal renderer requires
+
+**3.1.2**
+* fixed the Android library being 4 KB page-size aligned instead of 16 KB (#59)
+* the Android library is now built with NDK r28
+* `LICENSE` is now packaged inside `addons/GameAnalytics/` instead of at the zip root
+
 **3.1.1**
 * support for Godot 4.7
 * add remote configs update listener (`remote_configs_updated` signal / `registerRemoteConfigsListener`)

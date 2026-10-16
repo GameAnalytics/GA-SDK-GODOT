@@ -8,5 +8,15 @@
         "name": "GA-SDK-JAVASCRIPT",
         "version": "5.0.0",
         "url": "https://github.com/GameAnalytics/GA-SDK-JAVASCRIPT/"
+    },
+    {
+        "name": "GA-SDK-ANDROID",
+        "version": "7.2.0",
+        "url": "https://github.com/GameAnalytics/GA-SDK-ANDROID/"
+    },
+    {
+        "name": "GA-SDK-IOS",
+        "version": "5.1.0",
+        "url": "https://github.com/GameAnalytics/GA-SDK-IOS/"
     }
 ]
