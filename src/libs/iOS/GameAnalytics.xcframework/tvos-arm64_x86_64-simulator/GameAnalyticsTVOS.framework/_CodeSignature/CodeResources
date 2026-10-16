@@ -6,11 +6,15 @@
 	<dict>
 		<key>Headers/GameAnalytics.h</key>
 		<data>
-		1wsToWD2A5H96dd5ZNCvI/YQbdo=
+		PZKr5sGiM9ZhPvQvI1RIVZm0bxs=
+		</data>
+		<key>Headers/GameAnalyticsWrapper.h</key>
+		<data>
+		lBAgpuVRdRNUqwPv3gBQpo6ynQI=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		YS1/gWwNEnmac3XJS2qgEwGSSMM=
+		IbwH7dhLPNhrO14wdFSBwKswKSM=
 		</data>
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
@@ -21,21 +25,20 @@
 	<dict>
 		<key>Headers/GameAnalytics.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1wsToWD2A5H96dd5ZNCvI/YQbdo=
-			</data>
 			<key>hash2</key>
 			<data>
-			eMweH4OjfMXKcL+ANxH7TtgI5e43vTwdcPQmHkLHClc=
+			4+z0nYIsdwWSSrLKIRM39vbszemcE0Sj3x1qqROSDsU=
+			</data>
+		</dict>
+		<key>Headers/GameAnalyticsWrapper.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+rbtwHs+totbz5EXtgv1Kp6MYB7iADJu5AVG+JRuEK0=
 			</data>
 		</dict>
 		<key>PrivacyInfo.xcprivacy</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			TDHqRFjBXf3u63icf/o0aXE99V8=
-			</data>
 			<key>hash2</key>
 			<data>
 			6VrI1/K2KCzAi1UIWJyxpaoAaRYkvm1xVDqH+AD4Al8=
