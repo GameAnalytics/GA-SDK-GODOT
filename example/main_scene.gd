@@ -128,15 +128,29 @@ func _on_remote_configs_updated(configs: String) -> void:
 
 
 func _send_business(currency: OptionButton, amount: SpinBox, item_type: LineEdit, item_id: LineEdit,
-		cart_type: LineEdit, receipt: LineEdit, auto_fetch: CheckBox) -> void:
+		cart_type: LineEdit, receipt: LineEdit, auto_fetch: CheckBox,
+		product_id: LineEdit, purchase_token: LineEdit, transaction_id: LineEdit) -> void:
 	var options := _base_options()
 	options["autoFetchReceipt"] = auto_fetch.button_pressed
 	if not receipt.text.is_empty():
 		options["receipt"] = receipt.text
 
+	# A purchase token (Google Play) or a transaction id (App Store) sends the purchase
+	# for validation instead of taking the amount on trust. The store is filled in per
+	# platform, so it only needs setting for one the SDK does not default to.
+	if not product_id.text.is_empty():
+		options["product_id"] = product_id.text
+	if not purchase_token.text.is_empty():
+		options["purchase_token"] = purchase_token.text
+	if not transaction_id.text.is_empty():
+		options["transaction_id"] = transaction_id.text
+
+	var validated: bool = options.has("purchase_token") or options.has("transaction_id")
+
 	ga.addBusinessEvent(_selected(currency), int(amount.value), item_type.text, item_id.text, cart_type.text, options)
-	_log("addBusinessEvent(%s, %d, %s, %s, %s) %s" % [_selected(currency), int(amount.value),
-			item_type.text, item_id.text, cart_type.text, _describe(options)])
+	_log("addBusinessEvent(%s, %d, %s, %s, %s)%s %s" % [_selected(currency), int(amount.value),
+			item_type.text, item_id.text, cart_type.text,
+			" [color=#8fd98f]validated[/color]" if validated else "", _describe(options)])
 
 
 func _send_resource(flow: OptionButton, currency: OptionButton, amount: SpinBox,
@@ -400,8 +414,15 @@ func _build_business_tab(tabs: TabContainer) -> void:
 	var receipt := _labelled_edit(grid, "receipt (optional)", "")
 	var auto_fetch := _labelled_check(grid, "autoFetchReceipt", false)
 
+	# Validated purchase. Google Play wants productId and purchaseToken; the App Store
+	# wants its transaction id. Leave all three empty for an ordinary business event.
+	var product_id := _labelled_edit(grid, "product_id (validated)", "")
+	var purchase_token := _labelled_edit(grid, "purchase_token (Google Play)", "")
+	var transaction_id := _labelled_edit(grid, "transaction_id (App Store)", "")
+
 	_send_button(grid, "Send business event", func(): _send_business(
-			currency, amount, item_type, item_id, cart_type, receipt, auto_fetch))
+			currency, amount, item_type, item_id, cart_type, receipt, auto_fetch,
+			product_id, purchase_token, transaction_id))
 
 
 func _build_resource_tab(tabs: TabContainer) -> void:
