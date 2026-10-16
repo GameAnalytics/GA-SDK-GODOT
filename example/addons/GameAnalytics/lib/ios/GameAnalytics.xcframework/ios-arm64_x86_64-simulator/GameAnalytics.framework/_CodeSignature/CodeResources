@@ -6,15 +6,19 @@
 	<dict>
 		<key>Headers/GameAnalytics.h</key>
 		<data>
-		1wsToWD2A5H96dd5ZNCvI/YQbdo=
+		PZKr5sGiM9ZhPvQvI1RIVZm0bxs=
+		</data>
+		<key>Headers/GameAnalyticsWrapper.h</key>
+		<data>
+		lBAgpuVRdRNUqwPv3gBQpo6ynQI=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		LaPtCt+o2GAbbGVN5XswRiVrLmA=
+		7uNb6vZZBGZxZxKOPBksOAQgvKE=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		EA3ob5TckGi9y/XFtXl2T7QkOJc=
+		VWLjPivODcQt5br0o/aPR7Hv9Nw=
 		</data>
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
@@ -25,32 +29,27 @@
 	<dict>
 		<key>Headers/GameAnalytics.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			1wsToWD2A5H96dd5ZNCvI/YQbdo=
-			</data>
 			<key>hash2</key>
 			<data>
-			eMweH4OjfMXKcL+ANxH7TtgI5e43vTwdcPQmHkLHClc=
+			4+z0nYIsdwWSSrLKIRM39vbszemcE0Sj3x1qqROSDsU=
+			</data>
+		</dict>
+		<key>Headers/GameAnalyticsWrapper.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+rbtwHs+totbz5EXtgv1Kp6MYB7iADJu5AVG+JRuEK0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			EA3ob5TckGi9y/XFtXl2T7QkOJc=
-			</data>
 			<key>hash2</key>
 			<data>
-			ePqK314pc/p9C5pFg+hGM49k4loquOcZOtr7lBSL2tw=
+			Ku1yILfaPC3fO/9H8vxi/hMo42G9pTT9x4foO/kp34U=
 			</data>
 		</dict>
 		<key>PrivacyInfo.xcprivacy</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			TDHqRFjBXf3u63icf/o0aXE99V8=
-			</data>
 			<key>hash2</key>
 			<data>
 			6VrI1/K2KCzAi1UIWJyxpaoAaRYkvm1xVDqH+AD4Al8=

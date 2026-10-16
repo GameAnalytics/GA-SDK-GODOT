@@ -6,6 +6,34 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
+			<string>GameAnalyticsTVOS.framework/GameAnalyticsTVOS</string>
+			<key>LibraryIdentifier</key>
+			<string>tvos-arm64</string>
+			<key>LibraryPath</key>
+			<string>GameAnalyticsTVOS.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>tvos</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>GameAnalytics.framework/GameAnalytics</string>
+			<key>LibraryIdentifier</key>
+			<string>ios-arm64</string>
+			<key>LibraryPath</key>
+			<string>GameAnalytics.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>ios</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
 			<string>GameAnalytics.framework/GameAnalytics</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
@@ -25,20 +53,6 @@
 			<key>BinaryPath</key>
 			<string>GameAnalyticsTVOS.framework/GameAnalyticsTVOS</string>
 			<key>LibraryIdentifier</key>
-			<string>tvos-arm64</string>
-			<key>LibraryPath</key>
-			<string>GameAnalyticsTVOS.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>tvos</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>GameAnalyticsTVOS.framework/GameAnalyticsTVOS</string>
-			<key>LibraryIdentifier</key>
 			<string>tvos-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
 			<string>GameAnalyticsTVOS.framework</string>
@@ -51,20 +65,6 @@
 			<string>tvos</string>
 			<key>SupportedPlatformVariant</key>
 			<string>simulator</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>GameAnalytics.framework/GameAnalytics</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
-			<key>LibraryPath</key>
-			<string>GameAnalytics.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>
