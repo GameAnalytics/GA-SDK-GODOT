@@ -37,6 +37,11 @@ jobs:
       - name: JNI contract lint
         run: python3 .github/scripts/check_jni.py
 
+      # check_jni.py proves a descriptor is well formed; it cannot tell you the method
+      # exists. This resolves the pinned artifact and checks every lookup against it.
+      - name: Android SDK contract
+        run: python3 .github/scripts/check_android_sdk.py
+
   build:
     name: ${{ matrix.platform }}-${{ matrix.config }}
     runs-on: ${{ matrix.os }}

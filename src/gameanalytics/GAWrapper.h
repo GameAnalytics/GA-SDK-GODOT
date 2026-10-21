@@ -58,6 +58,7 @@ namespace gameanalytics
         virtual void AddBusinessEvent(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const&cartType, std::string const& receipt, std::string const&  fields, bool mergeFields) = 0;
         virtual void AddBusinessEventAndAutoFetchReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const&  fields, bool mergeFields) = 0;
         virtual void AddBusinessEventWithReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& receipt, std::string const& store, std::string const& signature, std::string const& fields, bool mergeFields) = 0;
+        virtual void AddBusinessEventWithValidation(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& store, std::string const& productId, std::string const& purchaseToken, std::string const& fields, bool mergeFields) = 0;
 
         virtual void AddResourceEvent(EGAResourceFlowType flowType, std::string const& currency, float amount, std::string const& itemType, std::string const& itemId, std::string const&  fields, bool mergeFields) = 0;
 

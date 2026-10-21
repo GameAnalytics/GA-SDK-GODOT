@@ -162,6 +162,14 @@ namespace gameanalytics
         return AddBusinessEvent(currency, amount, itemType, itemId, cartType, receipt, fields, mergeFields);
     }
 
+    void GAWrapperWeb::AddBusinessEventWithValidation(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& store, std::string const& productId, std::string const& purchaseToken, std::string const& fields, bool mergeFields)
+    {
+        (void)store;
+        (void)productId;
+        (void)purchaseToken;
+        return AddBusinessEvent(currency, amount, itemType, itemId, cartType, "", fields, mergeFields);
+    }
+
     void GAWrapperWeb::AddBusinessEventAndAutoFetchReceipt(std::string const& currency, int amount, std::string const& itemType, std::string const& itemId, std::string const& cartType, std::string const& fields, bool mergeFields) {
         return AddBusinessEvent(currency, amount, itemType, itemId, cartType, "", fields, mergeFields);
     }
